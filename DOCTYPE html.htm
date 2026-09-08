@@ -1,0 +1,506 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 15 (filtered)">
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Segoe UI Emoji";
+	panose-1:2 11 5 2 4 2 4 2 2 3;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:8.0pt;
+	margin-left:0cm;
+	line-height:115%;
+	font-size:12.0pt;
+	font-family:"Calibri",sans-serif;}
+.MsoPapDefault
+	{margin-bottom:8.0pt;
+	line-height:115%;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US link="#0563C1" vlink="#954F72" style='word-wrap:break-word'>
+
+<div class=WordSection1>
+
+<p class=MsoNormal>&lt;!DOCTYPE html&gt;from </p>
+
+<p class=MsoNormal>pathlib import Path</p>
+
+<p class=MsoNormal>import base64</p>
+
+<p class=MsoNormal>logo_path = Path(&quot;/mnt/data/LOGO tách n&#7873;n(1).png&quot;)</p>
+
+<p class=MsoNormal>logo_b64 =
+base64.b64encode(logo_path.read_bytes()).decode(&quot;utf-8&quot;)</p>
+
+<p class=MsoNormal>html = r'''&lt;!DOCTYPE html&gt;</p>
+
+<p class=MsoNormal>&lt;html lang=&quot;vi&quot;&gt;</p>
+
+<p class=MsoNormal>&lt;head&gt;</p>
+
+<p class=MsoNormal>&lt;meta charset=&quot;UTF-8&quot;&gt;</p>
+
+<p class=MsoNormal>&lt;meta name=&quot;viewport&quot;
+content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</p>
+
+<p class=MsoNormal>&lt;title&gt;<span style='font-family:"Segoe UI Emoji",sans-serif'>&#128373;&#65039;</span>
+Thám t&#7917; th&#432; vi&#7879;n&lt;/title&gt;</p>
+
+<p class=MsoNormal>&lt;style&gt;</p>
+
+<p class=MsoNormal>*{box-sizing:border-box}</p>
+
+<p class=MsoNormal>body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#e9ddff,#e0f5ff);min-height:100vh;color:#342b45}</p>
+
+<p class=MsoNormal>.wrap{max-width:850px;margin:auto;padding:25px 16px}</p>
+
+<p class=MsoNormal>.card{background:#fff;border-radius:25px;padding:28px;box-shadow:0
+10px 30px #0001;position:relative}</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>/* LOGO TR&#431;&#7900;NG - góc ph&#7843;i phía trên */</p>
+
+<p class=MsoNormal>.school-logo{</p>
+
+<p class=MsoNormal>    position:absolute;</p>
+
+<p class=MsoNormal>    top:16px;</p>
+
+<p class=MsoNormal>    right:18px;</p>
+
+<p class=MsoNormal>    width:78px;</p>
+
+<p class=MsoNormal>    height:78px;</p>
+
+<p class=MsoNormal>    object-fit:contain;</p>
+
+<p class=MsoNormal>    z-index:10;</p>
+
+<p class=MsoNormal>}</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>/* Ch&#7915;a kho&#7843;ng tr&#7889;ng &#273;&#7875; logo
+không &#273;è lên tiêu &#273;&#7873; */</p>
+
+<p class=MsoNormal>.card h1{padding-right:90px}</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>h1{text-align:center;color:#68459c;margin:0 0
+6px;font-size:34px}</p>
+
+<p class=MsoNormal>.sub{text-align:center;color:#777;margin-bottom:22px}</p>
+
+<p class=MsoNormal>.info{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}</p>
+
+<p class=MsoNormal>.badge{background:#f1eaff;padding:10px
+16px;border-radius:20px;font-weight:bold}</p>
+
+<p class=MsoNormal>.question{font-size:23px;font-weight:bold;margin:25px 0
+15px;text-align:center}</p>
+
+<p class=MsoNormal>.clues{display:grid;gap:10px}</p>
+
+<p class=MsoNormal>.clue{padding:14px 16px;background:#faf8ff;border-left:5px
+solid #9672c8;border-radius:12px}</p>
+
+<p class=MsoNormal>.options{display:grid;grid-template-columns:1fr
+1fr;gap:12px;margin-top:22px}</p>
+
+<p class=MsoNormal>button{border:0;border-radius:14px;padding:15px;font-size:17px;font-weight:bold;cursor:pointer;background:#8062b7;color:white}</p>
+
+<p class=MsoNormal>.option{background:#f5f0ff;color:#493762;border:2px solid
+#ddd}</p>
+
+<p class=MsoNormal>.option:hover{background:#e9defb}</p>
+
+<p class=MsoNormal>.option.correct{background:#bde7c5;border-color:#65ae75}</p>
+
+<p class=MsoNormal>.option.wrong{background:#f4c3cb;border-color:#c96a79}</p>
+
+<p class=MsoNormal>.result{text-align:center;font-size:21px;font-weight:bold;margin:18px
+0;min-height:28px}</p>
+
+<p class=MsoNormal>.next{display:block;margin:0 auto;background:#8062b7}</p>
+
+<p class=MsoNormal>.hidden{display:none}</p>
+
+<p class=MsoNormal>.start{text-align:center;line-height:1.6}</p>
+
+<p class=MsoNormal>.start button{margin-top:10px}</p>
+
+<p class=MsoNormal>.end{text-align:center}</p>
+
+<p class=MsoNormal>.final{font-size:35px;color:#68459c;font-weight:bold}</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>@media(max-width:600px){</p>
+
+<p class=MsoNormal>    .school-logo{width:58px;height:58px;top:12px;right:12px}</p>
+
+<p class=MsoNormal>    .card h1{padding-right:65px}</p>
+
+<p class=MsoNormal>    h1{font-size:28px}</p>
+
+<p class=MsoNormal>    .options{grid-template-columns:1fr}</p>
+
+<p class=MsoNormal>    .question{font-size:20px}</p>
+
+<p class=MsoNormal>}</p>
+
+<p class=MsoNormal>&lt;/style&gt;</p>
+
+<p class=MsoNormal>&lt;/head&gt;</p>
+
+<p class=MsoNormal>&lt;body&gt;</p>
+
+<p class=MsoNormal>&lt;div class=&quot;wrap&quot;&gt;</p>
+
+<p class=MsoNormal>&lt;div class=&quot;card&quot;&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&lt;img class=&quot;school-logo&quot;
+src=&quot;data:image/png;base64,''' + logo_b64 + r'''&quot; alt=&quot;Logo
+tr&#432;&#7901;ng Vi&#7879;t Anh&quot;&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&lt;html lang=&quot;vi&quot;&gt;</p>
+
+<p class=MsoNormal>&lt;head&gt;</p>
+
+<p class=MsoNormal>&lt;meta charset=&quot;UTF-8&quot;&gt;</p>
+
+<p class=MsoNormal>&lt;meta name=&quot;viewport&quot;
+content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</p>
+
+<p class=MsoNormal>&lt;title&gt;<span style='font-family:"Segoe UI Emoji",sans-serif'>&#128373;&#65039;</span>
+Thám t&#7917; th&#432; vi&#7879;n&lt;/title&gt;</p>
+
+<p class=MsoNormal>&lt;style&gt;</p>
+
+<p class=MsoNormal>*{box-sizing:border-box}</p>
+
+<p class=MsoNormal>body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#e9ddff,#e0f5ff);min-height:100vh;color:#342b45}</p>
+
+<p class=MsoNormal>.wrap{max-width:850px;margin:auto;padding:25px 16px}</p>
+
+<p class=MsoNormal>.card{background:#fff;border-radius:25px;padding:28px;box-shadow:0
+10px 30px #0001}</p>
+
+<p class=MsoNormal>h1{text-align:center;color:#68459c;margin:0 0
+6px;font-size:34px}</p>
+
+<p class=MsoNormal>.sub{text-align:center;color:#777;margin-bottom:22px}</p>
+
+<p class=MsoNormal>.info{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}</p>
+
+<p class=MsoNormal>.badge{background:#f1eaff;padding:10px
+16px;border-radius:20px;font-weight:bold}</p>
+
+<p class=MsoNormal>.question{font-size:23px;font-weight:bold;margin:25px 0
+15px;text-align:center}</p>
+
+<p class=MsoNormal>.clues{display:grid;gap:10px}</p>
+
+<p class=MsoNormal>.clue{padding:14px 16px;background:#faf8ff;border-left:5px
+solid #9672c8;border-radius:12px}</p>
+
+<p class=MsoNormal>.options{display:grid;grid-template-columns:1fr
+1fr;gap:12px;margin-top:22px}</p>
+
+<p class=MsoNormal>button{border:0;border-radius:14px;padding:15px;font-size:17px;font-weight:bold;cursor:pointer;background:#8062b7;color:white}</p>
+
+<p class=MsoNormal>.option{background:#f5f0ff;color:#493762;border:2px solid
+#ddd}</p>
+
+<p class=MsoNormal>.option:hover{background:#e9defb}</p>
+
+<p class=MsoNormal>.option.correct{background:#bde7c5;border-color:#65ae75}</p>
+
+<p class=MsoNormal>.option.wrong{background:#f4c3cb;border-color:#c96a79}</p>
+
+<p class=MsoNormal>.result{text-align:center;font-size:21px;font-weight:bold;margin:18px
+0;min-height:28px}</p>
+
+<p class=MsoNormal>.next{display:block;margin:0 auto;background:#8062b7}</p>
+
+<p class=MsoNormal>.hidden{display:none}</p>
+
+<p class=MsoNormal>.start{text-align:center;line-height:1.6}</p>
+
+<p class=MsoNormal>.start button{margin-top:10px}</p>
+
+<p class=MsoNormal>.end{text-align:center}</p>
+
+<p class=MsoNormal>.final{font-size:35px;color:#68459c;font-weight:bold}</p>
+
+<p class=MsoNormal>@media(max-width:600px){h1{font-size:28px}.options{grid-template-columns:1fr}.question{font-size:20px}}</p>
+
+<p class=MsoNormal>&lt;/style&gt;</p>
+
+<p class=MsoNormal>&lt;/head&gt;</p>
+
+<p class=MsoNormal>&lt;body&gt;</p>
+
+<p class=MsoNormal>&lt;div class=&quot;wrap&quot;&gt;</p>
+
+<p class=MsoNormal>&lt;div class=&quot;card&quot;&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&lt;div id=&quot;start&quot; class=&quot;start&quot;&gt;</p>
+
+<p class=MsoNormal>&lt;h1&gt;<span style='font-family:"Segoe UI Emoji",sans-serif'>&#128373;&#65039;</span>
+THÁM T&#7916; TH&#431; VI&#7878;N&lt;/h1&gt;</p>
+
+<p class=MsoNormal>&lt;div class=&quot;sub&quot;&gt;Nhi&#7879;m v&#7909;: Tìm
+&#273;úng cu&#7889;n sách bí &#7849;n!&lt;/div&gt;</p>
+
+<p class=MsoNormal>&lt;p&gt;<span style='font-family:"Segoe UI Emoji",sans-serif'>&#128270;</span>
+&#272;&#7885;c 3 g&#7907;i ý và ch&#7885;n cu&#7889;n sách phù h&#7907;p nh&#7845;t.&lt;/p&gt;</p>
+
+<p class=MsoNormal>&lt;p&gt;<span style='font-family:"Segoe UI Emoji",sans-serif'>&#127919;</span>
+M&#7895;i câu &#273;úng &#273;&#432;&#7907;c &lt;b&gt;1 &#273;i&#7875;m&lt;/b&gt;.&lt;/p&gt;</p>
+
+<p class=MsoNormal>&lt;button onclick=&quot;startGame()&quot;&gt;<span
+style='font-family:"Segoe UI Emoji",sans-serif'>&#127918;</span> B&#7854;T
+&#272;&#7846;U&lt;/button&gt;</p>
+
+<p class=MsoNormal>&lt;/div&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&lt;div id=&quot;game&quot; class=&quot;hidden&quot;&gt;</p>
+
+<p class=MsoNormal>&lt;h1&gt;<span style='font-family:"Segoe UI Emoji",sans-serif'>&#128373;&#65039;</span>
+THÁM T&#7916; TH&#431; VI&#7878;N&lt;/h1&gt;</p>
+
+<p class=MsoNormal>&lt;div class=&quot;sub&quot;&gt;Tìm &#273;úng cu&#7889;n
+sách!&lt;/div&gt;</p>
+
+<p class=MsoNormal>&lt;div class=&quot;info&quot;&gt;</p>
+
+<p class=MsoNormal>&lt;div class=&quot;badge&quot;&gt;<span style='font-family:
+"Segoe UI Emoji",sans-serif'>&#127942;</span> &#272;i&#7875;m: &lt;span
+id=&quot;score&quot;&gt;0&lt;/span&gt;&lt;/div&gt;</p>
+
+<p class=MsoNormal>&lt;div class=&quot;badge&quot;&gt;<span style='font-family:
+"Segoe UI Emoji",sans-serif'>&#128214;</span> Câu: &lt;span
+id=&quot;num&quot;&gt;1&lt;/span&gt;/10&lt;/div&gt;</p>
+
+<p class=MsoNormal>&lt;/div&gt;</p>
+
+<p class=MsoNormal>&lt;div class=&quot;question&quot;&gt;<span
+style='font-family:"Segoe UI Emoji",sans-serif'>&#128270;</span> Cu&#7889;n
+sách bí &#7849;n là cu&#7889;n nào?&lt;/div&gt;</p>
+
+<p class=MsoNormal>&lt;div class=&quot;clues&quot;
+id=&quot;clues&quot;&gt;&lt;/div&gt;</p>
+
+<p class=MsoNormal>&lt;div class=&quot;options&quot;
+id=&quot;options&quot;&gt;&lt;/div&gt;</p>
+
+<p class=MsoNormal>&lt;div class=&quot;result&quot;
+id=&quot;result&quot;&gt;&lt;/div&gt;</p>
+
+<p class=MsoNormal>&lt;button class=&quot;next hidden&quot; id=&quot;next&quot;
+onclick=&quot;nextQuestion()&quot;&gt;<span style='font-family:"Segoe UI Emoji",sans-serif'>&#10145;&#65039;</span>
+CÂU TI&#7870;P THEO&lt;/button&gt;</p>
+
+<p class=MsoNormal>&lt;/div&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&lt;div id=&quot;end&quot; class=&quot;end hidden&quot;&gt;</p>
+
+<p class=MsoNormal>&lt;h1&gt;<span style='font-family:"Segoe UI Emoji",sans-serif'>&#127881;</span>
+HOÀN THÀNH!&lt;/h1&gt;</p>
+
+<p class=MsoNormal>&lt;p&gt;B&#7841;n &#273;ã hoàn thành nhi&#7879;m v&#7909; c&#7911;a
+Thám t&#7917; th&#432; vi&#7879;n.&lt;/p&gt;</p>
+
+<p class=MsoNormal>&lt;div class=&quot;final&quot;&gt;&lt;span
+id=&quot;finalScore&quot;&gt;0&lt;/span&gt;/10&lt;/div&gt;</p>
+
+<p class=MsoNormal>&lt;p id=&quot;message&quot;&gt;&lt;/p&gt;</p>
+
+<p class=MsoNormal>&lt;button onclick=&quot;location.reload()&quot;&gt;<span
+style='font-family:"Segoe UI Emoji",sans-serif'>&#128260;</span> CH&#416;I L&#7840;I&lt;/button&gt;</p>
+
+<p class=MsoNormal>&lt;/div&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&lt;/div&gt;</p>
+
+<p class=MsoNormal>&lt;/div&gt;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&lt;script&gt;</p>
+
+<p class=MsoNormal>const data=[</p>
+
+<p class=MsoNormal>{a:&quot;D&#7871; Mèn phiêu l&#432;u ký&quot;,c:[&quot;Tác
+gi&#7843; là Tô Hoài.&quot;,&quot;Nhân v&#7853;t chính là m&#7897;t chú d&#7871;.&quot;,&quot;Câu
+chuy&#7879;n k&#7875; v&#7873; nh&#7919;ng chuy&#7871;n phiêu l&#432;u và s&#7921;
+tr&#432;&#7903;ng thành.&quot;],o:[&quot;D&#7871; Mèn phiêu l&#432;u
+ký&quot;,&quot;Hoàng t&#7917; bé&quot;,&quot;Harry Potter&quot;,&quot;Cô bé L&#7885;
+Lem&quot;]},</p>
+
+<p class=MsoNormal>{a:&quot;Harry Potter&quot;,c:[&quot;Tác gi&#7843; là J. K.
+Rowling.&quot;,&quot;Nhân v&#7853;t chính h&#7885;c t&#7841;i m&#7897;t
+tr&#432;&#7901;ng phép thu&#7853;t.&quot;,&quot;M&#7897;t v&#7871;t s&#7865;o
+hình tia ch&#7899;p là d&#7845;u hi&#7879;u &#273;&#7863;c bi&#7879;t.&quot;],o:[&quot;Doraemon&quot;,&quot;Harry
+Potter&quot;,&quot;Alice &#7903; x&#7913; s&#7903; th&#7847;n
+tiên&quot;,&quot;D&#7871; Mèn phiêu l&#432;u ký&quot;]},</p>
+
+<p class=MsoNormal>{a:&quot;Hoàng t&#7917; bé&quot;,c:[&quot;Tác gi&#7843; là
+Antoine de Saint-Exupéry.&quot;,&quot;Nhân v&#7853;t chính &#273;&#7871;n t&#7915;
+m&#7897;t ti&#7875;u hành tinh nh&#7887;.&quot;,&quot;Câu chuy&#7879;n có nhi&#7873;u
+suy ng&#7851;m v&#7873; tình b&#7841;n và tình yêu.&quot;],o:[&quot;Hoàng t&#7917;
+bé&quot;,&quot;Nh&#7919;ng cu&#7897;c phiêu l&#432;u c&#7911;a Tom
+Sawyer&quot;,&quot;Harry Potter&quot;,&quot;Không gia &#273;ình&quot;]},</p>
+
+<p class=MsoNormal>{a:&quot;Alice &#7903; x&#7913; s&#7903; th&#7847;n
+tiên&quot;,c:[&quot;Tác gi&#7843; là Lewis Carroll.&quot;,&quot;Nhân v&#7853;t
+chính là m&#7897;t cô bé tò mò.&quot;,&quot;Cô b&#432;&#7899;c vào m&#7897;t th&#7871;
+gi&#7899;i k&#7923; l&#7841; sau khi &#273;u&#7893;i theo m&#7897;t chú th&#7887;.&quot;],o:[&quot;Cô
+bé L&#7885; Lem&quot;,&quot;Alice &#7903; x&#7913; s&#7903; th&#7847;n
+tiên&quot;,&quot;Nàng B&#7841;ch Tuy&#7871;t&quot;,&quot;Hoàng t&#7917;
+bé&quot;]},</p>
+
+<p class=MsoNormal>{a:&quot;Cô bé L&#7885; Lem&quot;,c:[&quot;&#272;ây là m&#7897;t
+truy&#7879;n c&#7893; tích n&#7893;i ti&#7871;ng.&quot;,&quot;Nhân v&#7853;t
+chính có cu&#7897;c s&#7889;ng khó kh&#259;n và b&#7883; &#273;&#7889;i x&#7917;
+b&#7845;t công.&quot;,&quot;M&#7897;t chi&#7871;c giày th&#7911;y tinh là chi
+ti&#7871;t quan tr&#7885;ng.&quot;],o:[&quot;Cô bé L&#7885; Lem&quot;,&quot;D&#7871;
+Mèn phiêu l&#432;u ký&quot;,&quot;Mowgli&quot;,&quot;Pinocchio&quot;]},</p>
+
+<p class=MsoNormal>{a:&quot;Pinocchio&quot;,c:[&quot;Nhân v&#7853;t chính
+&#273;&#432;&#7907;c t&#7841;o ra t&#7915; m&#7897;t khúc g&#7895;.&quot;,&quot;C&#7853;u
+bé th&#432;&#7901;ng g&#7863;p r&#7855;c r&#7889;i vì tính tò mò và nh&#7919;ng
+l&#7901;i nói d&#7889;i.&quot;,&quot;&#431;&#7899;c m&#417; c&#7911;a c&#7853;u
+là tr&#7903; thành m&#7897;t c&#7853;u bé ng&#432;&#7901;i th&#7853;t.&quot;],o:[&quot;Pinocchio&quot;,&quot;Harry
+Potter&quot;,&quot;Hoàng t&#7917; bé&quot;,&quot;Sherlock Holmes&quot;]},</p>
+
+<p class=MsoNormal>{a:&quot;Mowgli&quot;,c:[&quot;Nhân v&#7853;t chính là m&#7897;t
+c&#7853;u bé l&#7899;n lên trong r&#7915;ng.&quot;,&quot;C&#7853;u &#273;&#432;&#7907;c
+b&#7847;y sói nuôi d&#432;&#7905;ng.&quot;,&quot;Baloo và Bagheera là nh&#7919;ng
+ng&#432;&#7901;i b&#7841;n n&#7893;i ti&#7871;ng c&#7911;a c&#7853;u.&quot;],o:[&quot;Mowgli&quot;,&quot;Tom
+Sawyer&quot;,&quot;Pinocchio&quot;,&quot;D&#7871; Mèn&quot;]},</p>
+
+<p class=MsoNormal>{a:&quot;Sherlock Holmes&quot;,c:[&quot;Nhân v&#7853;t chính
+n&#7893;i ti&#7871;ng v&#7899;i kh&#7843; n&#259;ng suy lu&#7853;n.&quot;,&quot;Watson
+th&#432;&#7901;ng &#273;&#7891;ng hành cùng nhân v&#7853;t
+này.&quot;,&quot;&#272;&#7883;a ch&#7881; 221B Baker Street g&#7855;n li&#7873;n
+v&#7899;i nhân v&#7853;t.&quot;],o:[&quot;Sherlock
+Holmes&quot;,&quot;Mowgli&quot;,&quot;Harry Potter&quot;,&quot;Hoàng t&#7917;
+bé&quot;]},</p>
+
+<p class=MsoNormal>{a:&quot;Nàng B&#7841;ch Tuy&#7871;t&quot;,c:[&quot;Nhân v&#7853;t
+chính là m&#7897;t nàng công chúa.&quot;,&quot;B&#7843;y ng&#432;&#7901;i b&#7841;n
+nh&#7887; cùng xu&#7845;t hi&#7879;n trong câu chuy&#7879;n.&quot;,&quot;M&#7897;t
+qu&#7843; táo &#273;&#7897;c là chi ti&#7871;t n&#7893;i ti&#7871;ng.&quot;],o:[&quot;Alice
+&#7903; x&#7913; s&#7903; th&#7847;n tiên&quot;,&quot;Nàng B&#7841;ch Tuy&#7871;t&quot;,&quot;Cô
+bé L&#7885; Lem&quot;,&quot;Pinocchio&quot;]},</p>
+
+<p class=MsoNormal>{a:&quot;Anne tóc &#273;&#7887; d&#432;&#7899;i chái nhà
+xanh&quot;,c:[&quot;Nhân v&#7853;t chính là m&#7897;t cô bé m&#7891;
+côi.&quot;,&quot;Cô có mái tóc &#273;&#7887; và trí t&#432;&#7903;ng t&#432;&#7907;ng
+phong phú.&quot;,&quot;Câu chuy&#7879;n g&#7855;n v&#7899;i trang tr&#7841;i
+Green Gables.&quot;],o:[&quot;Anne tóc &#273;&#7887; d&#432;&#7899;i chái nhà
+xanh&quot;,&quot;Mowgli&quot;,&quot;Nàng B&#7841;ch Tuy&#7871;t&quot;,&quot;D&#7871;
+Mèn phiêu l&#432;u ký&quot;]}</p>
+
+<p class=MsoNormal>];</p>
+
+<p class=MsoNormal>let i=0,score=0,answered=false;</p>
+
+<p class=MsoNormal>function
+startGame(){start.classList.add(&quot;hidden&quot;);game.classList.remove(&quot;hidden&quot;);load();}</p>
+
+<p class=MsoNormal>function load(){</p>
+
+<p class=MsoNormal>answered=false;num.textContent=i+1;scoreEl=score;document.getElementById(&quot;score&quot;).textContent=score;</p>
+
+<p class=MsoNormal>result.textContent=&quot;&quot;;next.classList.add(&quot;hidden&quot;);clues.innerHTML=&quot;&quot;;options.innerHTML=&quot;&quot;;</p>
+
+<p class=MsoNormal>data[i].c.forEach((x,n)=&gt;{let
+d=document.createElement(&quot;div&quot;);d.className=&quot;clue&quot;;d.innerHTML=&quot;<span
+style='font-family:"Segoe UI Emoji",sans-serif'>&#128161;</span> &lt;b&gt;G&#7907;i
+ý &quot;+(n+1)+&quot;:&lt;/b&gt; &quot;+x;clues.appendChild(d)});</p>
+
+<p class=MsoNormal>data[i].o.forEach(x=&gt;{let
+b=document.createElement(&quot;button&quot;);b.className=&quot;option&quot;;b.textContent=x;b.onclick=()=&gt;answer(b,x);options.appendChild(b)});</p>
+
+<p class=MsoNormal>}</p>
+
+<p class=MsoNormal>function answer(btn,x){</p>
+
+<p class=MsoNormal>if(answered)return;answered=true;</p>
+
+<p class=MsoNormal>document.querySelectorAll(&quot;.option&quot;).forEach(b=&gt;b.disabled=true);</p>
+
+<p class=MsoNormal>if(x===data[i].a){score++;btn.classList.add(&quot;correct&quot;);result.textContent=&quot;<span
+style='font-family:"Segoe UI Emoji",sans-serif'>&#127881;</span> Chính xác! +1
+&#273;i&#7875;m&quot;;result.style.color=&quot;#4d9159&quot;}</p>
+
+<p class=MsoNormal>else{btn.classList.add(&quot;wrong&quot;);result.textContent=&quot;<span
+style='font-family:"Segoe UI Emoji",sans-serif'>&#10060;</span> Ch&#432;a &#273;úng!
+&#272;áp án:
+&quot;+data[i].a;result.style.color=&quot;#b05264&quot;;document.querySelectorAll(&quot;.option&quot;).forEach(b=&gt;{if(b.textContent===data[i].a)b.classList.add(&quot;correct&quot;)})}</p>
+
+<p class=MsoNormal>document.getElementById(&quot;score&quot;).textContent=score;next.classList.remove(&quot;hidden&quot;);</p>
+
+<p class=MsoNormal>}</p>
+
+<p class=MsoNormal>function
+nextQuestion(){i++;if(i&gt;=data.length){game.classList.add(&quot;hidden&quot;);end.classList.remove(&quot;hidden&quot;);finalScore.textContent=score;message.textContent=score&gt;=9?&quot;<span
+style='font-family:"Segoe UI Emoji",sans-serif'>&#127775;</span> Thám t&#7917;
+xu&#7845;t s&#7855;c!&quot;:score&gt;=7?&quot;<span style='font-family:"Segoe UI Emoji",sans-serif'>&#128079;</span>
+Thám t&#7917; gi&#7887;i!&quot;:&quot;<span style='font-family:"Segoe UI Emoji",sans-serif'>&#128218;</span>
+Hãy ti&#7871;p t&#7909;c khám phá thêm nhi&#7873;u cu&#7889;n sách
+nhé!&quot;;return}load();}</p>
+
+<p class=MsoNormal>&lt;/script&gt;</p>
+
+<p class=MsoNormal>&lt;/body&gt;</p>
+
+<p class=MsoNormal>&lt;/html&gt;</p>
+
+</div>
+
+</body>
+
+</html>

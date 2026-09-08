@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mật Mã Thư Viện | Việt Anh 2</title>
+<style>
+:root{--navy:#183153;--blue:#3b82f6;--gold:#f5b942;--cream:#fffaf0;--green:#22a06b;--red:#e25555}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#eef7ff,#fff8e8);color:#183153}
+.app{max-width:850px;margin:auto;padding:24px 16px 50px}.card{background:#fff;border-radius:28px;box-shadow:0 14px 45px #18315320;padding:28px;margin-top:18px}
+.hero{text-align:center;padding:30px 20px;background:linear-gradient(135deg,#183153,#28598f);color:white;overflow:hidden}
+.logo{font-size:48px}.hero h1{margin:8px 0;font-size:clamp(30px,7vw,52px)}.hero p{opacity:.9;font-size:17px}
+button{border:0;border-radius:15px;padding:14px 20px;font-size:16px;font-weight:700;cursor:pointer;transition:.2s}
+.primary{background:var(--gold);color:#183153}.primary:hover{transform:translateY(-2px);filter:brightness(1.04)}
+.center{text-align:center}.hidden{display:none!important}
+.stats{display:flex;justify-content:space-between;gap:10px;margin-bottom:18px}.pill{background:#f1f6fb;border-radius:14px;padding:10px 14px;font-weight:700}
+.progress{height:10px;background:#e8eef5;border-radius:20px;overflow:hidden;margin:15px 0 25px}.bar{height:100%;width:0;background:linear-gradient(90deg,#3b82f6,#f5b942);transition:.35s}
+.question{font-size:24px;line-height:1.35;margin:10px 0 22px}.answers{display:grid;gap:12px}.answer{text-align:left;background:#f6f8fb;border:2px solid #e6ebf2;color:#183153}.answer:hover{border-color:#3b82f6;background:#eef6ff}.answer.correct{background:#e8f8ef;border-color:#22a06b}.answer.wrong{background:#fff0f0;border-color:#e25555}
+.feedback{min-height:28px;margin:18px 0;font-weight:700}.scorebig{font-size:54px;font-weight:800;color:#183153}.badge{display:inline-block;background:#fff4c9;border-radius:999px;padding:10px 18px;margin:12px 0;font-weight:800}
+table{width:100%;border-collapse:collapse;margin-top:16px}th,td{padding:10px;border-bottom:1px solid #edf0f4;text-align:left}th{color:#58708b}
+input{width:100%;padding:14px;border:2px solid #e1e7ef;border-radius:14px;font-size:16px;margin:10px 0 14px} .qr{max-width:230px;width:100%;margin:15px auto;display:block;border-radius:12px}
+.small{font-size:13px;color:#6b7d90;line-height:1.5}.footer{text-align:center;margin-top:18px;color:#718096;font-size:13px}
+</style>
+</head>
+<body>
+<div class="app">
+<section class="card hero">
+<div class="logo">📚🔐</div>
+<h1>MẬT MÃ THƯ VIỆN</h1>
+<p>THE LIBRARY CODE • Thư viện Việt Anh 2</p>
+<button class="primary" onclick="startGame()">BẮT ĐẦU THỬ THÁCH</button>
+</section>
+
+<section id="intro" class="card">
+<h2>🎯 Nhiệm vụ</h2>
+<p>Một cuốn sách bí ẩn đã biến mất khỏi thư viện. Hãy vượt qua <b>10 câu hỏi</b> để tìm ra mật mã cuối cùng.</p>
+<ul>
+<li>⏱️ Chơi nhanh, mỗi câu có 20 giây.</li>
+<li>⭐ Trả lời đúng: <b>100 điểm</b>.</li>
+<li>⚡ Trả lời càng nhanh, điểm thưởng càng cao.</li>
+<li>🏆 Từ 800 điểm: <b>Thủ thư tập sự xuất sắc</b>.</li>
+</ul>
+</section>
+
+<section id="game" class="card hidden">
+<div class="stats"><div class="pill">Câu <span id="num">1</span>/10</div><div class="pill">⭐ <span id="score">0</span></div><div class="pill">⏱️ <span id="timer">20</span>s</div></div>
+<div class="progress"><div id="bar" class="bar"></div></div>
+<div id="question" class="question"></div>
+<div id="answers" class="answers"></div>
+<div id="feedback" class="feedback"></div>
+</section>
+
+<section id="result" class="card center hidden">
+<div style="font-size:52px">🏆</div>
+<h2>HOÀN THÀNH THỬ THÁCH!</h2>
+<div id="scoreBig" class="scorebig">0</div>
+<div id="badge" class="badge"></div>
+<p id="resultText"></p>
+<input id="playerName" maxlength="30" placeholder="Nhập tên để lưu bảng xếp hạng (không bắt buộc)">
+<button class="primary" onclick="saveScore()">LƯU KẾT QUẢ</button>
+<button onclick="restart()" style="margin-left:6px;background:#edf2f7">CHƠI LẠI</button>
+<div id="leaderboard"></div>
+</section>
+
+<section id="qr" class="card center hidden">
+<h2>📱 QR CHO HỌC SINH</h2>
+<p>QR này trỏ tới <b>URL game</b>. Sau khi đưa file lên website/hosting, hãy sửa URL bên dưới và tạo QR mới.</p>
+<img id="qrImg" class="qr" alt="QR game">
+<p class="small">URL hiện tại: <span id="gameUrl"></span></p>
+<p class="small">Gợi ý: có thể đăng file HTML lên GitHub Pages, Netlify hoặc máy chủ của trường rồi dùng URL đó để tạo QR.</p>
+</section>
+<div class="footer">📚 Thư viện Việt Anh 2 • Học mà chơi – Chơi mà đọc</div>
+</div>
+
+<script>
+const questions=[
+{q:"DDC là viết tắt của hệ thống nào?",a:["Dewey Decimal Classification","Digital Document Center","Daily Data Catalog","Dewey Digital Collection"],c:0},
+{q:"Mục nào sau đây thường dùng để tìm sách trong thư viện?",a:["OPAC","GPS","CPU","PDF"],c:0},
+{q:"Khi mượn sách, hành động nào là phù hợp?",a:["Gấp góc trang","Giữ gìn và trả đúng hạn","Viết lên sách","Bóc nhãn thư viện"],c:1},
+{q:"Đâu là một cách đọc hiệu quả?",a:["Đọc thật nhanh và không ghi nhớ","Đọc có mục tiêu và ghi lại ý chính","Chỉ đọc tiêu đề","Bỏ qua phần khó"],c:1},
+{q:"Sách truyện, sách tham khảo và tạp chí đều là...",a:["Tài liệu","Thiết bị","Đồ chơi","Phần mềm"],c:0},
+{q:"Muốn tìm sách theo tên tác giả, em nên dùng thông tin nào?",a:["Tên tác giả","Màu bìa","Kích thước bàn","Số ghế"],c:0},
+{q:"Điều nào KHÔNG nên làm trong thư viện?",a:["Giữ trật tự","Đọc sách","Nói chuyện thật to","Xếp sách đúng nơi"],c:2},
+{q:"Nếu không tìm thấy một cuốn sách, em nên...",a:["Bỏ cuộc","Hỏi thủ thư","Lấy sách khác rồi giấu đi","Tự ý mang sách về"],c:1},
+{q:"Đọc sách giúp phát triển điều gì?",a:["Vốn từ và kiến thức","Chỉ chiều cao","Chỉ tốc độ chạy","Không có lợi ích"],c:0},
+{q:"Mật mã cuối cùng của một thủ thư tập sự nên được tìm bằng...",a:["May mắn","Kiến thức + quan sát + đọc hiểu","Đoán bừa","Hỏi đáp án ngay"],c:1}
+];
+
+let idx=0,score=0,time=20,timerId=null,answered=false;
+const $=id=>document.getElementById(id);
+function startGame(){ $("intro").classList.add("hidden"); $("result").classList.add("hidden"); $("qr").classList.add("hidden"); $("game").classList.remove("hidden"); idx=0;score=0;showQuestion();}
+function showQuestion(){
+ clearInterval(timerId); answered=false; time=20;
+ $("num").textContent=idx+1;$("score").textContent=score;$("timer").textContent=time;
+ $("bar").style.width=((idx)/questions.length*100)+"%";
+ $("question").textContent=questions[idx].q;
+ $("feedback").textContent="";
+ const box=$("answers");box.innerHTML="";
+ questions[idx].a.forEach((x,i)=>{let b=document.createElement("button");b.className="answer";b.textContent=String.fromCharCode(65+i)+". "+x;b.onclick=()=>choose(i,b);box.appendChild(b)});
+ timerId=setInterval(()=>{time--; $("timer").textContent=time;if(time<=0){clearInterval(timerId);timeout()}},1000);
+}
+function choose(i,b){
+ if(answered)return;answered=true;clearInterval(timerId);
+ const q=questions[idx], all=[...document.querySelectorAll(".answer")];all.forEach(x=>x.disabled=true);
+ if(i===q.c){b.classList.add("correct");let gain=100+time*5;score+=gain;$("feedback").textContent="✅ Chính xác! +"+gain+" điểm";$("feedback").style.color="#22a06b";}
+ else{b.classList.add("wrong");all[q.c].classList.add("correct");$("feedback").textContent="❌ Chưa đúng! Đáp án: "+q.a[q.c];$("feedback").style.color="#e25555";}
+ $("score").textContent=score;setTimeout(next,1100);
+}
+function timeout(){
+ if(answered)return;answered=true;
+ const q=questions[idx],all=[...document.querySelectorAll(".answer")];all.forEach(x=>x.disabled=true);all[q.c].classList.add("correct");
+ $("feedback").textContent="⏰ Hết giờ! Đáp án: "+q.a[q.c];$("feedback").style.color="#e25555";setTimeout(next,1200);
+}
+function next(){idx++;if(idx<questions.length)showQuestion();else finish();}
+function finish(){
+ clearInterval(timerId);$("game").classList.add("hidden");$("result").classList.remove("hidden");$("qr").classList.remove("hidden");
+ $("scoreBig").textContent=score+" điểm";
+ let badge=score>=900?"🌟 SIÊU THỦ THƯ":score>=800?"🏆 THỦ THƯ TẬP SỰ XUẤT SẮC":score>=600?"📖 ĐỘC GIẢ TÍCH CỰC":"🌱 TÂN BINH THƯ VIỆN";
+ $("badge").textContent=badge;
+ $("resultText").textContent=score>=800?"Bạn đã giải mã thành công! Kiến thức thư viện của bạn rất đáng nể.":"Thử lại một lần nữa để phá kỷ lục của chính mình!";
+ makeQR();
+ renderScores();
+}
+function restart(){startGame();}
+function saveScore(){let n=$("playerName").value.trim()||"Độc giả ẩn danh";let s=JSON.parse(localStorage.getItem("libraryScores")||"[]");s.push({n,score,date:new Date().toLocaleDateString("vi-VN")});s.sort((a,b)=>b.score-a.score);localStorage.setItem("libraryScores",JSON.stringify(s.slice(0,10)));renderScores();}
+function renderScores(){let s=JSON.parse(localStorage.getItem("libraryScores")||"[]");if(!s.length){$("leaderboard").innerHTML="";return}let rows=s.map((x,i)=>`<tr><td>${i+1}</td><td>${escapeHtml(x.n)}</td><td><b>${x.score}</b></td><td>${x.date}</td></tr>`).join("");$("leaderboard").innerHTML=`<h3>🏅 BẢNG XẾP HẠNG</h3><table><tr><th>#</th><th>Tên</th><th>Điểm</th><th>Ngày</th></tr>${rows}</table>`;}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));}
+function makeQR(){let url=location.href;$("gameUrl").textContent=url; $("qrImg").src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data="+encodeURIComponent(url);}
+</script>
+</body>
+</html>

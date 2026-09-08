@@ -1,0 +1,193 @@
+from pathlib import Path
+import base64
+
+logo_path = Path("/mnt/data/LOGO tách nền(1).png")
+logo_b64 = base64.b64encode(logo_path.read_bytes()).decode("utf-8")
+
+html = r'''<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🕵️ Thám tử thư viện</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#e9ddff,#e0f5ff);min-height:100vh;color:#342b45}
+.wrap{max-width:850px;margin:auto;padding:25px 16px}
+.card{background:#fff;border-radius:25px;padding:28px;box-shadow:0 10px 30px #0001;position:relative}
+
+/* LOGO TRƯỜNG - góc phải phía trên */
+.school-logo{
+    position:absolute;
+    top:16px;
+    right:18px;
+    width:78px;
+    height:78px;
+    object-fit:contain;
+    z-index:10;
+}
+
+/* Chừa khoảng trống để logo không đè lên tiêu đề */
+.card h1{padding-right:90px}
+
+h1{text-align:center;color:#68459c;margin:0 0 6px;font-size:34px}
+.sub{text-align:center;color:#777;margin-bottom:22px}
+.info{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.badge{background:#f1eaff;padding:10px 16px;border-radius:20px;font-weight:bold}
+.question{font-size:23px;font-weight:bold;margin:25px 0 15px;text-align:center}
+.clues{display:grid;gap:10px}
+.clue{padding:14px 16px;background:#faf8ff;border-left:5px solid #9672c8;border-radius:12px}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+button{border:0;border-radius:14px;padding:15px;font-size:17px;font-weight:bold;cursor:pointer;background:#8062b7;color:white}
+.option{background:#f5f0ff;color:#493762;border:2px solid #ddd}
+.option:hover{background:#e9defb}
+.option.correct{background:#bde7c5;border-color:#65ae75}
+.option.wrong{background:#f4c3cb;border-color:#c96a79}
+.result{text-align:center;font-size:21px;font-weight:bold;margin:18px 0;min-height:28px}
+.next{display:block;margin:0 auto;background:#8062b7}
+.hidden{display:none}
+.start{text-align:center;line-height:1.6}
+.start button{margin-top:10px}
+.end{text-align:center}
+.final{font-size:35px;color:#68459c;font-weight:bold}
+
+@media(max-width:600px){
+    .school-logo{width:58px;height:58px;top:12px;right:12px}
+    .card h1{padding-right:65px}
+    h1{font-size:28px}
+    .options{grid-template-columns:1fr}
+    .question{font-size:20px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="card">
+
+<img class="school-logo" src="data:image/png;base64,''' + logo_b64 + r'''" alt="Logo trường Việt Anh">
+
+<div id="start" class="start">
+<h1>🕵️ THÁM TỬ THƯ VIỆN</h1>
+<div class="sub">Nhiệm vụ: Tìm đúng cuốn sách bí ẩn!</div>
+<p>🔎 Đọc 3 gợi ý và chọn cuốn sách phù hợp nhất.</p>
+<p>🎯 Mỗi câu đúng được <b>1 điểm</b>.</p>
+<button onclick="startGame()">🎮 BẮT ĐẦU</button>
+</div>
+
+<div id="game" class="hidden">
+<h1>🕵️ THÁM TỬ THƯ VIỆN</h1>
+<div class="sub">Tìm đúng cuốn sách!</div>
+<div class="info">
+<div class="badge">🏆 Điểm: <span id="score">0</span></div>
+<div class="badge">📖 Câu: <span id="num">1</span>/10</div>
+</div>
+<div class="question">🔎 Cuốn sách bí ẩn là cuốn nào?</div>
+<div class="clues" id="clues"></div>
+<div class="options" id="options"></div>
+<div class="result" id="result"></div>
+<button class="next hidden" id="next" onclick="nextQuestion()">➡️ CÂU TIẾP THEO</button>
+</div>
+
+<div id="end" class="end hidden">
+<h1>🎉 HOÀN THÀNH!</h1>
+<p>Bạn đã hoàn thành nhiệm vụ của Thám tử thư viện.</p>
+<div class="final"><span id="finalScore">0</span>/10</div>
+<p id="message"></p>
+<button onclick="location.reload()">🔄 CHƠI LẠI</button>
+</div>
+
+</div>
+</div>
+
+<script>
+const data=[
+{a:"Dế Mèn phiêu lưu ký",c:["Tác giả là Tô Hoài.","Nhân vật chính là một chú dế.","Câu chuyện kể về những chuyến phiêu lưu và sự trưởng thành."],o:["Dế Mèn phiêu lưu ký","Hoàng tử bé","Harry Potter","Cô bé Lọ Lem"]},
+{a:"Harry Potter",c:["Tác giả là J. K. Rowling.","Nhân vật chính học tại một trường phép thuật.","Một vết sẹo hình tia chớp là dấu hiệu đặc biệt."],o:["Doraemon","Harry Potter","Alice ở xứ sở thần tiên","Dế Mèn phiêu lưu ký"]},
+{a:"Hoàng tử bé",c:["Tác giả là Antoine de Saint-Exupéry.","Nhân vật chính đến từ một tiểu hành tinh nhỏ.","Câu chuyện có nhiều suy ngẫm về tình bạn và tình yêu."],o:["Hoàng tử bé","Những cuộc phiêu lưu của Tom Sawyer","Harry Potter","Không gia đình"]},
+{a:"Alice ở xứ sở thần tiên",c:["Tác giả là Lewis Carroll.","Nhân vật chính là một cô bé tò mò.","Cô bước vào một thế giới kỳ lạ sau khi đuổi theo một chú thỏ."],o:["Cô bé Lọ Lem","Alice ở xứ sở thần tiên","Nàng Bạch Tuyết","Hoàng tử bé"]},
+{a:"Cô bé Lọ Lem",c:["Đây là một truyện cổ tích nổi tiếng.","Nhân vật chính có cuộc sống khó khăn và bị đối xử bất công.","Một chiếc giày thủy tinh là chi tiết quan trọng."],o:["Cô bé Lọ Lem","Dế Mèn phiêu lưu ký","Mowgli","Pinocchio"]},
+{a:"Pinocchio",c:["Nhân vật chính được tạo ra từ một khúc gỗ.","Cậu bé thường gặp rắc rối vì tính tò mò và những lời nói dối.","Ước mơ của cậu là trở thành một cậu bé người thật."],o:["Pinocchio","Harry Potter","Hoàng tử bé","Sherlock Holmes"]},
+{a:"Mowgli",c:["Nhân vật chính là một cậu bé lớn lên trong rừng.","Cậu được bầy sói nuôi dưỡng.","Baloo và Bagheera là những người bạn nổi tiếng của cậu."],o:["Mowgli","Tom Sawyer","Pinocchio","Dế Mèn"]},
+{a:"Sherlock Holmes",c:["Nhân vật chính nổi tiếng với khả năng suy luận.","Watson thường đồng hành cùng nhân vật này.","Địa chỉ 221B Baker Street gắn liền với nhân vật."],o:["Sherlock Holmes","Mowgli","Harry Potter","Hoàng tử bé"]},
+{a:"Nàng Bạch Tuyết",c:["Nhân vật chính là một nàng công chúa.","Bảy người bạn nhỏ cùng xuất hiện trong câu chuyện.","Một quả táo độc là chi tiết nổi tiếng."],o:["Alice ở xứ sở thần tiên","Nàng Bạch Tuyết","Cô bé Lọ Lem","Pinocchio"]},
+{a:"Anne tóc đỏ dưới chái nhà xanh",c:["Nhân vật chính là một cô bé mồ côi.","Cô có mái tóc đỏ và trí tưởng tượng phong phú.","Câu chuyện gắn với trang trại Green Gables."],o:["Anne tóc đỏ dưới chái nhà xanh","Mowgli","Nàng Bạch Tuyết","Dế Mèn phiêu lưu ký"]}
+];
+
+let i=0,score=0,answered=false;
+
+function startGame(){
+    document.getElementById("start").classList.add("hidden");
+    document.getElementById("game").classList.remove("hidden");
+    load();
+}
+
+function load(){
+    answered=false;
+    document.getElementById("num").textContent=i+1;
+    document.getElementById("score").textContent=score;
+    document.getElementById("result").textContent="";
+    document.getElementById("next").classList.add("hidden");
+    document.getElementById("clues").innerHTML="";
+    document.getElementById("options").innerHTML="";
+
+    data[i].c.forEach((x,n)=>{
+        let d=document.createElement("div");
+        d.className="clue";
+        d.innerHTML="💡 <b>Gợi ý "+(n+1)+":</b> "+x;
+        document.getElementById("clues").appendChild(d);
+    });
+
+    data[i].o.forEach(x=>{
+        let b=document.createElement("button");
+        b.className="option";
+        b.textContent=x;
+        b.onclick=()=>answer(b,x);
+        document.getElementById("options").appendChild(b);
+    });
+}
+
+function answer(btn,x){
+    if(answered)return;
+    answered=true;
+
+    document.querySelectorAll(".option").forEach(b=>b.disabled=true);
+
+    if(x===data[i].a){
+        score++;
+        btn.classList.add("correct");
+        document.getElementById("result").textContent="🎉 Chính xác! +1 điểm";
+        document.getElementById("result").style.color="#4d9159";
+    }else{
+        btn.classList.add("wrong");
+        document.getElementById("result").textContent="❌ Chưa đúng! Đáp án: "+data[i].a;
+        document.getElementById("result").style.color="#b05264";
+        document.querySelectorAll(".option").forEach(b=>{
+            if(b.textContent===data[i].a)b.classList.add("correct")
+        });
+    }
+
+    document.getElementById("score").textContent=score;
+    document.getElementById("next").classList.remove("hidden");
+}
+
+function nextQuestion(){
+    i++;
+    if(i>=data.length){
+        document.getElementById("game").classList.add("hidden");
+        document.getElementById("end").classList.remove("hidden");
+        document.getElementById("finalScore").textContent=score;
+        document.getElementById("message").textContent=
+            score>=9?"🌟 Thám tử xuất sắc!":
+            score>=7?"👏 Thám tử giỏi!":
+            "📚 Hãy tiếp tục khám phá thêm nhiều cuốn sách nhé!";
+        return;
+    }
+    load();
+}
+</script>
+</body>
+</html>'''
+
+out = Path("/mnt/data/tham-tu-thu-vien-logo.html")
+out.write_text(html, encoding="utf-8")
+print(f"Đã tạo file game hoàn chỉnh: {out}")

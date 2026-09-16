@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📚 Thử tài phân loại sách</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Arial,Helvetica,sans-serif;
+  background:linear-gradient(135deg,#f7f2ff,#eaf8ff);
+  color:#27324a;min-height:100vh;
+}
+.wrap{max-width:1000px;margin:auto;padding:28px 18px 40px}
+header{text-align:center;margin-bottom:18px}
+h1{font-size:clamp(30px,5vw,46px);margin:5px 0 8px}
+.sub{font-size:20px;color:#58647c;margin:0}
+.topbar{
+  display:flex;gap:14px;justify-content:space-between;align-items:center;
+  background:white;border-radius:18px;padding:14px 18px;
+  box-shadow:0 5px 20px #00000012;margin-bottom:20px;font-size:20px;font-weight:700
+}
+.progress{height:12px;background:#e7eaf2;border-radius:99px;overflow:hidden;margin:0 0 22px}
+.progress i{display:block;height:100%;background:#7c5cff;border-radius:99px;width:10%;transition:.3s}
+.game{text-align:center}
+.instruction{font-size:22px;font-weight:700;margin:8px 0 20px}
+.card-area{min-height:235px;display:flex;justify-content:center;align-items:center}
+.book{
+  width:min(430px,90vw);min-height:210px;background:white;border-radius:24px;
+  padding:25px;display:flex;flex-direction:column;justify-content:center;
+  align-items:center;cursor:grab;user-select:none;
+  box-shadow:0 10px 30px #00000018;border:4px solid #fff;
+  transition:transform .2s,box-shadow .2s;
+}
+.book:active{cursor:grabbing;transform:scale(.97)}
+.book .emoji{font-size:58px;margin-bottom:8px}
+.book h2{font-size:29px;margin:4px 0 8px}
+.book p{font-size:19px;margin:0;color:#667085}
+.zones{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+.zone{
+  min-height:125px;border:3px dashed #b8bfd1;border-radius:20px;background:#ffffffaa;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  font-size:22px;font-weight:800;transition:.2s;padding:12px
+}
+.zone .zemoji{font-size:38px}
+.zone.over{transform:translateY(-4px);background:#fff;box-shadow:0 8px 20px #00000012;border-color:#7c5cff}
+.feedback{height:52px;font-size:22px;font-weight:800;padding-top:18px}
+.feedback.ok{color:#159957}.feedback.no{color:#d97706}
+.result{display:none;text-align:center;background:white;border-radius:26px;padding:38px 20px;box-shadow:0 10px 30px #00000018}
+.result.show{display:block}
+.result .trophy{font-size:72px}
+.result h2{font-size:36px;margin:8px}
+.scorebig{font-size:58px;font-weight:900;color:#7c5cff;margin:10px}
+button{
+  border:0;border-radius:14px;background:#7c5cff;color:white;font-size:20px;
+  font-weight:800;padding:14px 24px;cursor:pointer;margin-top:14px
+}
+button:hover{filter:brightness(.95)}
+@media(max-width:650px){
+ .zones{grid-template-columns:1fr}
+ .zone{min-height:95px}
+ .topbar{font-size:17px}
+ .instruction{font-size:19px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>📚 THỬ TÀI PHÂN LOẠI SÁCH</h1>
+  <p class="sub">Kéo thẻ sách → thả vào đúng thể loại</p>
+</header>
+
+<div id="game">
+  <div class="topbar">
+    <span id="question">Câu 1/10</span>
+    <span id="score">Điểm: 0</span>
+  </div>
+  <div class="progress"><i id="bar"></i></div>
+  <div class="game">
+    <div class="instruction">🎯 Sách này thuộc nhóm nào?</div>
+    <div class="card-area" id="cardArea"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="zones">
+      <div class="zone" data-type="van-hoc"><div class="zemoji">📖</div>Văn học</div>
+      <div class="zone" data-type="khoa-hoc"><div class="zemoji">🔬</div>Khoa học</div>
+      <div class="zone" data-type="ky-nang"><div class="zemoji">💡</div>Kỹ năng</div>
+    </div>
+  </div>
+</div>
+
+<div class="result" id="result">
+  <div class="trophy">🏆</div>
+  <h2>Tổng điểm</h2>
+  <div class="scorebig" id="finalScore">0/100</div>
+  <p id="finalText" style="font-size:21px">Bạn đã hoàn thành 10 câu!</p>
+  <button onclick="restart()">🔄 Chơi lại</button>
+</div>
+</div>
+
+<script>
+const books=[
+ {title:"Dế Mèn phiêu lưu ký",desc:"Một tác phẩm văn học thiếu nhi nổi tiếng.",type:"van-hoc",emoji:"🐜"},
+ {title:"Lão Hạc",desc:"Truyện ngắn của nhà văn Nam Cao.",type:"van-hoc",emoji:"📕"},
+ {title:"Những ngôi sao xa xôi",desc:"Truyện ngắn của Lê Minh Khuê.",type:"van-hoc",emoji:"⭐"},
+ {title:"Vũ trụ kỳ thú",desc:"Khám phá các hành tinh và những điều bí ẩn ngoài không gian.",type:"khoa-hoc",emoji:"🌌"},
+ {title:"Bách khoa động vật",desc:"Tìm hiểu về thế giới động vật quanh ta.",type:"khoa-hoc",emoji:"🦁"},
+ {title:"Thí nghiệm khoa học vui",desc:"Những thí nghiệm đơn giản giúp khám phá khoa học.",type:"khoa-hoc",emoji:"🧪"},
+ {title:"7 thói quen của bạn trẻ thành đạt",desc:"Những thói quen hỗ trợ học tập và phát triển bản thân.",type:"ky-nang",emoji:"🎯"},
+ {title:"Kỹ năng giao tiếp",desc:"Học cách lắng nghe, trình bày và giao tiếp hiệu quả.",type:"ky-nang",emoji:"💬"},
+ {title:"Quản lý thời gian",desc:"Bí quyết sắp xếp thời gian học tập và nghỉ ngơi.",type:"ky-nang",emoji:"⏰"},
+ {title:"Tư duy sáng tạo",desc:"Rèn luyện cách suy nghĩ linh hoạt và tìm ý tưởng mới.",type:"ky-nang",emoji:"💡"}
+];
+
+let order=[],current=0,score=0,locked=false;
+const $=id=>document.getElementById(id);
+
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+
+function render(){
+ if(current>=order.length){finish();return}
+ locked=false;
+ $("question").textContent=`Câu ${current+1}/10`;
+ $("score").textContent=`Điểm: ${score}`;
+ $("bar").style.width=`${current/10*100}%`;
+ $("feedback").textContent="";
+ $("feedback").className="feedback";
+ const b=order[current];
+ $("cardArea").innerHTML=`
+   <div class="book" draggable="true" id="bookCard">
+     <div class="emoji">${b.emoji}</div>
+     <h2>${b.title}</h2>
+     <p>${b.desc}</p>
+   </div>`;
+ const card=$("bookCard");
+ card.addEventListener("dragstart",e=>e.dataTransfer.setData("text/plain",b.type));
+ card.addEventListener("touchstart",()=>{}, {passive:true});
+}
+
+document.querySelectorAll(".zone").forEach(zone=>{
+ zone.addEventListener("dragover",e=>{e.preventDefault();zone.classList.add("over")});
+ zone.addEventListener("dragleave",()=>zone.classList.remove("over"));
+ zone.addEventListener("drop",e=>{
+   e.preventDefault();zone.classList.remove("over");
+   if(locked)return;
+   check(zone.dataset.type);
+ });
+});
+
+function check(chosen){
+ if(locked)return;
+ const correct=order[current].type===chosen;
+ locked=true;
+ if(correct){
+   score+=10;
+   $("feedback").textContent="🎉 Chính xác! +10 điểm";
+   $("feedback").className="feedback ok";
+   $("score").textContent=`Điểm: ${score}`;
+   $("bar").style.width=`${(current+1)/10*100}%`;
+   setTimeout(()=>{current++;render()},850);
+ }else{
+   $("feedback").textContent="Thử lại nhé!";
+   $("feedback").className="feedback no";
+   setTimeout(()=>{locked=false;$("feedback").textContent="";$("feedback").className="feedback"},900);
+ }
+}
+
+function finish(){
+ $("game").style.display="none";
+ $("result").classList.add("show");
+ $("finalScore").textContent=`${score}/100`;
+ $("finalText").textContent=score===100?"Xuất sắc! Bạn đã phân loại đúng tất cả sách!":"Bạn đã hoàn thành 10 câu. Thử lại để cải thiện điểm nhé!";
+}
+function restart(){
+ order=shuffle(books);current=0;score=0;
+ $("game").style.display="block";$("result").classList.remove("show");
+ render();
+}
+restart();
+</script>
+</body>
+</html>

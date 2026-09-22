@@ -2,259 +2,185 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mật mã Chị Hằng – Escape Room Mini</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Ô Chữ Trung Thu - Mật Mã Dọc</title>
 <style>
 *{box-sizing:border-box}
-body{
-  margin:0;font-family:Arial,sans-serif;
-  background:linear-gradient(135deg,#17143b,#2c2260 55%,#4a357a);
-  min-height:100vh;color:#fff;overflow-x:hidden;
-}
-body:before{
-  content:"";position:fixed;inset:0;pointer-events:none;
-  background:
-   radial-gradient(circle at 12% 18%,#fff 0 1px,transparent 2px),
-   radial-gradient(circle at 72% 12%,#fff 0 1px,transparent 2px),
-   radial-gradient(circle at 88% 42%,#fff 0 1px,transparent 2px),
-   radial-gradient(circle at 35% 78%,#fff 0 1px,transparent 2px);
-  background-size:180px 150px,230px 190px,210px 170px,260px 210px;opacity:.55;
-}
-.wrap{width:min(980px,94%);margin:auto;padding:28px 0 40px}
-.header{text-align:center}
-.badge{display:inline-block;background:#f5c85b;color:#352454;padding:7px 14px;border-radius:99px;font-weight:700;font-size:13px}
-h1{font-size:clamp(30px,6vw,52px);margin:12px 0 5px;color:#ffe99a}
-.subtitle{color:#ddd5f4;margin:0 0 24px}
-.card{
- background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);
- backdrop-filter:blur(8px);border-radius:24px;padding:24px;
- box-shadow:0 15px 40px rgba(0,0,0,.25);
-}
-.intro{max-width:760px;margin:0 auto 20px;text-align:center}
-.letter{
- margin:18px auto;padding:20px;max-width:650px;
- background:#fff9df;color:#4a3260;border-radius:16px;
- border:4px solid #edc96a;box-shadow:0 8px 20px #0004;
- font-family:Georgia,serif;font-size:19px;line-height:1.65;
-}
-.startBtn,.submitBtn,.restartBtn{
- border:0;border-radius:14px;padding:13px 22px;font-size:16px;
- font-weight:700;cursor:pointer;background:#f5c85b;color:#30204e;
- box-shadow:0 5px 0 #c79a31;transition:.15s;
-}
-.startBtn:active,.submitBtn:active,.restartBtn:active{transform:translateY(3px);box-shadow:0 2px 0 #c79a31}
-.hidden{display:none!important}
-.progress{display:flex;justify-content:space-between;gap:8px;margin:12px 0 22px}
-.dot{height:8px;flex:1;background:#ffffff22;border-radius:99px}
-.dot.done{background:#f5c85b}
-.scene-title{text-align:center;color:#ffe99a;font-size:26px;margin:0 0 6px}
-.scene-desc{text-align:center;color:#ded7f0;margin-top:0}
-.objects{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:20px}
-.obj{
- min-height:150px;border:1px solid #ffffff22;border-radius:18px;
- background:#ffffff0d;display:flex;flex-direction:column;align-items:center;
- justify-content:center;cursor:pointer;transition:.2s;padding:14px;
-}
-.obj:hover{transform:translateY(-4px);background:#ffffff18;border-color:#f5c85b}
-.obj .emoji{font-size:52px}
-.obj strong{margin-top:8px}
-.obj small{color:#cfc6e6;margin-top:5px;text-align:center}
-.clue{
- margin:20px auto 0;max-width:600px;text-align:center;
- background:#171332;border:1px dashed #f5c85b;border-radius:16px;padding:17px;
-}
-.number{font-size:40px;color:#ffe99a;font-weight:800;margin-top:5px}
-.next{display:block;margin:18px auto 0}
-.codeBox{text-align:center}
-.codeInputs{display:flex;justify-content:center;gap:10px;margin:22px 0}
-.codeInputs input{
- width:58px;height:66px;text-align:center;font-size:32px;font-weight:800;
- border-radius:12px;border:2px solid #f5c85b;background:#fff;color:#30204e;
-}
-.hint{color:#cfc6e6;text-align:center}
-.message{text-align:center;min-height:28px;font-weight:700}
-.success{
- text-align:center;padding:30px;background:rgba(245,200,91,.13);
- border:1px solid #f5c85b;border-radius:22px;
-}
-.moon{font-size:70px}
-.confetti{font-size:32px;letter-spacing:6px}
-@media(max-width:600px){
- .objects{grid-template-columns:1fr}
- .codeInputs input{width:50px;height:58px}
- .card{padding:17px}
+body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#fff4d8,#ffe8f0,#e8ddff);color:#463652}
+.wrap{max-width:1100px;margin:auto;padding:20px 14px 40px}
+.card{background:#fffdf8;border-radius:26px;padding:22px;box-shadow:0 10px 30px rgba(90,60,90,.12)}
+h1{text-align:center;margin:0;color:#744b83;font-size:clamp(28px,5vw,44px)}
+.subtitle{text-align:center;font-weight:800;color:#a26b43;margin:6px 0 20px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 210px;gap:18px}
+.board{background:#fff;border-radius:18px;padding:16px;overflow-x:auto;border:1px solid #eadfe5}
+.row{height:49px;display:flex;align-items:center;margin:5px 0;min-width:650px}
+.num{width:42px;text-align:center;font-weight:900;color:#895b75;flex:0 0 42px}
+.cells{display:flex;height:45px}
+.cell{width:45px;height:45px;border:2px solid #475268;background:#fff}
+.cell.key{background:#f6dda0;border-color:#9d762e}
+.cell input{width:100%;height:100%;border:0;outline:0;background:transparent;text-align:center;font-size:21px;font-weight:900;text-transform:uppercase;color:#3e4250}
+.cell input:focus{background:#fff3c5;box-shadow:inset 0 0 0 3px #efbd4f}
+.clues{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.clue{background:#fff1f5;border-radius:10px;padding:9px;font-size:13px;line-height:1.35}
+.clue b{color:#744b83}
+.secret{background:#fff8df;border:2px solid #e1c36a;border-radius:20px;padding:16px;text-align:center;height:max-content}
+.secret h2{margin:0 0 12px;color:#80552b;font-size:19px}
+.secret-grid{display:flex;flex-direction:column;gap:5px;align-items:center}
+.secret-box{width:48px;height:38px;border:2px solid #d3a33e;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#9b7028}
+.secret-space{height:9px;border:0;background:transparent}
+.note{font-size:12px;line-height:1.45;color:#76654e;margin-top:12px}
+.score{font-weight:900;margin:12px 0}
+.actions{display:flex;gap:8px;margin-top:14px}
+button{border:0;border-radius:12px;padding:12px 18px;font-weight:900;font-size:16px;cursor:pointer;min-height:46px}
+.check{background:#e8759a;color:white}.reset{background:#eee5f2;color:#704b78}
+.msg{text-align:center;min-height:25px;margin-top:10px;font-weight:800}
+@media(max-width:760px){
+.layout{grid-template-columns:1fr}.secret{order:-1}.secret-grid{flex-direction:row;flex-wrap:wrap;justify-content:center}
+.secret-space{width:10px;height:38px}.clues{grid-template-columns:1fr}.board{padding:10px}.cell{width:40px;height:40px}.cells{height:40px}.row{height:44px}.cell input{font-size:19px}
 }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="header">
-    <span class="badge">🌕 TRUNG THU • ESCAPE ROOM MINI</span>
-    <h1>🔐 MẬT MÃ CHỊ HẰNG</h1>
-    <p class="subtitle">Một bí mật đang được giấu đâu đó trong Thư viện...</p>
-  </header>
+<div class="card">
+<h1>🌕 Ô CHỮ TRUNG THU</h1>
+<div class="subtitle">🔐 MẬT MÃ DỌC</div>
 
-  <section id="intro" class="card intro">
-    <div style="font-size:58px">🌙🏮🐇</div>
-    <h2>THƯ VIỆN NHẬN ĐƯỢC MỘT BỨC THƯ BÍ ẨN</h2>
-    <div class="letter">
-      “Muốn mở cánh cửa Cung Trăng,<br>
-      hãy tìm <b>4 con số</b> được giấu trong thư viện…”
-    </div>
-    <p>🔎 Số trên sách &nbsp; • &nbsp; 🏮 Số trên đèn<br>
-       🥮 Số trên bánh &nbsp; • &nbsp; 🐇 Số do Thỏ Ngọc đưa</p>
-    <button class="startBtn" onclick="startGame()">🌟 BẮT ĐẦU TÌM MẬT MÃ</button>
-  </section>
+<div class="layout">
+<div>
+<div class="board" id="board"></div>
+<div class="clues" id="clues"></div>
+<div class="actions">
+<button class="check" id="check">🔍 KIỂM TRA</button>
+<button class="reset" id="reset">↻ CHƠI LẠI</button>
+</div>
+<div class="msg" id="msg" aria-live="polite"></div>
+</div>
 
-  <section id="game" class="card hidden">
-    <div class="progress">
-      <div class="dot" id="d1"></div><div class="dot" id="d2"></div>
-      <div class="dot" id="d3"></div><div class="dot" id="d4"></div>
-    </div>
-    <h2 class="scene-title" id="sceneTitle"></h2>
-    <p class="scene-desc" id="sceneDesc"></p>
-    <div class="objects" id="objects"></div>
-    <div id="clue" class="clue hidden"></div>
-    <button id="nextBtn" class="startBtn next hidden" onclick="nextScene()">➡️ ĐI TIẾP</button>
-  </section>
-
-  <section id="lock" class="card hidden">
-    <div class="codeBox">
-      <div style="font-size:60px">🚪🌕</div>
-      <h2 class="scene-title">CỬA CUNG TRĂNG</h2>
-      <p>4 con số đã được tìm thấy. Hãy ghép chúng lại thành mật mã!</p>
-      <div class="codeInputs">
-        <input id="c0" maxlength="1" inputmode="numeric" oninput="moveInput(this,0)">
-        <input id="c1" maxlength="1" inputmode="numeric" oninput="moveInput(this,1)">
-        <input id="c2" maxlength="1" inputmode="numeric" oninput="moveInput(this,2)">
-        <input id="c3" maxlength="1" inputmode="numeric" oninput="moveInput(this,3)">
-      </div>
-      <p class="hint">🔐 Mật mã gồm 4 chữ số — theo đúng thứ tự đã khám phá.</p>
-      <p id="codeMsg" class="message"></p>
-      <button class="submitBtn" onclick="checkCode()">🔓 MỞ CỬA CUNG TRĂNG</button>
-    </div>
-  </section>
-
-  <section id="win" class="card hidden">
-    <div class="success">
-      <div class="confetti">✨ 🌙 ✨ 🏮 ✨</div>
-      <div class="moon">🌕🐇</div>
-      <h2 style="color:#ffe99a">CỬA CUNG TRĂNG ĐÃ MỞ!</h2>
-      <p>🎉 Chúc mừng! Bạn đã giải được <b>Mật mã Chị Hằng</b>.</p>
-      <p>Thỏ Ngọc đang chờ bạn ở phía bên kia cánh cửa...</p>
-      <button class="restartBtn" onclick="location.reload()">🔄 CHƠI LẠI</button>
-    </div>
-  </section>
+<aside class="secret">
+<h2>🔐 MẬT MÃ DỌC</h2>
+<div class="secret-grid" id="secret"></div>
+<div class="score">⭐ Điểm: <span id="score">0</span>/8</div>
+<div class="note">Các chữ trong ô vàng sẽ hiện <b>đúng thứ tự từ trên xuống dưới</b>, tạo thành mật mã:</div>
+<div style="font-size:18px;font-weight:900;color:#8a4f9f;margin-top:7px">TRĂNG RẰM</div>
+</aside>
+</div>
+</div>
 </div>
 
 <script>
-const scenes=[
- {
-  title:"🔎 BÍ MẬT TRÊN KỆ SÁCH",
-  desc:"Có một cuốn sách trông khác thường. Hãy tìm đúng cuốn sách có dấu hiệu bí mật!",
-  items:[
-   ["📕","Cuốn sách đỏ","Không có gì đặc biệt..."],
-   ["📗","Cuốn sách xanh","Bìa hơi cũ..."],
-   ["📘","Cuốn sách xanh dương","Có một ngôi sao nhỏ trên gáy!"],
-   ["📙","Cuốn sách cam","Có vẻ chỉ là một cuốn sách bình thường."]
-  ],
-  correct:2, clue:"📚 Bạn phát hiện một mảnh giấy kẹp trong sách:<br><b>“Con số đầu tiên là 2.”</b>", number:"2"
- },
- {
-  title:"🏮 CHIẾC ĐÈN PHÁT SÁNG",
-  desc:"Bốn chiếc đèn đang treo. Chỉ một chiếc có ký hiệu bí mật.",
-  items:[
-   ["🏮","Đèn hoa sen","Ánh sáng dịu dàng."],
-   ["🏮","Đèn mặt trăng","Có hình trăng khuyết!"],
-   ["🏮","Đèn ngôi sao","Một ngôi sao đang nhấp nháy."],
-   ["🏮","Đèn thỏ ngọc","Có một ký hiệu nhỏ bên dưới!"]
-  ],
-  correct:3, clue:"🏮 Dưới chiếc đèn có khắc:<br><b>“Con số thứ hai là 7.”</b>", number:"7"
- },
- {
-  title:"🥮 CHIẾC BÁNH CÓ DẤU HIỆU LẠ",
-  desc:"Một khay bánh Trung Thu đang đặt trên bàn. Hãy tìm chiếc bánh có dấu hiệu đặc biệt.",
-  items:[
-   ["🥮","Bánh hoa","Hoa văn 4 cánh."],
-   ["🥮","Bánh trăng","Có hình mặt trăng."],
-   ["🥮","Bánh thỏ","Có tai thỏ nhỏ xíu!"],
-   ["🥮","Bánh sao","Hoa văn hình ngôi sao."]
-  ],
-  correct:2, clue:"🥮 Mặt dưới chiếc bánh có dòng chữ:<br><b>“Con số thứ ba là 4.”</b>", number:"4"
- },
- {
-  title:"🐇 THỎ NGỌC XUẤT HIỆN",
-  desc:"Bạn đã đi đến cuối hành lang. Thỏ Ngọc đang giữ bí mật cuối cùng!",
-  items:[
-   ["🐇","Thỏ Ngọc đang ngủ","Zzz..."],
-   ["🐇","Thỏ Ngọc cầm đèn","Nó đang soi đường."],
-   ["🐇","Thỏ Ngọc ôm bánh","Có vẻ rất ngon!"],
-   ["🐇","Thỏ Ngọc chỉ vào mặt trăng","Nó đang ra hiệu cho bạn!"]
-  ],
-  correct:3, clue:"🐇 Thỏ Ngọc đưa cho bạn một mảnh giấy:<br><b>“Con số cuối cùng là 9.”</b>", number:"9"
- }
+const data=[
+ {answer:"TRĂNG",clue:"Vật tròn sáng xuất hiện trên bầu trời đêm Trung Thu.",key:0,offset:0},
+ {answer:"RƯỚC ĐÈN",clue:"Hoạt động vui chơi quen thuộc của trẻ em trong đêm Trung Thu.",key:0,offset:1},
+ {answer:"MẶT TRĂNG",clue:"Tên gọi quen thuộc của vật thể sáng trên bầu trời đêm.",key:2,offset:0},
+ {answer:"ĐÈN ÔNG SAO",clue:"Chiếc đèn có hình ngôi sao quen thuộc dịp Trung Thu.",key:4,offset:0},
+ {answer:"GIA ĐÌNH",clue:"Những người thường quây quần bên nhau trong đêm hội.",key:0,offset:1},
+ {answer:"RƯỚC ĐÈN",clue:"Hoạt động với những chiếc đèn nhiều màu sắc.",key:0,offset:2},
+ {answer:"RẰM",clue:"Cách gọi ngày 15 âm lịch, ngày diễn ra Tết Trung Thu.",key:1,offset:1},
+ {answer:"MÚA LÂN",clue:"Tiết mục biểu diễn sôi động thường xuất hiện dịp Trung Thu.",key:0,offset:0}
 ];
 
-let scene=0, found=[];
-function startGame(){
- document.getElementById("intro").classList.add("hidden");
- document.getElementById("game").classList.remove("hidden");
- renderScene();
+const secret=["T","R","Ă","N","G","R","Ằ","M"];
+const board=document.getElementById("board");
+const clues=document.getElementById("clues");
+const secretBox=document.getElementById("secret");
+
+secret.forEach((x,i)=>{
+  if(i===5){
+    const s=document.createElement("div");
+    s.className="secret-box secret-space";
+    secretBox.appendChild(s);
+  }
+  const b=document.createElement("div");
+  b.className="secret-box";
+  b.id="secret-"+i;
+  b.textContent="•";
+  secretBox.appendChild(b);
+});
+
+data.forEach((r,ri)=>{
+  const row=document.createElement("div");
+  row.className="row";
+  const num=document.createElement("div");
+  num.className="num";
+  num.textContent="("+(ri+1)+")";
+  row.appendChild(num);
+
+  const cells=document.createElement("div");
+  cells.className="cells";
+
+  for(let i=0;i<r.offset;i++){
+    const blank=document.createElement("div");
+    blank.style.cssText="width:45px;flex:0 0 45px";
+    cells.appendChild(blank);
+  }
+
+  const answer=r.answer.replaceAll(" ","");
+  [...answer].forEach((ch,ci)=>{
+    const box=document.createElement("div");
+    box.className="cell"+(ci===r.key?" key":"");
+    const input=document.createElement("input");
+    input.maxLength=1;
+    input.dataset.row=ri;
+    input.dataset.answer=ch;
+    input.setAttribute("aria-label","Hàng "+(ri+1)+" ô "+(ci+1));
+    input.addEventListener("input",()=>{
+      input.value=input.value.normalize("NFC").toUpperCase().slice(0,1);
+      const list=[...cells.querySelectorAll("input")];
+      const p=list.indexOf(input);
+      if(input.value && list[p+1]) list[p+1].focus();
+    });
+    box.appendChild(input);
+    cells.appendChild(box);
+  }
+  row.appendChild(cells);
+  board.appendChild(row);
+
+  const c=document.createElement("div");
+  c.className="clue";
+  c.innerHTML="<b>Hàng "+(ri+1)+":</b> "+r.clue;
+  clues.appendChild(c);
+});
+
+function checkGame(){
+  let score=0;
+  data.forEach((r,ri)=>{
+    const inputs=[...document.querySelectorAll('input[data-row="'+ri+'"]')];
+    const correct=inputs.length===r.answer.replaceAll(" ","").length &&
+      inputs.every(x=>x.value.normalize("NFC").toUpperCase()===x.dataset.answer);
+
+    if(correct){
+      score++;
+      document.getElementById("secret-"+ri).textContent=secret[ri];
+    }else{
+      document.getElementById("secret-"+ri).textContent="•";
+    }
+    inputs.forEach(x=>{
+      x.parentElement.style.borderColor=correct?"#6baa76":"#d68c98";
+    });
+  });
+
+  document.getElementById("score").textContent=score;
+
+  if(score===8){
+    document.getElementById("msg").textContent="🎉 Hoàn thành! Mật mã dọc là TRĂNG RẰM 🌕";
+  }else{
+    document.getElementById("msg").textContent="Bạn đã đúng "+score+"/8 hàng. Hãy kiểm tra lại các ô chữ nhé!";
+  }
 }
-function renderScene(){
- const s=scenes[scene];
- document.getElementById("sceneTitle").textContent=s.title;
- document.getElementById("sceneDesc").textContent=s.desc;
- document.getElementById("clue").classList.add("hidden");
- document.getElementById("nextBtn").classList.add("hidden");
- for(let i=1;i<=4;i++) document.getElementById("d"+i).classList.toggle("done",i<=scene);
- const box=document.getElementById("objects");
- box.innerHTML="";
- s.items.forEach((it,i)=>{
-   const div=document.createElement("div");
-   div.className="obj";
-   div.innerHTML=`<div class="emoji">${it[0]}</div><strong>${it[1]}</strong><small>${it[2]}</small>`;
-   div.onclick=()=>choose(i);
-   box.appendChild(div);
- });
+
+function resetGame(){
+  document.querySelectorAll("input").forEach(x=>{
+    x.value="";
+    x.parentElement.style.borderColor="#475268";
+  });
+  secret.forEach((_,i)=>document.getElementById("secret-"+i).textContent="•");
+  document.getElementById("score").textContent="0";
+  document.getElementById("msg").textContent="";
 }
-function choose(i){
- const s=scenes[scene];
- if(i!==s.correct){
-   const old=document.getElementById("sceneDesc");
-   old.innerHTML="❌ Chưa đúng rồi! Hãy quan sát thật kỹ và thử lại.";
-   setTimeout(()=>{old.textContent=s.desc},1100);
-   return;
- }
- found[scene]=s.number;
- document.getElementById("clue").innerHTML=s.clue;
- document.getElementById("clue").classList.remove("hidden");
- document.getElementById("nextBtn").classList.remove("hidden");
- document.querySelectorAll(".obj").forEach(x=>x.style.pointerEvents="none");
-}
-function nextScene(){
- if(scene<scenes.length-1){scene++;renderScene();}
- else{
-   document.getElementById("game").classList.add("hidden");
-   document.getElementById("lock").classList.remove("hidden");
-   document.getElementById("c0").focus();
- }
-}
-function moveInput(el,i){
- el.value=el.value.replace(/\D/g,"").slice(0,1);
- if(el.value && i<3) document.getElementById("c"+(i+1)).focus();
-}
-function checkCode(){
- const code=[0,1,2,3].map(i=>document.getElementById("c"+i).value).join("");
- const msg=document.getElementById("codeMsg");
- if(code==="2749"){
-   document.getElementById("lock").classList.add("hidden");
-   document.getElementById("win").classList.remove("hidden");
- }else{
-   msg.textContent="🔒 Mật mã chưa đúng. Hãy nhớ lại thứ tự 4 manh mối!";
-   msg.style.color="#ffb6b6";
- }
-}
+
+document.getElementById("check").addEventListener("click",checkGame);
+document.getElementById("reset").addEventListener("click",resetGame);
 </script>
 </body>
 </html>

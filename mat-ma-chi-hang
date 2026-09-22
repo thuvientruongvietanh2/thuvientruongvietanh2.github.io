@@ -1,6 +1,4 @@
-from pathlib import Path
-
-html = r'''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -259,8 +257,4 @@ function checkCode(){
 }
 </script>
 </body>
-</html>'''
-
-path = Path("/mnt/data/mat_ma_chi_hang_escape_room.html")
-path.write_text(html, encoding="utf-8")
-print(f"Đã tạo game: {path}")
+</html>

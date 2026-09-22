@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ô Chữ Trung Thu - Mật Mã Dọc</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background:linear-gradient(135deg,#fff4d9,#ffe7ef,#e8ddff);
+  color:#463652;
+}
+.wrap{max-width:1180px;margin:auto;padding:18px 12px 35px}
+.card{
+  background:#fffdf9;
+  border-radius:24px;
+  padding:20px;
+  box-shadow:0 8px 28px rgba(80,55,90,.14);
+}
+h1{text-align:center;margin:0;color:#754c84;font-size:clamp(25px,5vw,38px)}
+.subtitle{text-align:center;margin:5px 0 18px;color:#9b6544;font-weight:800}
+
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:18px}
+.board-wrap{
+  background:#fff;
+  border:1px solid #eadfe5;
+  border-radius:18px;
+  padding:12px;
+  overflow-x:auto;
+}
+.board{min-width:800px}
+
+/* Cố định 16 cột đều nhau */
+.row{
+  display:grid;
+  grid-template-columns:42px repeat(16, 44px);
+  height:46px;
+  margin:4px 0;
+}
+.num{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  color:#8a5b76;
+}
+.cell{
+  width:44px;
+  height:44px;
+  border:2px solid #465268;
+  background:#fff;
+  border-radius:6px;
+  transition:all 0.2s;
+}
+.cell.key{
+  background:#f5dda0;
+  border-color:#9d762e;
+}
+.cell input{
+  width:100%;
+  height:100%;
+  border:0;
+  outline:0;
+  background:transparent;
+  text-align:center;
+  font-size:20px;
+  font-weight:900;
+  color:#3e4250;
+  text-transform:uppercase;
+  padding:0;
+}
+.cell input:focus{
+  background:#fff2c3;
+  box-shadow:inset 0 0 0 3px #efbd4f;
+}
+.empty{width:44px;height:44px}
+
+.clues{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:12px;
+}
+.clue{
+  background:#fff1f5;
+  border-radius:10px;
+  padding:9px 12px;
+  font-size:13px;
+  line-height:1.4;
+}
+.clue b{color:#754c84}
+
+.secret{
+  background:#fff8df;
+  border:2px solid #e1c36a;
+  border-radius:20px;
+  padding:15px;
+  text-align:center;
+  height:max-content;
+}
+.secret h2{margin:0 0 12px;color:#80552b;font-size:18px}
+.secret-grid{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  align-items:center;
+}
+.secret-row-wrap{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.secret-label{
+  font-size:11px;
+  font-weight:900;
+  color:#9b6544;
+  width:82px;
+  text-align:right;
+}
+.secret-box{
+  width:46px;
+  min-width:46px;
+  height:38px;
+  border:2px solid #d3a33e;
+  border-radius:8px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  font-weight:900;
+  color:#9b7028;
+  transition:all 0.3s;
+}
+.secret-box.revealed{
+  background:#ffe89c !important;
+  color:#704000 !important;
+  border-color:#b88314 !important;
+  box-shadow:0 0 8px rgba(230,165,20,0.5);
+  transform:scale(1.05);
+  opacity:1 !important;
+}
+.secret-divider{
+  margin:4px 0;
+  font-size:12px;
+  font-weight:800;
+  color:#cba358;
+  letter-spacing:2px;
+}
+.score{font-weight:900;margin:13px 0;font-size:16px}
+.note{font-size:12px;line-height:1.45;color:#75634d}
+
+.actions{display:flex;gap:8px;margin-top:14px}
+button{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  font-weight:900;
+  font-size:15px;
+  cursor:pointer;
+  min-height:46px;
+}
+.check{background:#e8759a;color:#fff}
+.check:hover{background:#d65c83}
+.reset{background:#eee5f2;color:#704b78}
+.reset:hover{background:#dfd2e6}
+.msg{text-align:center;min-height:25px;margin-top:10px;font-weight:800;font-size:16px}
+
+@media(max-width:760px){
+  .layout{grid-template-columns:1fr}
+  .secret{order:-1}
+  .secret-grid{flex-direction:row;flex-wrap:wrap;justify-content:center}
+  .clues{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="card">
+  <h1>🌕 Ô CHỮ TRUNG THU</h1>
+  <div class="subtitle">🔐 MẬT MÃ DỌC</div>
+
+  <div class="layout">
+    <div>
+      <div class="board-wrap">
+        <div class="board" id="board"></div>
+      </div>
+
+      <div class="clues" id="clues"></div>
+
+      <div class="actions">
+        <button class="check" id="checkBtn" type="button">🔍 KIỂM TRA</button>
+        <button class="reset" id="resetBtn" type="button">↻ CHƠI LẠI</button>
+      </div>
+      <div class="msg" id="msg" aria-live="polite"></div>
+    </div>
+
+    <aside class="secret">
+      <h2>🔐 MẬT MÃ DỌC</h2>
+      <div class="secret-grid" id="secretGrid"></div>
+      <div class="score">⭐ Điểm: <span id="score">0</span>/8</div>
+      <div class="note">
+        Mỗi hàng ngang có một ô KEYWORD riêng. Chỉ khi kiểm tra đúng hàng đó, ký tự mật mã mới được mở trong ô tương ứng.
+      </div>
+    </aside>
+  </div>
+</div>
+</div>
+
+<script>
+// Hàm chuẩn hóa tiếng Việt triệt để (NFC & Uppercase) giúp so sánh chính xác 100%
+function cleanChar(str) {
+  if (!str) return "";
+  return String(str).normalize("NFC").toUpperCase().trim();
+}
+
+// Chuẩn hóa để nhận đúng cả trường hợp bàn phím/IME tạo ký tự dấu theo dạng tổ hợp.
+function normalizeForCheck(str) {
+  return cleanChar(str)
+    .replace(/Đ/g, "D")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "");
+}
+
+const rows = [
+  { answer: "THỎ NGỌC", clue: "Linh vật giã thuốc trên Cung Trăng, bạn thân của Chị Hằng.", key: 0 },
+  { answer: "RƯỚC ĐÈN", clue: "Hoạt động rộn ràng của trẻ em cầm đèn đi khắp xóm làng đêm Rằm.", key: 0 },
+  { answer: "RẰM THÁNG TÁM", clue: "Tên gọi khác của ngày Tết Trung Thu theo lịch âm.", key: 1 },
+  { answer: "BÁNH NƯỚNG", clue: "Loại bánh Trung Thu vỏ vàng nâu, nhân thập cẩm hoặc trứng muối thơm ngon.", key: 2 },
+  { answer: "GIA ĐÌNH", clue: "Những người thân yêu cùng quây quần bên mâm cỗ trông trăng.", key: 0 },
+  { answer: "MÚA RỒNG", clue: "Màn biểu diễn uốn lượn đẹp mắt kết hợp cùng với múa Lân trong đêm hội.", key: 3 },
+  { answer: "CHỊ HẰNG", clue: "Nhân vật xinh đẹp trong truyền thuyết sinh sống trên Cung Trăng.", key: 4 },
+  { answer: "MÚA LÂN", clue: "Điệu múa rộn rã cùng tiếng trống tùng dinh dinh mang lại may mắn.", key: 0 }
+];
+
+const targetColumn = 5;
+const maxColumns = 16;
+const secret = ["T","R","Ă","N","G","R","Ằ","M"];
+
+const board = document.getElementById("board");
+const clues = document.getElementById("clues");
+const secretGrid = document.getElementById("secretGrid");
+
+// Bảng mật mã bên phải
+secret.forEach((letter, i) => {
+  if(i === 5){
+    const divider = document.createElement("div");
+    divider.className = "secret-divider";
+    divider.textContent = "✦ ✦ ✦";
+    secretGrid.appendChild(divider);
+  }
+  
+  const wrap = document.createElement("div");
+  wrap.className = "secret-row-wrap";
+
+  const label = document.createElement("span");
+  label.className = "secret-label";
+  label.textContent = `KEYWORD ${i + 1}`;
+
+  const box = document.createElement("div");
+  box.className = "secret-box";
+  box.id = "secret-" + i;
+  box.textContent = "•";
+
+  wrap.appendChild(label);
+  wrap.appendChild(box);
+  secretGrid.appendChild(wrap);
+});
+
+// Dựng các ô nhập liệu
+rows.forEach((rowData, rowIndex) => {
+  const row = document.createElement("div");
+  row.className = "row";
+
+  const num = document.createElement("div");
+  num.className = "num";
+  num.textContent = "(" + (rowIndex + 1) + ")";
+  row.appendChild(num);
+
+  // Chuỗi đáp án đã bỏ khoảng trắng
+  const rawAnswerStr = rowData.answer.replace(/\s/g, "");
+  const cleanAnswerArr = [...rawAnswerStr].map(c => cleanChar(c));
+  const offset = targetColumn - rowData.key;
+
+  for(let c = 0; c < offset; c++){
+    const blank = document.createElement("div");
+    blank.className = "empty";
+    row.appendChild(blank);
+  }
+
+  cleanAnswerArr.forEach((letter, colIndex) => {
+    const cell = document.createElement("div");
+    const isKeyCell = colIndex === rowData.key;
+    cell.className = "cell" + (isKeyCell ? " key" : "");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.maxLength = 2;
+    input.autocomplete = "off";
+    input.dataset.row = rowIndex;
+    input.dataset.col = colIndex;
+    input.dataset.answer = letter; // Lưu ký tự đáp án đã chuẩn hóa
+
+    let isComposing = false;
+
+    input.addEventListener("compositionstart", () => { isComposing = true; });
+    input.addEventListener("compositionend", () => {
+      isComposing = false;
+      formatAndAdvance(input, rowIndex);
+    });
+
+    input.addEventListener("input", () => {
+      if(!isComposing){
+        formatAndAdvance(input, rowIndex);
+      }
+    });
+
+    input.addEventListener("keydown", (e) => {
+      const inputs = [...document.querySelectorAll(`input[data-row="${rowIndex}"]`)];
+      const idx = inputs.indexOf(input);
+
+      if (e.key === "Backspace" && !input.value && inputs[idx - 1]) {
+        inputs[idx - 1].focus();
+      } else if (e.key === "ArrowRight" && inputs[idx + 1]) {
+        inputs[idx + 1].focus();
+      } else if (e.key === "ArrowLeft" && inputs[idx - 1]) {
+        inputs[idx - 1].focus();
+      }
+    });
+
+    cell.appendChild(input);
+    row.appendChild(cell);
+  });
+
+  const totalUsed = offset + cleanAnswerArr.length;
+  for(let c = totalUsed; c < maxColumns; c++){
+    const blank = document.createElement("div");
+    blank.className = "empty";
+    row.appendChild(blank);
+  }
+
+  board.appendChild(row);
+
+  const clue = document.createElement("div");
+  clue.className = "clue";
+  clue.innerHTML = `<b>Hàng ${rowIndex + 1}:</b> ${rowData.clue}`;
+  clues.appendChild(clue);
+});
+
+function formatAndAdvance(input, rowIndex){
+  input.value = cleanChar(input.value).slice(-1);
+  const inputs = [...document.querySelectorAll(`input[data-row="${rowIndex}"]`)];
+  const idx = inputs.indexOf(input);
+  if(input.value && inputs[idx + 1]){
+    inputs[idx + 1].focus();
+  }
+}
+
+// Hàm kiểm tra chính xác từng ký tự
+function normalizeAnswer(str){
+  return normalizeForCheck(str);
+}
+
+function checkGame(){
+  let score = 0;
+
+  rows.forEach((rowData, rowIndex) => {
+    const inputs = [...document.querySelectorAll(`input[data-row="${rowIndex}"]`)];
+    const expected = normalizeAnswer(rowData.answer);
+    const entered = normalizeAnswer(inputs.map(input => input.value).join(""));
+    const isRowCorrect = entered.length === expected.length && entered === expected;
+
+    const secretBox = document.getElementById("secret-" + rowIndex);
+
+    if (isRowCorrect) {
+      score++;
+      // QUAN TRỌNG: hiện ô keyword của ĐÚNG HÀNG ngay sau khi kiểm tra.
+      secretBox.textContent = secret[rowIndex];
+      secretBox.classList.add("revealed");
+      secretBox.style.visibility = "visible";
+      secretBox.setAttribute("aria-label", `KEYWORD ${rowIndex + 1}: ${secret[rowIndex]}`);
+    } else {
+      secretBox.textContent = "•";
+      secretBox.classList.remove("revealed");
+      secretBox.style.visibility = "visible";
+      secretBox.removeAttribute("aria-label");
+    }
+
+    const expectedChars = [...expected];
+    inputs.forEach((input, i) => {
+      const actualChar = normalizeAnswer(input.value);
+      const expectedChar = expectedChars[i] || "";
+      input.parentElement.style.borderColor =
+        actualChar === expectedChar && actualChar !== "" ? "#4caf50" : "#f44336";
+    });
+  });
+
+  document.getElementById("score").textContent = score;
+
+  const msgEl = document.getElementById("msg");
+  if (score === rows.length) {
+    msgEl.style.color = "#2e7d32";
+    msgEl.textContent = "🎉 CHÍNH XÁC 100%! BẠN ĐÃ MỞ ĐƯỢC MẬT MÃ DỌC: TRĂNG RẰM 🌕";
+  } else if (score > 0) {
+    msgEl.style.color = "#80552b";
+    msgEl.textContent = `Bạn đã giải đúng ${score}/${rows.length} hàng. Keyword tương ứng đã được mở bên phải!`;
+  } else {
+    msgEl.style.color = "#c62828";
+    msgEl.textContent = "Chưa có hàng nào chính xác. Hãy kiểm tra và thử lại nhé!";
+  }
+}
+
+function resetGame(){
+  document.querySelectorAll("input").forEach(input => {
+    input.value = "";
+    input.parentElement.style.borderColor = "#465268";
+  });
+
+  secret.forEach((_, i) => {
+    const secretBox = document.getElementById("secret-" + i);
+    secretBox.textContent = "•";
+    secretBox.classList.remove("revealed");
+  });
+
+  document.getElementById("score").textContent = "0";
+  document.getElementById("msg").textContent = "";
+}
+
+document.getElementById("checkBtn").addEventListener("click", checkGame);
+document.getElementById("resetBtn").addEventListener("click", resetGame);
+</script>
+</body>
+</html>

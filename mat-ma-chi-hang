@@ -1,0 +1,266 @@
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mật mã Chị Hằng – Escape Room Mini</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#17143b,#2c2260 55%,#4a357a);
+  min-height:100vh;color:#fff;overflow-x:hidden;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background:
+   radial-gradient(circle at 12% 18%,#fff 0 1px,transparent 2px),
+   radial-gradient(circle at 72% 12%,#fff 0 1px,transparent 2px),
+   radial-gradient(circle at 88% 42%,#fff 0 1px,transparent 2px),
+   radial-gradient(circle at 35% 78%,#fff 0 1px,transparent 2px);
+  background-size:180px 150px,230px 190px,210px 170px,260px 210px;opacity:.55;
+}
+.wrap{width:min(980px,94%);margin:auto;padding:28px 0 40px}
+.header{text-align:center}
+.badge{display:inline-block;background:#f5c85b;color:#352454;padding:7px 14px;border-radius:99px;font-weight:700;font-size:13px}
+h1{font-size:clamp(30px,6vw,52px);margin:12px 0 5px;color:#ffe99a}
+.subtitle{color:#ddd5f4;margin:0 0 24px}
+.card{
+ background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);
+ backdrop-filter:blur(8px);border-radius:24px;padding:24px;
+ box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+.intro{max-width:760px;margin:0 auto 20px;text-align:center}
+.letter{
+ margin:18px auto;padding:20px;max-width:650px;
+ background:#fff9df;color:#4a3260;border-radius:16px;
+ border:4px solid #edc96a;box-shadow:0 8px 20px #0004;
+ font-family:Georgia,serif;font-size:19px;line-height:1.65;
+}
+.startBtn,.submitBtn,.restartBtn{
+ border:0;border-radius:14px;padding:13px 22px;font-size:16px;
+ font-weight:700;cursor:pointer;background:#f5c85b;color:#30204e;
+ box-shadow:0 5px 0 #c79a31;transition:.15s;
+}
+.startBtn:active,.submitBtn:active,.restartBtn:active{transform:translateY(3px);box-shadow:0 2px 0 #c79a31}
+.hidden{display:none!important}
+.progress{display:flex;justify-content:space-between;gap:8px;margin:12px 0 22px}
+.dot{height:8px;flex:1;background:#ffffff22;border-radius:99px}
+.dot.done{background:#f5c85b}
+.scene-title{text-align:center;color:#ffe99a;font-size:26px;margin:0 0 6px}
+.scene-desc{text-align:center;color:#ded7f0;margin-top:0}
+.objects{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:20px}
+.obj{
+ min-height:150px;border:1px solid #ffffff22;border-radius:18px;
+ background:#ffffff0d;display:flex;flex-direction:column;align-items:center;
+ justify-content:center;cursor:pointer;transition:.2s;padding:14px;
+}
+.obj:hover{transform:translateY(-4px);background:#ffffff18;border-color:#f5c85b}
+.obj .emoji{font-size:52px}
+.obj strong{margin-top:8px}
+.obj small{color:#cfc6e6;margin-top:5px;text-align:center}
+.clue{
+ margin:20px auto 0;max-width:600px;text-align:center;
+ background:#171332;border:1px dashed #f5c85b;border-radius:16px;padding:17px;
+}
+.number{font-size:40px;color:#ffe99a;font-weight:800;margin-top:5px}
+.next{display:block;margin:18px auto 0}
+.codeBox{text-align:center}
+.codeInputs{display:flex;justify-content:center;gap:10px;margin:22px 0}
+.codeInputs input{
+ width:58px;height:66px;text-align:center;font-size:32px;font-weight:800;
+ border-radius:12px;border:2px solid #f5c85b;background:#fff;color:#30204e;
+}
+.hint{color:#cfc6e6;text-align:center}
+.message{text-align:center;min-height:28px;font-weight:700}
+.success{
+ text-align:center;padding:30px;background:rgba(245,200,91,.13);
+ border:1px solid #f5c85b;border-radius:22px;
+}
+.moon{font-size:70px}
+.confetti{font-size:32px;letter-spacing:6px}
+@media(max-width:600px){
+ .objects{grid-template-columns:1fr}
+ .codeInputs input{width:50px;height:58px}
+ .card{padding:17px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="header">
+    <span class="badge">🌕 TRUNG THU • ESCAPE ROOM MINI</span>
+    <h1>🔐 MẬT MÃ CHỊ HẰNG</h1>
+    <p class="subtitle">Một bí mật đang được giấu đâu đó trong Thư viện...</p>
+  </header>
+
+  <section id="intro" class="card intro">
+    <div style="font-size:58px">🌙🏮🐇</div>
+    <h2>THƯ VIỆN NHẬN ĐƯỢC MỘT BỨC THƯ BÍ ẨN</h2>
+    <div class="letter">
+      “Muốn mở cánh cửa Cung Trăng,<br>
+      hãy tìm <b>4 con số</b> được giấu trong thư viện…”
+    </div>
+    <p>🔎 Số trên sách &nbsp; • &nbsp; 🏮 Số trên đèn<br>
+       🥮 Số trên bánh &nbsp; • &nbsp; 🐇 Số do Thỏ Ngọc đưa</p>
+    <button class="startBtn" onclick="startGame()">🌟 BẮT ĐẦU TÌM MẬT MÃ</button>
+  </section>
+
+  <section id="game" class="card hidden">
+    <div class="progress">
+      <div class="dot" id="d1"></div><div class="dot" id="d2"></div>
+      <div class="dot" id="d3"></div><div class="dot" id="d4"></div>
+    </div>
+    <h2 class="scene-title" id="sceneTitle"></h2>
+    <p class="scene-desc" id="sceneDesc"></p>
+    <div class="objects" id="objects"></div>
+    <div id="clue" class="clue hidden"></div>
+    <button id="nextBtn" class="startBtn next hidden" onclick="nextScene()">➡️ ĐI TIẾP</button>
+  </section>
+
+  <section id="lock" class="card hidden">
+    <div class="codeBox">
+      <div style="font-size:60px">🚪🌕</div>
+      <h2 class="scene-title">CỬA CUNG TRĂNG</h2>
+      <p>4 con số đã được tìm thấy. Hãy ghép chúng lại thành mật mã!</p>
+      <div class="codeInputs">
+        <input id="c0" maxlength="1" inputmode="numeric" oninput="moveInput(this,0)">
+        <input id="c1" maxlength="1" inputmode="numeric" oninput="moveInput(this,1)">
+        <input id="c2" maxlength="1" inputmode="numeric" oninput="moveInput(this,2)">
+        <input id="c3" maxlength="1" inputmode="numeric" oninput="moveInput(this,3)">
+      </div>
+      <p class="hint">🔐 Mật mã gồm 4 chữ số — theo đúng thứ tự đã khám phá.</p>
+      <p id="codeMsg" class="message"></p>
+      <button class="submitBtn" onclick="checkCode()">🔓 MỞ CỬA CUNG TRĂNG</button>
+    </div>
+  </section>
+
+  <section id="win" class="card hidden">
+    <div class="success">
+      <div class="confetti">✨ 🌙 ✨ 🏮 ✨</div>
+      <div class="moon">🌕🐇</div>
+      <h2 style="color:#ffe99a">CỬA CUNG TRĂNG ĐÃ MỞ!</h2>
+      <p>🎉 Chúc mừng! Bạn đã giải được <b>Mật mã Chị Hằng</b>.</p>
+      <p>Thỏ Ngọc đang chờ bạn ở phía bên kia cánh cửa...</p>
+      <button class="restartBtn" onclick="location.reload()">🔄 CHƠI LẠI</button>
+    </div>
+  </section>
+</div>
+
+<script>
+const scenes=[
+ {
+  title:"🔎 BÍ MẬT TRÊN KỆ SÁCH",
+  desc:"Có một cuốn sách trông khác thường. Hãy tìm đúng cuốn sách có dấu hiệu bí mật!",
+  items:[
+   ["📕","Cuốn sách đỏ","Không có gì đặc biệt..."],
+   ["📗","Cuốn sách xanh","Bìa hơi cũ..."],
+   ["📘","Cuốn sách xanh dương","Có một ngôi sao nhỏ trên gáy!"],
+   ["📙","Cuốn sách cam","Có vẻ chỉ là một cuốn sách bình thường."]
+  ],
+  correct:2, clue:"📚 Bạn phát hiện một mảnh giấy kẹp trong sách:<br><b>“Con số đầu tiên là 2.”</b>", number:"2"
+ },
+ {
+  title:"🏮 CHIẾC ĐÈN PHÁT SÁNG",
+  desc:"Bốn chiếc đèn đang treo. Chỉ một chiếc có ký hiệu bí mật.",
+  items:[
+   ["🏮","Đèn hoa sen","Ánh sáng dịu dàng."],
+   ["🏮","Đèn mặt trăng","Có hình trăng khuyết!"],
+   ["🏮","Đèn ngôi sao","Một ngôi sao đang nhấp nháy."],
+   ["🏮","Đèn thỏ ngọc","Có một ký hiệu nhỏ bên dưới!"]
+  ],
+  correct:3, clue:"🏮 Dưới chiếc đèn có khắc:<br><b>“Con số thứ hai là 7.”</b>", number:"7"
+ },
+ {
+  title:"🥮 CHIẾC BÁNH CÓ DẤU HIỆU LẠ",
+  desc:"Một khay bánh Trung Thu đang đặt trên bàn. Hãy tìm chiếc bánh có dấu hiệu đặc biệt.",
+  items:[
+   ["🥮","Bánh hoa","Hoa văn 4 cánh."],
+   ["🥮","Bánh trăng","Có hình mặt trăng."],
+   ["🥮","Bánh thỏ","Có tai thỏ nhỏ xíu!"],
+   ["🥮","Bánh sao","Hoa văn hình ngôi sao."]
+  ],
+  correct:2, clue:"🥮 Mặt dưới chiếc bánh có dòng chữ:<br><b>“Con số thứ ba là 4.”</b>", number:"4"
+ },
+ {
+  title:"🐇 THỎ NGỌC XUẤT HIỆN",
+  desc:"Bạn đã đi đến cuối hành lang. Thỏ Ngọc đang giữ bí mật cuối cùng!",
+  items:[
+   ["🐇","Thỏ Ngọc đang ngủ","Zzz..."],
+   ["🐇","Thỏ Ngọc cầm đèn","Nó đang soi đường."],
+   ["🐇","Thỏ Ngọc ôm bánh","Có vẻ rất ngon!"],
+   ["🐇","Thỏ Ngọc chỉ vào mặt trăng","Nó đang ra hiệu cho bạn!"]
+  ],
+  correct:3, clue:"🐇 Thỏ Ngọc đưa cho bạn một mảnh giấy:<br><b>“Con số cuối cùng là 9.”</b>", number:"9"
+ }
+];
+
+let scene=0, found=[];
+function startGame(){
+ document.getElementById("intro").classList.add("hidden");
+ document.getElementById("game").classList.remove("hidden");
+ renderScene();
+}
+function renderScene(){
+ const s=scenes[scene];
+ document.getElementById("sceneTitle").textContent=s.title;
+ document.getElementById("sceneDesc").textContent=s.desc;
+ document.getElementById("clue").classList.add("hidden");
+ document.getElementById("nextBtn").classList.add("hidden");
+ for(let i=1;i<=4;i++) document.getElementById("d"+i).classList.toggle("done",i<=scene);
+ const box=document.getElementById("objects");
+ box.innerHTML="";
+ s.items.forEach((it,i)=>{
+   const div=document.createElement("div");
+   div.className="obj";
+   div.innerHTML=`<div class="emoji">${it[0]}</div><strong>${it[1]}</strong><small>${it[2]}</small>`;
+   div.onclick=()=>choose(i);
+   box.appendChild(div);
+ });
+}
+function choose(i){
+ const s=scenes[scene];
+ if(i!==s.correct){
+   const old=document.getElementById("sceneDesc");
+   old.innerHTML="❌ Chưa đúng rồi! Hãy quan sát thật kỹ và thử lại.";
+   setTimeout(()=>{old.textContent=s.desc},1100);
+   return;
+ }
+ found[scene]=s.number;
+ document.getElementById("clue").innerHTML=s.clue;
+ document.getElementById("clue").classList.remove("hidden");
+ document.getElementById("nextBtn").classList.remove("hidden");
+ document.querySelectorAll(".obj").forEach(x=>x.style.pointerEvents="none");
+}
+function nextScene(){
+ if(scene<scenes.length-1){scene++;renderScene();}
+ else{
+   document.getElementById("game").classList.add("hidden");
+   document.getElementById("lock").classList.remove("hidden");
+   document.getElementById("c0").focus();
+ }
+}
+function moveInput(el,i){
+ el.value=el.value.replace(/\D/g,"").slice(0,1);
+ if(el.value && i<3) document.getElementById("c"+(i+1)).focus();
+}
+function checkCode(){
+ const code=[0,1,2,3].map(i=>document.getElementById("c"+i).value).join("");
+ const msg=document.getElementById("codeMsg");
+ if(code==="2749"){
+   document.getElementById("lock").classList.add("hidden");
+   document.getElementById("win").classList.remove("hidden");
+ }else{
+   msg.textContent="🔒 Mật mã chưa đúng. Hãy nhớ lại thứ tự 4 manh mối!";
+   msg.style.color="#ffb6b6";
+ }
+}
+</script>
+</body>
+</html>'''
+
+path = Path("/mnt/data/mat_ma_chi_hang_escape_room.html")
+path.write_text(html, encoding="utf-8")
+print(f"Đã tạo game: {path}")

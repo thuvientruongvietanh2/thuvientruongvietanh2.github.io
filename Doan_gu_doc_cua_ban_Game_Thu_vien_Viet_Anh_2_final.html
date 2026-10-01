@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎯 ĐOÁN GU ĐỌC CỦA BẠN | Game Thư viện</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --pink:#f48fb1;--pink2:#ffd6e5;--cream:#fffaf7;--ink:#342c32;
+  --muted:#776d73;--white:#fff;--shadow:0 18px 50px rgba(88,55,70,.13);
+}
+body{
+  margin:0;font-family:Arial,"Segoe UI",sans-serif;color:var(--ink);
+  background:linear-gradient(135deg,#fff7fa,#fffdf9 48%,#f8f3ff);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;padding:22px;
+}
+.app{width:min(760px,100%);background:rgba(255,255,255,.96);border:1px solid #f1e7eb;border-radius:30px;box-shadow:var(--shadow);overflow:hidden}
+.top{height:8px;background:linear-gradient(90deg,#f48fb1,#c9a7ff,#8dd7c7)}
+.screen{padding:34px 34px 32px}
+.hidden{display:none!important}
+.logo{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#c43d73;color:#c43d73;padding:10px 17px;border-radius:999px;font-size:13px;font-weight:900;letter-spacing:.8px;box-shadow:0 7px 18px rgba(210,75,125,.12);border:1px solid #f4d6e2}
+h1{font-size:clamp(43px,9vw,76px);line-height:.98;margin:24px 0 18px;letter-spacing:-2.8px;font-weight:950;text-shadow:0 5px 0 #ffe0eb}
+h2{font-size:30px;line-height:1.15;margin:15px 0 10px}
+p{line-height:1.6;color:var(--muted)}
+.hero p{max-width:650px;margin:0 auto 24px;font-size:17px;line-height:1.65;background:rgba(255,255,255,.72);padding:14px 20px;border-radius:18px;border:1px solid #f2dfe8}
+.hero{
+  position:relative;
+  display:block;
+  padding:42px 38px 38px;
+  border-radius:26px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 92% 8%, #ffd4e5 0 70px, transparent 71px),
+    radial-gradient(circle at 4% 94%, #ded3ff 0 85px, transparent 86px),
+    linear-gradient(145deg,#fff8fb,#f8f3ff 55%,#f3fffc);
+  border:1px solid #f0dce7;
+  box-shadow:0 14px 35px rgba(103,70,92,.10);
+}
+.hero:before,.hero:after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+}
+.hero:before{
+  width:22px;height:22px;background:#f7b94f;
+  top:34px;right:42px;
+  box-shadow:-250px 300px 0 #9ddbcf, 270px 180px 0 #c9a7ff;
+}
+.hero:after{
+  width:11px;height:11px;background:#f48fb1;
+  top:105px;left:30px;
+  box-shadow:430px 250px 0 #f48fb1,-20px 250px 0 #ffd36d;
+}
+.hero > div:first-child{position:relative;z-index:2;text-align:center}
+.cover-art{display:none}
+.cover-card{width:235px;height:265px;border-radius:22px;background:linear-gradient(145deg,#fff7fa,#f4efff);border:1px solid #eadde5;box-shadow:0 22px 45px rgba(77,52,68,.15);position:relative;overflow:hidden;padding:25px}
+.cover-card:before,.cover-card:after{content:"";position:absolute;border-radius:50%;opacity:.7}
+.cover-card:before{width:120px;height:120px;background:#ffd9e6;right:-35px;top:-35px}
+.cover-card:after{width:95px;height:95px;background:#dcd1ff;left:-35px;bottom:-30px}
+.cover-label{position:relative;z-index:2;font-size:11px;letter-spacing:1.5px;font-weight:800;color:#a45b78}
+.cover-title{position:relative;z-index:2;font-size:27px;line-height:1.08;font-weight:900;margin-top:20px;letter-spacing:-.7px}
+.cover-sub{position:relative;z-index:2;color:#776d73;font-size:12px;line-height:1.5;margin-top:10px}
+.cover-books{position:absolute;z-index:3;bottom:19px;left:35px;right:35px;height:70px;display:flex;align-items:flex-end;justify-content:center}
+.mini-book{width:48px;height:66px;border-radius:5px 5px 2px 2px;box-shadow:0 7px 12px rgba(55,40,48,.14);margin:0 3px}
+.mb1{background:#ef8dad;transform:rotate(-7deg)}
+.mb2{background:#9e8bd8;height:78px}
+.mb3{background:#70bcae;transform:rotate(7deg);height:61px}
+.btn{
+  border:0;border-radius:15px;padding:14px 19px;font-size:15px;font-weight:800;cursor:pointer;
+  transition:.18s transform,.18s box-shadow,.18s background;
+}
+.btn:hover{transform:translateY(-2px)}
+.primary{background:linear-gradient(135deg,#f48fb1,#d86fa4);color:#fff;box-shadow:0 10px 24px rgba(216,111,164,.30);font-size:17px;padding:16px 28px;border-radius:18px}
+.secondary{background:#f6f1f3;color:#594e55}
+.note{font-size:13px;color:#8b8087;margin-top:13px}
+.progress-wrap{display:flex;align-items:center;gap:12px;margin-bottom:25px}
+.progress{height:9px;background:#f2e9ed;border-radius:99px;overflow:hidden;flex:1}
+.bar{height:100%;width:0;background:linear-gradient(90deg,#f48fb1,#c89bff);border-radius:99px;transition:.35s}
+.count{font-size:13px;font-weight:800;color:#8a7c83;white-space:nowrap}
+.question{font-size:25px;font-weight:800;line-height:1.25;margin:0 0 20px}
+.options{display:grid;gap:11px}
+.option{
+  width:100%;text-align:left;background:#fff;border:1.5px solid #eee3e7;border-radius:16px;
+  padding:15px 16px;cursor:pointer;font-size:15px;color:#41383e;
+  display:flex;align-items:center;gap:12px;transition:.18s;
+}
+.option:hover{border-color:#f1a1bc;background:#fff7fa;transform:translateX(2px)}
+.option.selected{border-color:#e9779f;background:#fff0f5;box-shadow:0 5px 16px rgba(244,143,177,.13)}
+.dot{width:30px;height:30px;border-radius:10px;background:#f8eff3;display:grid;place-items:center;font-weight:800;color:#9b858e;flex:none}
+.option.selected .dot{background:#f48fb1;color:#fff}
+.actions{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+.result{text-align:center}
+.result-icon{font-size:64px;margin:5px 0 2px}
+.result-tag{display:inline-block;background:#fff0f5;color:#d94f82;font-weight:800;padding:8px 13px;border-radius:999px;font-size:13px}
+.result h2{font-size:34px;margin:15px 0 8px}
+.score{font-weight:800;color:#8a7c83;margin:8px 0 22px}
+.result-card{background:#fff9fb;border:1px solid #f3dfe7;border-radius:22px;padding:20px;text-align:left;margin:18px 0}
+.result-card strong{display:block;margin-bottom:7px}
+.book-tip{display:flex;gap:12px;align-items:flex-start;margin-top:15px;padding-top:15px;border-top:1px dashed #ead9df}
+.book-cover{width:45px;height:60px;border-radius:6px;background:#d99ab0;display:grid;place-items:center;color:#fff;font-size:20px;flex:none}
+.share{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.footer{text-align:center;font-size:12px;color:#a09399;margin-top:23px}
+@media(max-width:650px){
+  body{padding:10px}.screen{padding:25px 20px 24px}.hero{grid-template-columns:1fr}
+  .cover-art{height:245px;order:-1}.cover-card{width:205px;height:225px;padding:21px}.cover-title{font-size:24px}.question{font-size:22px}
+  h1{font-size:45px}.hero{padding:32px 22px}.hero p{font-size:15px}.actions{flex-direction:column-reverse}.actions .btn{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"></div>
+
+  <section id="start" class="screen">
+    <div class="hero">
+      <div>
+        <span class="logo">📚 GAME TƯƠNG TÁC THƯ VIỆN</span>
+        <h1>🎯 ĐOÁN GU<br>ĐỌC CỦA BẠN</h1>
+        <p>Chọn đáp án phù hợp với bạn nhất. Sau 8 câu hỏi, thư viện sẽ bật mí <b>“gu sách”</b> của bạn.</p>
+        <button class="btn primary" onclick="startGame()">Bắt đầu chơi →</button>
+      </div>
+      <div class="cover-art" aria-hidden="true">
+        <div class="cover-card">
+          <div class="cover-label">THƯ VIỆN VIỆT ANH 2</div>
+          <div class="cover-title">🎯 ĐOÁN GU<br>ĐỌC CỦA BẠN</div>
+          <div class="cover-sub">8 câu hỏi · 1 kết quả · Khám phá gu đọc sách của bạn</div>
+          <div class="cover-books">
+            <div class="mini-book mb1"></div>
+            <div class="mini-book mb2"></div>
+            <div class="mini-book mb3"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">Thư viện Trường Trung Tiểu học Việt Anh 2</div>
+  </section>
+
+  <section id="game" class="screen hidden">
+    <div class="progress-wrap">
+      <div class="progress"><div id="bar" class="bar"></div></div>
+      <div id="count" class="count">1/8</div>
+    </div>
+    <div id="question"></div>
+    <div id="options" class="options"></div>
+    <div class="actions">
+      <button id="backBtn" class="btn secondary" onclick="prevQuestion()">← Câu trước</button>
+      <button id="nextBtn" class="btn primary" onclick="nextQuestion()">Tiếp theo →</button>
+    </div>
+  </section>
+
+  <section id="result" class="screen hidden">
+    <div class="result">
+      <div id="resultIcon" class="result-icon">📚</div>
+      <span class="result-tag">KẾT QUẢ CỦA BẠN</span>
+      <h2 id="resultTitle"></h2>
+      <div id="resultScore" class="score"></div>
+      <p id="resultDesc"></p>
+      <div class="result-card">
+        <strong>📖 Gợi ý cho bạn</strong>
+        <div id="bookTip"></div>
+      </div>
+      <div class="share">
+        <button class="btn primary" onclick="shareResult()">↗ Chia sẻ kết quả</button>
+        <button class="btn secondary" onclick="restart()">↻ Chơi lại</button>
+      </div>
+    </div>
+    <div class="footer">Bạn thuộc “hệ độc giả” nào? Thử lại với một lựa chọn khác nhé!</div>
+  </section>
+</div>
+
+<script>
+const questions = [
+ {q:"Nếu có 30 phút rảnh ở thư viện, bạn sẽ…", a:[
+  ["Tìm một chủ đề mình đang tò mò 📚","explorer"],["Chọn một truyện đọc thật cuốn 🌿","story"],["Tìm sách có nhân vật thật thú vị ✨","adventure"],["Ngồi đọc thứ gì đó khiến mình suy nghĩ 💭","thinker"]]},
+ {q:"Bạn thích một cuốn sách vì điều gì trước tiên?", a:[
+  ["Nó cho mình thêm điều mới để biết","explorer"],["Câu chuyện khiến mình cảm thấy gần gũi","story"],["Có những chuyến đi và tình huống bất ngờ","adventure"],["Có ý tưởng khiến mình phải nghĩ lại","thinker"]]},
+ {q:"Nếu được chọn một nơi để đọc sách…", a:[
+  ["Một góc yên tĩnh có thật nhiều sách","explorer"],["Ghế cạnh cửa sổ, thật thoải mái","story"],["Một nơi mới lạ, nhìn ra ngoài thật xa","adventure"],["Một góc nhỏ để vừa đọc vừa ghi chú","thinker"]]},
+ {q:"Bạn thường đọc sách vào lúc nào?", a:[
+  ["Khi muốn học thêm một điều gì đó","explorer"],["Trước khi ngủ hoặc lúc thư giãn","story"],["Khi cần đổi mood và tìm cảm hứng","adventure"],["Khi có một câu hỏi chưa tìm được lời giải","thinker"]]},
+ {q:"Một nhân vật khiến bạn thích thú thường là người…", a:[
+  ["Ham học hỏi và luôn đặt câu hỏi","explorer"],["Ấm áp, chân thành và nhiều cảm xúc","story"],["Gan dạ, thích khám phá điều mới","adventure"],["Sâu sắc và có cách nhìn riêng","thinker"]]},
+ {q:"Nếu một cuốn sách làm bạn bất ngờ, bạn sẽ…", a:[
+  ["Muốn tìm thêm sách cùng chủ đề","explorer"],["Kể ngay cho một người bạn","story"],["Tìm xem còn chuyện gì thú vị tiếp theo","adventure"],["Ngồi nghĩ xem điều đó có ý nghĩa gì","thinker"]]},
+ {q:"Bạn muốn sau khi đọc xong một cuốn sách mình sẽ…", a:[
+  ["Biết thêm thật nhiều điều","explorer"],["Có một cảm xúc đẹp để nhớ","story"],["Có cảm giác vừa trải qua một chuyến phiêu lưu","adventure"],["Có một góc nhìn mới về cuộc sống","thinker"]]},
+ {q:"Nếu thư viện có một thử thách đọc sách, bạn chọn…", a:[
+  ["Khám phá 5 chủ đề mới","explorer"],["Đọc một câu chuyện và chia sẻ cảm nhận","story"],["Bingo sách: mỗi ô là một thử thách khác nhau","adventure"],["Đọc – suy ngẫm – trả lời một câu hỏi thú vị","thinker"]]}
+];
+
+const profiles = {
+ explorer:{icon:"🔎",title:"Nhà khám phá tri thức",desc:"Bạn có xu hướng đọc để mở rộng thế giới của mình. Những chủ đề mới, kiến thức mới và những câu hỏi chưa có lời giải rất dễ khiến bạn tò mò.",book:"Một cuốn sách khám phá khoa học, lịch sử, thiên nhiên hoặc thế giới xung quanh sẽ là lựa chọn đáng thử."},
+ story:{icon:"🌿",title:"Người mê những câu chuyện",desc:"Bạn tìm thấy giá trị của sách trong cảm xúc và những câu chuyện có thể ở lại thật lâu. Một nhân vật hay đôi khi đủ khiến bạn nhớ cả cuốn sách.",book:"Hãy thử một tác phẩm văn học thiếu nhi hoặc truyện dài giàu cảm xúc, nơi nhân vật có hành trình phát triển rõ nét."},
+ adventure:{icon:"🧭",title:"Độc giả thích phiêu lưu",desc:"Bạn thích cảm giác được bước ra khỏi những điều quen thuộc. Những chuyến đi, bí mật, thử thách và nhân vật can đảm thường dễ giữ bạn ở lại với trang sách.",book:"Truyện phiêu lưu, kỳ ảo hoặc những tác phẩm có hành trình khám phá sẽ rất hợp với “gu” của bạn."},
+ thinker:{icon:"💭",title:"Người đọc thích suy ngẫm",desc:"Bạn không chỉ đọc câu chuyện mà còn để ý điều nằm phía sau nó. Một ý tưởng hay có thể khiến bạn suy nghĩ rất lâu sau khi đóng sách.",book:"Hãy thử những tác phẩm có chiều sâu, truyện ngụ ngôn, văn học hoặc sách kỹ năng sống dành cho lứa tuổi của bạn."}
+};
+
+let current=0, answers=Array(questions.length).fill(null);
+
+function startGame(){
+ document.getElementById("start").classList.add("hidden");
+ document.getElementById("game").classList.remove("hidden");
+ renderQuestion();
+}
+function renderQuestion(){
+ const item=questions[current];
+ document.getElementById("count").textContent=`${current+1}/${questions.length}`;
+ document.getElementById("bar").style.width=((current+1)/questions.length*100)+"%";
+ document.getElementById("question").innerHTML=`<div class="question">${item.q}</div>`;
+ const wrap=document.getElementById("options"); wrap.innerHTML="";
+ item.a.forEach((x,i)=>{
+   const b=document.createElement("button");
+   b.className="option"+(answers[current]===i?" selected":"");
+   b.innerHTML=`<span class="dot">${String.fromCharCode(65+i)}</span><span>${x[0]}</span>`;
+   b.onclick=()=>{answers[current]=i;renderQuestion()};
+   wrap.appendChild(b);
+ });
+ document.getElementById("backBtn").style.visibility=current===0?"hidden":"visible";
+ document.getElementById("nextBtn").textContent=current===questions.length-1?"Xem kết quả ✨":"Tiếp theo →";
+}
+function nextQuestion(){
+ if(answers[current]===null){alert("Chọn một đáp án trước nhé!");return}
+ if(current<questions.length-1){current++;renderQuestion()}else showResult();
+}
+function prevQuestion(){if(current>0){current--;renderQuestion()}}
+function showResult(){
+ const scores={explorer:0,story:0,adventure:0,thinker:0};
+ answers.forEach((ans,i)=>{if(ans!==null)scores[questions[i].a[ans][1]]++});
+ let type=Object.keys(scores).sort((a,b)=>scores[b]-scores[a])[0];
+ const p=profiles[type];
+ document.getElementById("game").classList.add("hidden");
+ document.getElementById("result").classList.remove("hidden");
+ document.getElementById("resultIcon").textContent=p.icon;
+ document.getElementById("resultTitle").textContent=p.title;
+ document.getElementById("resultScore").textContent=`${scores[type]}/${questions.length} lựa chọn phù hợp với kiểu độc giả này`;
+ document.getElementById("resultDesc").textContent=p.desc;
+ document.getElementById("bookTip").textContent=p.book;
+}
+function restart(){
+ current=0;answers=Array(questions.length).fill(null);
+ document.getElementById("result").classList.add("hidden");
+ document.getElementById("game").classList.remove("hidden");
+ renderQuestion();
+}
+function shareResult(){
+ const title=document.getElementById("resultTitle").textContent;
+ const text=`Mình vừa chơi game “Đoán gu đọc của bạn” của Thư viện Việt Anh 2 và kết quả là: ${title} 📚`;
+ if(navigator.share){navigator.share({title:"Game Thư viện",text}).catch(()=>{})}
+ else{navigator.clipboard?.writeText(text);alert("Đã sao chép kết quả. Bạn có thể dán vào Facebook hoặc Messenger!")}
+}
+</script>
+</body>
+</html>

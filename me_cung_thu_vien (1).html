@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="theme-color" content="#6b4bc3" />
+<title>Mê Cung Tìm Đường Đến Sách</title>
+<style>
+:root{--ink:#302750;--purple:#6d4cc4;--purple-dark:#4b328f;--pink:#ff789a;--yellow:#ffce5b;--mint:#bdf4de;--paper:#fffdf7;--muted:#77708f;--line:#e9e1f7;}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility}button{font-family:Arial,"Segoe UI",Tahoma,sans-serif}
+html{background:#f1edff}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:Arial,"Segoe UI",Tahoma,sans-serif;background:radial-gradient(ellipse at 5% 4%,#fff7d9 0,transparent 27%),radial-gradient(ellipse at 96% 12%,#d8fff0 0,transparent 24%),linear-gradient(145deg,#f3efff,#fff4f7 55%,#e9fff8);}
+button{font:inherit;cursor:pointer;touch-action:manipulation;color:inherit}button:focus-visible{outline:3px solid #ff92ad;outline-offset:3px}
+.page{width:min(1120px,100%);margin:0 auto;padding:18px 20px 26px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.02em;font-size:14px;color:#57458a}
+.brand-mark{width:43px;height:43px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(145deg,#fff,#eee7ff);box-shadow:0 5px 0 #d5c8f4;font-size:24px;border:1px solid #fff}
+.top-pill{background:#fff;border:1px solid #e8dff7;padding:9px 14px;border-radius:999px;font-size:12px;font-weight:800;color:#6d58a3;box-shadow:0 4px 0 #e8e0f6;white-space:nowrap}
+.hero{text-align:center;margin:4px auto 20px;max-width:740px;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border-radius:999px;background:#fff;border:1px solid #e7ddf7;color:#7958b1;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+h1{font-size:clamp(28px,4.5vw,48px);line-height:1.08;letter-spacing:-.045em;margin:13px 0 10px;font-weight:1000;color:#342454}
+h1 .accent{color:#ed628c;display:inline-block;text-shadow:2px 3px 0 #ffe0e9}
+.hero p{margin:0;color:#77708d;line-height:1.6;font-size:14px}
+.game-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(250px,.8fr);gap:18px;align-items:stretch}
+.maze-card,.side-card{background:rgba(255,255,255,.9);border:1px solid #fff;border-radius:25px;box-shadow:0 12px 0 rgba(120,91,177,.09),0 18px 45px rgba(83,58,139,.08);overflow:hidden}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 19px 13px}
+.card-label{display:flex;align-items:center;gap:9px;font-weight:950;font-size:15px}
+.tiny-icon{width:31px;height:31px;border-radius:11px;display:grid;place-items:center;background:#fff0b9;font-size:17px}
+.level-tag{font-size:11px;font-weight:900;color:#795abb;background:#f1eaff;padding:7px 10px;border-radius:999px;white-space:nowrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 17px 13px}
+.stat{border-radius:15px;padding:9px 10px;background:#faf7ff;border:1px solid #eee7fb;display:flex;align-items:center;gap:8px;min-width:0}
+.stat .emo{font-size:19px;flex-shrink:0}.stat-copy{min-width:0}.stat-label{font-size:10px;color:#8b82a3;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.stat-value{font-size:17px;font-weight:1000;line-height:1.2;color:#40315f}
+.canvas-wrap{position:relative;padding:0 14px 8px}
+#mazeCanvas{display:block;width:100%;height:auto;aspect-ratio:19/13;border-radius:18px;border:3px solid #e1d4fb;background:#fff9e9;box-shadow:inset 0 0 0 2px rgba(255,255,255,.7);touch-action:pan-y;outline:none}
+#mazeCanvas:focus-visible{outline:3px solid #ff92ad;outline-offset:3px}
+.legend{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;color:#827995;font-size:11px;font-weight:800;padding:8px 8px 12px}
+.legend span{display:flex;gap:5px;align-items:center}
+.legend b{font-size:15px}
+.controls{padding:12px 17px 17px;border-top:1px dashed #e6dcf8;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.key-help{font-size:11px;color:#827995;line-height:1.6}.keycaps{display:inline-flex;gap:3px;vertical-align:middle;margin:0 3px}.keycaps i{font-style:normal;font-weight:900;padding:2px 5px;background:white;border:1px solid #e4dcf2;border-radius:5px;box-shadow:0 2px 0 #e5ddf0;color:#6b55a0}
+.action-buttons{display:flex;gap:7px;flex-shrink:0}.btn{border:0;border-radius:12px;padding:10px 13px;font-size:12px;font-weight:900;transition:transform .12s,filter .12s;box-shadow:0 4px 0 rgba(62,42,105,.13)}.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(62,42,105,.13)}.btn-primary{background:linear-gradient(145deg,#8d70e8,#6c4dc3);color:white}.btn-soft{background:#fff1d0;color:#805b1d;border:1px solid #f8e4ac}.side-card{padding:20px;display:flex;flex-direction:column;gap:17px}.side-title{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:1000;letter-spacing:-.03em}.guide-avatar{height:124px;border-radius:19px;background:linear-gradient(130deg,#def9ec,#e7e0ff 60%,#ffe5ef);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}.guide-avatar:before,.guide-avatar:after{content:'✦';position:absolute;color:#e4a93c;font-size:21px}.guide-avatar:before{left:17%;top:17%}.guide-avatar:after{right:15%;bottom:17%;color:#e96c98}.avatar-student{width:108px;height:108px;display:grid;place-items:center;filter:drop-shadow(0 6px 0 rgba(79,57,128,.1));animation:bob 2.5s ease-in-out infinite}.avatar-student svg{display:block;width:100%;height:100%;overflow:visible}@keyframes bob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-5px) rotate(3deg)}}
+.mission{background:#fff7db;border:1px solid #f5e4a8;padding:13px 14px;border-radius:16px}.mission-head{color:#9a7221;font-size:10px;font-weight:1000;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}.mission p{margin:0;font-size:13px;line-height:1.55;color:#655638;font-weight:700}.steps{display:flex;flex-direction:column;gap:11px}.step{display:flex;align-items:flex-start;gap:11px;color:#726a89;font-size:12px;line-height:1.5}.step-num{flex-shrink:0;width:25px;height:25px;border-radius:9px;display:grid;place-items:center;font-size:12px;font-weight:1000;color:#6747ac;background:#f0eaff}.step strong{color:#43335f}
+.books-box{padding:13px;border-radius:17px;background:#f8f5ff;border:1px solid #ebe3fa}.books-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.books-head strong{font-size:12px}.books-head span{font-size:10px;color:#8b80a5;font-weight:800}.book-collection{display:flex;gap:8px}.book-slot{height:44px;flex:1;display:grid;place-items:center;border-radius:12px;background:#fff;border:1px dashed #d8ccef;font-size:23px;filter:grayscale(1);opacity:.48;transition:all .2s}.book-slot.found{filter:none;opacity:1;background:#fff3ca;border:1px solid #f3d77d;box-shadow:0 3px 0 #f4dda0;transform:translateY(-2px)}
+.tip{font-size:11px;line-height:1.55;color:#8a819c;background:#fff;border-left:3px solid #bba6ef;padding:7px 0 7px 11px}
+.mobile-pad{display:none;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,43px);gap:5px;justify-content:center;padding:0 15px 15px}.pad-btn{border:1px solid #e4dcf6;background:linear-gradient(#fff,#f5f0ff);border-radius:12px;color:#6b4ac0;font-size:19px;font-weight:1000;box-shadow:0 3px 0 #e2d8f4;touch-action:manipulation}.pad-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #e2d8f4}.pad-up{grid-column:2}.pad-left{grid-column:1;grid-row:2}.pad-down{grid-column:2;grid-row:2}.pad-right{grid-column:3;grid-row:2}
+.footer{text-align:center;padding:20px 0 4px;color:#a29ab5;font-size:10px;font-weight:800;letter-spacing:.05em}
+.toast{position:fixed;z-index:10;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#3f315f;color:#fff;padding:11px 16px;border-radius:999px;box-shadow:0 9px 30px #44306540;font-weight:800;font-size:12px;transition:all .25s;max-width:calc(100vw - 28px);text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(45,31,77,.5);backdrop-filter:blur(6px);z-index:20}.modal.open{display:flex}.modal-card{width:min(410px,100%);padding:28px 25px 24px;background:#fffdf8;border:4px solid #fff;border-radius:28px;text-align:center;box-shadow:0 20px 70px #24133d55;position:relative;overflow:hidden;animation:pop .35s cubic-bezier(.2,1.4,.4,1)}@keyframes pop{from{transform:scale(.75);opacity:0}to{transform:scale(1);opacity:1}}.win-emoji{font-size:66px;line-height:1.2}.modal-card h2{font-size:27px;letter-spacing:-.04em;margin:8px 0;color:#423062}.modal-card p{font-size:13px;line-height:1.65;color:#7c718f;margin:0 0 18px}.win-score{font-size:13px;font-weight:900;background:#fff1c9;border:1px solid #f7e2a0;padding:10px;border-radius:13px;margin-bottom:17px;color:#815e1e}.modal-actions{display:flex;gap:9px;justify-content:center}.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}.confetti i{position:absolute;top:-20px;width:9px;height:14px;border-radius:3px;animation:fall 2.8s linear infinite}.confetti i:nth-child(1){left:9%;background:#ff789a;animation-delay:.1s}.confetti i:nth-child(2){left:19%;background:#ffc94e;animation-delay:1s}.confetti i:nth-child(3){left:33%;background:#8e72e8;animation-delay:.4s}.confetti i:nth-child(4){left:51%;background:#4dd4a4;animation-delay:1.4s}.confetti i:nth-child(5){left:68%;background:#ff789a;animation-delay:.8s}.confetti i:nth-child(6){left:82%;background:#ffc94e;animation-delay:.2s}.confetti i:nth-child(7){left:94%;background:#8e72e8;animation-delay:1.2s}@keyframes fall{to{transform:translateY(430px) rotate(500deg)}}
+@media(max-width:800px){.page{padding:13px 12px 20px}.game-layout{grid-template-columns:1fr;gap:15px}.hero{margin-bottom:16px}.side-card{display:grid;grid-template-columns:1fr 1fr;gap:13px;padding:15px}.side-title{grid-column:1/-1}.guide-avatar{height:100%;min-height:115px;grid-column:1;grid-row:2/4}.mission{grid-column:2;grid-row:2}.steps{grid-column:2;grid-row:3}.books-box,.tip{grid-column:1/-1}.topbar{margin-bottom:13px}.footer{padding-top:17px}}
+@media(max-width:520px){.top-pill{font-size:10px;padding:8px 10px}.brand{font-size:11px}.brand-mark{width:37px;height:37px;font-size:21px;border-radius:13px}.hero p{font-size:12px;padding:0 8px}h1{font-size:31px}.card-head{padding:13px 12px 10px}.stats{padding:0 10px 10px;gap:5px}.stat{padding:8px 6px;gap:5px;border-radius:12px}.stat .emo{font-size:17px}.stat-label{font-size:9px}.stat-value{font-size:15px}.canvas-wrap{padding:0 8px 7px}.legend{gap:8px;font-size:10px;padding-bottom:10px}.controls{padding:10px 11px 12px;flex-direction:column;align-items:stretch}.key-help{text-align:center}.action-buttons{justify-content:center}.btn{flex:1}.mobile-pad{display:grid}.side-card{grid-template-columns:1fr 1fr;padding:13px;gap:10px}.side-title{font-size:16px}.guide-avatar{min-height:98px}.avatar-student{width:88px;height:88px}.mission{padding:10px}.mission p{font-size:11px}.step{font-size:11px;gap:7px}.step-num{width:22px;height:22px}.books-box{padding:10px}.book-slot{height:38px;font-size:21px}.tip{font-size:10px}.footer{font-size:9px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">📚</div><span>THƯ VIỆN MỞ · THỬ THÁCH VUI</span></div>
+    <div class="top-pill">🌈 Mỗi mê cung là một thử thách mới!</div>
+  </header>
+  <section class="hero">
+    <div class="eyebrow">🧭 MAZE CHALLENGE</div>
+    <h1>MÊ CUNG <span class="accent">TÌM ĐƯỜNG ĐẾN SÁCH</span></h1>
+    <p>Đưa bạn nhỏ vượt qua những ngã rẽ, nhặt đủ sách hay và tìm lối đến thư viện nhé!</p>
+  </section>
+  <main class="game-layout">
+    <section class="maze-card" aria-label="Khu vực chơi mê cung">
+      <div class="card-head"><div class="card-label"><span class="tiny-icon">🗺️</span> Hành trình đến thư viện</div><span class="level-tag" id="levelTag">MÊ CUNG #01</span></div>
+      <div class="stats" aria-live="polite">
+        <div class="stat"><span class="emo">👣</span><div class="stat-copy"><div class="stat-label">Số bước</div><div class="stat-value" id="stepsValue">0</div></div></div>
+        <div class="stat"><span class="emo">📚</span><div class="stat-copy"><div class="stat-label">Sách đã nhặt</div><div class="stat-value" id="booksValue">0/3</div></div></div>
+        <div class="stat"><span class="emo">⭐</span><div class="stat-copy"><div class="stat-label">Điểm số</div><div class="stat-value" id="scoreValue">0</div></div></div>
+      </div>
+      <div class="canvas-wrap"><canvas id="mazeCanvas" tabindex="0" role="application" aria-label="Mê cung. Dùng phím mũi tên hoặc WASD để di chuyển bạn nhỏ đến thư viện."></canvas></div>
+      <div class="legend"><span><b>🧑‍🎓</b> Bạn nhỏ</span><span><b>📕</b> Sách cần nhặt</span><span><b>🏫</b> Đích đến</span><span><b>🎁</b> Quà bí mật</span></div>
+      <div class="controls"><div class="key-help">Di chuyển bằng <span class="keycaps"><i>↑</i><i>←</i><i>↓</i><i>→</i></span> hoặc <span class="keycaps"><i>W</i><i>A</i><i>S</i><i>D</i></span><br>Đi nhầm ngõ cụt cũng không sao, thử lại nhé!</div><div class="action-buttons"><button class="btn btn-soft" id="restartBtn">↻ Chơi lại</button><button class="btn btn-primary" id="newMazeBtn">Mê cung mới ✨</button></div></div>
+      <div class="mobile-pad" aria-label="Nút điều khiển trên điện thoại"><button class="pad-btn pad-up" data-dir="up" aria-label="Đi lên">↑</button><button class="pad-btn pad-left" data-dir="left" aria-label="Đi trái">←</button><button class="pad-btn pad-down" data-dir="down" aria-label="Đi xuống">↓</button><button class="pad-btn pad-right" data-dir="right" aria-label="Đi phải">→</button></div>
+    </section>
+    <aside class="side-card">
+      <div class="side-title"><span>🎒</span> Nhiệm vụ của bạn</div>
+      <div class="guide-avatar" aria-hidden="true"><div class="avatar-student">
+        <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="61" cy="105" rx="27" ry="6" fill="#6b5aa0" opacity=".15"/>
+          <path d="M31 58 Q25 55 24 65 L25 86 Q26 93 34 91 L44 86 L45 63Z" fill="#ffbd72" stroke="#995c38" stroke-width="2.5"/>
+          <path d="M34 61 Q41 59 43 68 L42 83" fill="none" stroke="#ffe2a9" stroke-width="3" stroke-linecap="round"/>
+          <path d="M43 72 L40 96 Q40 100 47 100 L54 100 L57 78Z" fill="#354d8e"/>
+          <path d="M67 78 L70 97 Q71 101 78 100 L84 99 L80 72Z" fill="#354d8e"/>
+          <ellipse cx="47" cy="101" rx="11" ry="5" fill="#42395f"/>
+          <ellipse cx="78" cy="101" rx="11" ry="5" fill="#42395f"/>
+          <path d="M41 48 Q33 52 34 66 L38 81 Q40 87 47 87 L75 87 Q82 85 82 78 L84 62 Q83 52 73 48Z" fill="#5594ee" stroke="#315ba7" stroke-width="2.5"/>
+          <path d="M49 49 L60 62 L71 49" fill="#fff4d0" stroke="#d5d9ef" stroke-width="1.8"/>
+          <path d="M58 60 L63 60 L66 75 L61 80 L56 75Z" fill="#ffcc4f" stroke="#bf8c22" stroke-width="1.4"/>
+          <path d="M41 55 Q35 61 37 71" fill="none" stroke="#315ba7" stroke-width="5" stroke-linecap="round"/>
+          <path d="M79 55 Q86 60 83 70" fill="none" stroke="#315ba7" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="60" cy="37" r="24" fill="#ffd5ad" stroke="#9c684b" stroke-width="2.5"/>
+          <path d="M37 35 Q34 14 54 12 Q75 8 83 28 L81 38 Q75 31 68 28 Q57 35 41 31Z" fill="#54372f" stroke="#392720" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M39 32 Q47 27 55 29 Q67 32 78 27" fill="none" stroke="#795042" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="51" cy="39" r="2.4" fill="#3b2c2a"/><circle cx="69" cy="39" r="2.4" fill="#3b2c2a"/>
+          <circle cx="46" cy="45" r="3.5" fill="#ff9b9d" opacity=".65"/><circle cx="74" cy="45" r="3.5" fill="#ff9b9d" opacity=".65"/>
+          <path d="M53 49 Q60 56 67 49" fill="none" stroke="#9c4e50" stroke-width="2.2" stroke-linecap="round"/>
+          <path d="M31 26 L60 9 L89 26 L60 34Z" fill="#7760cb" stroke="#4c388e" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M78 28 L78 39" stroke="#4c388e" stroke-width="2.5" stroke-linecap="round"/><circle cx="78" cy="41" r="3" fill="#ffcb50"/>
+          <path d="M41 82 L35 88" stroke="#ffcb50" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div></div>
+      <div class="mission"><div class="mission-head">🎯 Mục tiêu</div><p>Tìm đường đến <strong>thư viện</strong> và thu thập đủ <strong>3 cuốn sách</strong> trên hành trình!</p></div>
+      <div class="steps">
+        <div class="step"><span class="step-num">1</span><div><strong>Tìm lối đi</strong><br>Đi qua từng ngã rẽ, tránh những bức tường tím.</div></div>
+        <div class="step"><span class="step-num">2</span><div><strong>Nhặt sách hay</strong><br>Chạm vào các cuốn sách 📕 để tích điểm.</div></div>
+        <div class="step"><span class="step-num">3</span><div><strong>Đến thư viện</strong><br>Ghé qua 🎁 để nhận điểm thưởng nếu bắt gặp!</div></div>
+      </div>
+      <div class="books-box"><div class="books-head"><strong>📚 Bộ sưu tập sách</strong><span id="booksHint">Còn thiếu 3 cuốn</span></div><div class="book-collection"><div class="book-slot" id="bookSlot0">📕</div><div class="book-slot" id="bookSlot1">📗</div><div class="book-slot" id="bookSlot2">📘</div></div></div>
+      <div class="tip">💡 <strong>Mẹo nhỏ:</strong> Mê cung có nhiều ngõ cụt. Quan sát kỹ trước khi chọn đường và cứ bình tĩnh tìm lối nhé!</div>
+    </aside>
+  </main>
+  <footer class="footer">MỖI CUỐN SÁCH MỞ RA MỘT THẾ GIỚI MỚI ✦ CHÚC BẠN CHƠI VUI!</footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal" id="winModal" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+  <div class="modal-card"><div class="confetti" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="win-emoji">🏆📚</div><h2 id="winTitle">Tìm thấy thư viện rồi!</h2><p>Bạn đã vượt qua mê cung và mang những cuốn sách hay về đích. Một hành trình thật tuyệt vời!</p><div class="win-score" id="winStats">0 bước · 0 điểm</div><div class="modal-actions"><button class="btn btn-soft" id="closeWinBtn">Xem lại mê cung</button><button class="btn btn-primary" id="nextMazeBtn">Chinh phục tiếp 🚀</button></div></div>
+</div>
+<script>
+(()=>{
+'use strict';
+const COLS=19, ROWS=13;
+const DIRS=[{name:'up',dx:0,dy:-1,wall:'N',opposite:'S'},{name:'right',dx:1,dy:0,wall:'E',opposite:'W'},{name:'down',dx:0,dy:1,wall:'S',opposite:'N'},{name:'left',dx:-1,dy:0,wall:'W',opposite:'E'}];
+const canvas=document.getElementById('mazeCanvas'),ctx=canvas.getContext('2d');
+const $=id=>document.getElementById(id);
+let grid=[],start={x:0,y:ROWS-1},goal={x:COLS-1,y:0},player={...start},solution=[],books=[],gifts=[],steps=0,score=0,mazeNumber=1,won=false,toastTimer=null,cellSize=0,dpr=1;
+const palette={wall:'#7957b8',wallHi:'#b6a1e6',floor:'#fff8e8',floorAlt:'#fff1d3',line:'#f5dfb9',shadow:'rgba(73,48,119,.13)'};
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
+function key(p){return p.x+','+p.y;}
+function inBounds(x,y){return x>=0&&y>=0&&x<COLS&&y<ROWS;}
+function newGrid(){return Array.from({length:ROWS},(_,y)=>Array.from({length:COLS},(_,x)=>({x,y,visited:false,walls:{N:true,E:true,S:true,W:true}})));}
+function generateMaze(){
+  let attempt=0;
+  do{
+    grid=newGrid();const stack=[grid[start.y][start.x]];stack[0].visited=true;
+    while(stack.length){const cur=stack[stack.length-1];const choices=shuffle(DIRS.filter(d=>inBounds(cur.x+d.dx,cur.y+d.dy)&&!grid[cur.y+d.dy][cur.x+d.dx].visited));if(!choices.length){stack.pop();continue;}const d=choices[0],next=grid[cur.y+d.dy][cur.x+d.dx];cur.walls[d.wall]=false;next.walls[d.opposite]=false;next.visited=true;stack.push(next);}
+    solution=findPath(start,goal);attempt++;
+  }while(solution.length<42&&attempt<35);
+  player={...start};steps=0;score=0;won=false;books=[];gifts=[];
+  const fractions=[.25,.51,.77];
+  fractions.forEach((f,i)=>{const idx=Math.max(2,Math.min(solution.length-3,Math.round((solution.length-1)*f)));const p=solution[idx];if(!books.some(b=>key(b)===key(p)))books.push({...p,id:i,emoji:['📕','📗','📘'][i],found:false});});
+  // Place two optional gifts at dead ends away from the main route.
+  const onPath=new Set(solution.map(key));
+  const deadEnds=grid.flat().filter(c=>{const exits=Object.values(c.walls).filter(v=>!v).length;return exits===1&&!onPath.has(key(c))&&key(c)!==key(start)&&key(c)!==key(goal);});
+  shuffle(deadEnds).slice(0,2).forEach((p,i)=>gifts.push({x:p.x,y:p.y,emoji:i===0?'🎁':'⭐',found:false,value:i===0?40:25}));
+  $('levelTag').textContent='MÊ CUNG #'+String(mazeNumber).padStart(2,'0');
+  updateHUD();resizeCanvas();draw();
+}
+function findPath(from,to){const q=[from],prev=new Map([[key(from),null]]);while(q.length){const p=q.shift();if(key(p)===key(to))break;for(const d of DIRS){if(p.walls){}const x=p.x+d.dx,y=p.y+d.dy;if(!inBounds(x,y)||grid[p.y][p.x].walls[d.wall])continue;const k=x+','+y;if(!prev.has(k)){prev.set(k,key(p));q.push({x,y});}}}let cur=key(to),out=[];if(!prev.has(cur))return out;while(cur){const [x,y]=cur.split(',').map(Number);out.push({x,y});cur=prev.get(cur);}return out.reverse();}
+function resizeCanvas(){const rect=canvas.getBoundingClientRect();if(!rect.width)return;dpr=Math.min(window.devicePixelRatio||1,2);const ratio=COLS/ROWS;let cssW=rect.width,cssH=cssW/ratio;if(cssH>560){cssH=560;cssW=cssH*ratio;}canvas.style.height=cssH+'px';canvas.width=Math.round(cssW*dpr);canvas.height=Math.round(cssH*dpr);cellSize=cssW/COLS;ctx.setTransform(dpr,0,0,dpr,0,0);draw();}
+function roundedRect(x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r);}
+function draw(){if(!ctx||!grid.length||!cellSize)return;const w=cellSize*COLS,h=cellSize*ROWS;ctx.clearRect(0,0,w,h);
+  // Warm paper tiles and light speckles.
+  for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){const px=x*cellSize,py=y*cellSize;ctx.fillStyle=(x+y)%2?palette.floor:palette.floorAlt;ctx.fillRect(px,py,cellSize,cellSize);ctx.fillStyle='rgba(180,139,72,.07)';ctx.beginPath();ctx.arc(px+cellSize*.27,py+cellSize*.72,Math.max(1,cellSize*.035),0,Math.PI*2);ctx.fill();}
+  // Start and finish glow pads.
+  const pad=(p,c)=>{const x=p.x*cellSize,y=p.y*cellSize;ctx.fillStyle=c;roundedRect(x+cellSize*.10,y+cellSize*.10,cellSize*.80,cellSize*.80,cellSize*.2);ctx.fill();};
+  pad(start,'#daf8e9');pad(goal,'#ffe2ee');
+  // Faint guide dots on walkable tiles; walls remain high contrast.
+  for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){const c=grid[y][x],cx=(x+.5)*cellSize,cy=(y+.5)*cellSize;if(!c.walls.N&&!c.walls.E&&!c.walls.S&&!c.walls.W&&Math.random()<0){};}
+  // Walls with a soft shadow and a bright top edge.
+  ctx.lineCap='round';ctx.lineJoin='round';ctx.strokeStyle=palette.shadow;ctx.lineWidth=Math.max(5,cellSize*.22);
+  for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){const c=grid[y][x],x0=x*cellSize,y0=y*cellSize,x1=x0+cellSize,y1=y0+cellSize;ctx.beginPath();if(c.walls.N){ctx.moveTo(x0,y0+1);ctx.lineTo(x1,y0+1);}if(c.walls.W){ctx.moveTo(x0+1,y0);ctx.lineTo(x0+1,y1);}if(x===COLS-1&&c.walls.E){ctx.moveTo(x1-1,y0);ctx.lineTo(x1-1,y1);}if(y===ROWS-1&&c.walls.S){ctx.moveTo(x0,y1-1);ctx.lineTo(x1,y1-1);}ctx.stroke();}
+  ctx.strokeStyle=palette.wall;ctx.lineWidth=Math.max(3.2,cellSize*.15);
+  for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){const c=grid[y][x],x0=x*cellSize,y0=y*cellSize,x1=x0+cellSize,y1=y0+cellSize;ctx.beginPath();if(c.walls.N){ctx.moveTo(x0,y0);ctx.lineTo(x1,y0);}if(c.walls.W){ctx.moveTo(x0,y0);ctx.lineTo(x0,y1);}if(x===COLS-1&&c.walls.E){ctx.moveTo(x1,y0);ctx.lineTo(x1,y1);}if(y===ROWS-1&&c.walls.S){ctx.moveTo(x0,y1);ctx.lineTo(x1,y1);}ctx.stroke();}
+  // Tiny gleam lines on maze walls to give the map a toy-like look.
+  ctx.strokeStyle='rgba(255,255,255,.66)';ctx.lineWidth=Math.max(1,cellSize*.035);ctx.lineCap='round';
+  for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){const c=grid[y][x],x0=x*cellSize,y0=y*cellSize,x1=x0+cellSize;if(c.walls.N){ctx.beginPath();ctx.moveTo(x0+cellSize*.18,y0+1);ctx.lineTo(x1-cellSize*.18,y0+1);ctx.stroke();}if(c.walls.W){ctx.beginPath();ctx.moveTo(x0+1,y0+cellSize*.18);ctx.lineTo(x0+1,y0+cellSize*.82);ctx.stroke();}}
+  // Finish signpost; the starting tile is marked by the player's bright halo.
+  drawEmoji('🏫',goal.x,goal.y,cellSize*.68,0.74);
+  // Tokens and optional rewards.
+  books.forEach(b=>{if(!b.found){drawGlow(b.x,b.y,'#fff0b0');drawEmoji(b.emoji,b.x,b.y,cellSize*.62,0.73);}});
+  gifts.forEach(g=>{if(!g.found){drawGlow(g.x,g.y,'#e9ddff');drawEmoji(g.emoji,g.x,g.y,cellSize*.57,0.71);}});
+  // Player: bright halo + a tiny illustrated student, consistent across computers.
+  drawStudent(player.x,player.y);
+  // Small corner label to clarify the finish.
+  if(cellSize>23){ctx.fillStyle='#7754a4';ctx.font=`900 ${Math.max(8,cellSize*.22)}px system-ui`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('ĐÍCH', (goal.x+.5)*cellSize,(goal.y+.85)*cellSize);}
+}
+function drawStudent(x,y){
+  const u=cellSize,cx=(x+.5)*u,cy=(y+.5)*u;
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(Math.sin(steps*.55)*.035);
+  // White/mint medallion separates the character from maze walls and book icons.
+  ctx.fillStyle='rgba(255,255,255,.98)';ctx.beginPath();ctx.arc(0,0,u*.465,0,Math.PI*2);ctx.fill();
+  ctx.lineWidth=Math.max(1.2,u*.045);ctx.strokeStyle='#55c4a5';ctx.stroke();
+  // Backpack behind the student.
+  ctx.fillStyle='#ffbd72';ctx.strokeStyle='#a45e37';ctx.lineWidth=Math.max(1,u*.045);
+  roundedRect(-u*.285,-u*.025,u*.19,u*.36,u*.07);ctx.fill();ctx.stroke();
+  ctx.strokeStyle='#ffe2a9';ctx.lineWidth=Math.max(1,u*.04);ctx.beginPath();ctx.moveTo(-u*.24,u*.02);ctx.lineTo(-u*.24,u*.25);ctx.stroke();
+  // Legs and shoes.
+  ctx.strokeStyle='#344a85';ctx.lineWidth=Math.max(2,u*.09);ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(-u*.10,u*.25);ctx.lineTo(-u*.12,u*.34);ctx.moveTo(u*.10,u*.25);ctx.lineTo(u*.12,u*.34);ctx.stroke();
+  ctx.fillStyle='#44365f';ctx.beginPath();ctx.ellipse(-u*.13,u*.365,u*.095,u*.045,-.1,0,Math.PI*2);ctx.ellipse(u*.13,u*.365,u*.095,u*.045,.1,0,Math.PI*2);ctx.fill();
+  // Arms sit behind the shirt.
+  ctx.strokeStyle='#ffd4ae';ctx.lineWidth=Math.max(2,u*.085);ctx.beginPath();ctx.moveTo(-u*.17,u*.095);ctx.lineTo(-u*.245,u*.22);ctx.moveTo(u*.17,u*.095);ctx.lineTo(u*.245,u*.22);ctx.stroke();
+  // Blue school uniform.
+  ctx.fillStyle='#5594ee';ctx.strokeStyle='#315ba7';ctx.lineWidth=Math.max(1,u*.045);
+  roundedRect(-u*.205,u*.015,u*.41,u*.285,u*.07);ctx.fill();ctx.stroke();
+  // Collar and golden tie.
+  ctx.fillStyle='#fff4d0';ctx.beginPath();ctx.moveTo(-u*.11,u*.025);ctx.lineTo(0,u*.12);ctx.lineTo(u*.11,u*.025);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#ffcc4f';ctx.strokeStyle='#c38e28';ctx.lineWidth=Math.max(.8,u*.025);ctx.beginPath();ctx.moveTo(-u*.04,u*.105);ctx.lineTo(u*.04,u*.105);ctx.lineTo(u*.06,u*.205);ctx.lineTo(0,u*.235);ctx.lineTo(-u*.06,u*.205);ctx.closePath();ctx.fill();ctx.stroke();
+  // Face.
+  ctx.fillStyle='#ffd5ad';ctx.strokeStyle='#9c684b';ctx.lineWidth=Math.max(1,u*.04);ctx.beginPath();ctx.arc(0,-u*.16,u*.225,0,Math.PI*2);ctx.fill();ctx.stroke();
+  // Hair fringe, eyebrows, eyes and smile.
+  ctx.fillStyle='#54372f';ctx.strokeStyle='#392720';ctx.lineWidth=Math.max(1,u*.04);ctx.beginPath();ctx.moveTo(-u*.22,-u*.16);ctx.bezierCurveTo(-u*.24,-u*.36,-u*.11,-u*.405,u*.015,-u*.385);ctx.bezierCurveTo(u*.15,-u*.40,u*.235,-u*.30,u*.205,-u*.16);ctx.lineTo(u*.12,-u*.235);ctx.quadraticCurveTo(u*.015,-u*.17,-u*.08,-u*.245);ctx.quadraticCurveTo(-u*.14,-u*.20,-u*.22,-u*.16);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.fillStyle='#3b2c2a';ctx.beginPath();ctx.arc(-u*.075,-u*.15,u*.025,0,Math.PI*2);ctx.arc(u*.075,-u*.15,u*.025,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(255,136,153,.75)';ctx.beginPath();ctx.arc(-u*.14,-u*.085,u*.035,0,Math.PI*2);ctx.arc(u*.14,-u*.085,u*.035,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#9c4e50';ctx.lineWidth=Math.max(.9,u*.028);ctx.beginPath();ctx.moveTo(-u*.055,-u*.065);ctx.quadraticCurveTo(0,-u*.015,u*.055,-u*.065);ctx.stroke();
+  // Small graduation cap reinforces the school-student theme.
+  ctx.fillStyle='#7760cb';ctx.strokeStyle='#4c388e';ctx.lineWidth=Math.max(1,u*.035);ctx.beginPath();ctx.moveTo(-u*.29,-u*.30);ctx.lineTo(0,-u*.43);ctx.lineTo(u*.29,-u*.30);ctx.lineTo(0,-u*.22);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.strokeStyle='#4c388e';ctx.lineWidth=Math.max(.8,u*.025);ctx.beginPath();ctx.moveTo(u*.20,-u*.30);ctx.lineTo(u*.20,-u*.20);ctx.stroke();ctx.fillStyle='#ffcb50';ctx.beginPath();ctx.arc(u*.20,-u*.19,u*.035,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+}
+function drawGlow(x,y,color){const cx=(x+.5)*cellSize,cy=(y+.5)*cellSize;ctx.fillStyle=color;ctx.beginPath();ctx.arc(cx,cy,cellSize*.34,0,Math.PI*2);ctx.fill();ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(cx,cy,cellSize*.34,0,Math.PI*2);ctx.stroke();}
+function drawEmoji(emoji,x,y,size,offset=0.5){ctx.save();ctx.font=`${Math.floor(size)}px "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(emoji,(x+.5)*cellSize,(y+offset)*cellSize);ctx.restore();}
+function updateHUD(){const found=books.filter(b=>b.found).length;$('stepsValue').textContent=steps;$('booksValue').textContent=found+'/3';$('scoreValue').textContent=score;$('booksHint').textContent=found===3?'Đã thu thập đủ!':'Còn thiếu '+(3-found)+' cuốn';books.forEach((b,i)=>{const slot=$('bookSlot'+i);if(slot)slot.classList.toggle('found',b.found);});}
+function showToast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),1700);}
+function move(dirName){if(won)return;const d=DIRS.find(x=>x.name===dirName);if(!d)return;const current=grid[player.y][player.x];if(current.walls[d.wall]){showToast('Ụi! Có tường rồi — thử lối khác nhé 🧱');return;}const next={x:player.x+d.dx,y:player.y+d.dy};player=next;steps++;
+  let msg='';for(const b of books){if(!b.found&&key(b)===key(player)){b.found=true;score+=50;msg='Tuyệt vời! +50 điểm, bạn vừa nhặt được sách 📚';}}
+  for(const g of gifts){if(!g.found&&key(g)===key(player)){g.found=true;score+=g.value;msg='Bạn tìm thấy quà bí mật! +'+g.value+' điểm 🎁';}}
+  updateHUD();draw();if(msg)showToast(msg);if(key(player)===key(goal)){const count=books.filter(b=>b.found).length;if(count===3){won=true;setTimeout(openWin,220);}else{showToast('Hãy nhặt đủ 3 cuốn sách trước khi vào thư viện nhé!');}}
+}
+function openWin(){$('winStats').textContent=steps+' bước · '+score+' điểm'+(gifts.every(g=>g.found)?' · Tìm đủ quà bí mật!':'');$('winModal').classList.add('open');$('nextMazeBtn').focus({preventScroll:true});}
+function closeWin(){$('winModal').classList.remove('open');canvas.focus({preventScroll:true});}
+function restart(){player={...start};steps=0;score=0;won=false;books.forEach(b=>b.found=false);gifts.forEach(g=>g.found=false);updateHUD();draw();closeWin();showToast('Bắt đầu lại nào! 🍀');}
+function newMaze(){mazeNumber++;closeWin();generateMaze();showToast('Mê cung mới đã sẵn sàng! 🗺️');}
+document.addEventListener('keydown',e=>{const map={ArrowUp:'up',w:'up',W:'up',ArrowRight:'right',d:'right',D:'right',ArrowDown:'down',s:'down',S:'down',ArrowLeft:'left',a:'left',A:'left'};if(map[e.key]){e.preventDefault();move(map[e.key]);}if(e.key==='Escape')closeWin();});
+document.querySelectorAll('[data-dir]').forEach(btn=>{btn.addEventListener('click',()=>move(btn.dataset.dir));btn.addEventListener('pointerdown',e=>e.preventDefault());});
+let touchStart=null;canvas.addEventListener('touchstart',e=>{if(e.touches.length===1)touchStart={x:e.touches[0].clientX,y:e.touches[0].clientY};},{passive:true});canvas.addEventListener('touchend',e=>{if(!touchStart)return;const t=e.changedTouches[0],dx=t.clientX-touchStart.x,dy=t.clientY-touchStart.y;touchStart=null;if(Math.max(Math.abs(dx),Math.abs(dy))<18)return;move(Math.abs(dx)>Math.abs(dy)?(dx>0?'right':'left'):(dy>0?'down':'up'));},{passive:true});
+$('restartBtn').addEventListener('click',restart);$('newMazeBtn').addEventListener('click',newMaze);$('nextMazeBtn').addEventListener('click',newMaze);$('closeWinBtn').addEventListener('click',closeWin);$('winModal').addEventListener('click',e=>{if(e.target===$('winModal'))closeWin();});
+let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(resizeCanvas,80);});
+// Use a single touch-safe, self-contained canvas; no external assets or services are required.
+generateMaze();
+})();
+</script>
+</body>
+</html>

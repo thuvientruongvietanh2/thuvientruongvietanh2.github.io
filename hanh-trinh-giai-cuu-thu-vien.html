@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f1c3a">
+<title>Hành trình giải cứu thư viện | THƯ VIỆN TRƯỜNG VIỆT ANH 2</title>
+<style>
+:root{
+  --navy:#0f1c3a;--blue:#1e4d8c;--sky:#e8f1ff;--gold:#f5c84c;--gold-d:#c99a22;
+  --red:#c73542;--ink:#1a2744;--muted:#5a6b85;--white:#fff;--green:#1f8a5a;
+  --purple:#6b4ce0;--orange:#e07a3a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif;
+  color:var(--ink);background:#0a1228;min-height:100vh;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%,#1e3a6e55 0%,transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 20%,#3a2a6e33 0%,transparent 50%),
+    radial-gradient(ellipse 50% 30% at 50% 100%,#1a4a3a22 0%,transparent 40%),
+    #0a1228;
+}
+.shell{max-width:1080px;margin:auto;padding:16px 16px 40px;position:relative;z-index:1}
+
+header{
+  display:flex;align-items:center;gap:14px;
+  background:rgba(255,255,255,.96);border:1px solid #d4e0f0;
+  border-radius:20px;padding:12px 18px;
+  box-shadow:0 12px 32px #0a1a3018;
+}
+.logo-wrap{
+  width:72px;height:72px;border-radius:16px;flex-shrink:0;
+  background:linear-gradient(135deg,#1e4d8c,#0f1c3a);
+  display:grid;place-items:center;font-size:2.2rem;
+  box-shadow:0 4px 12px #1e4d8c44;
+}
+.brand{min-width:0;flex:1}
+.eyebrow{font-size:.72rem;letter-spacing:.06em;font-weight:800;color:var(--blue);text-transform:uppercase}
+.brand h1{font-size:clamp(1.1rem,2.8vw,1.65rem);line-height:1.25;margin:3px 0;color:var(--navy);font-weight:800}
+.brand p{margin:2px 0 0;color:var(--muted);font-size:.88rem}
+.header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.header-badge{
+  background:linear-gradient(135deg,#fff4ce,#ffe8a0);border:1px solid #f0d060;
+  border-radius:14px;padding:8px 12px;font-weight:800;color:#6b4e00;font-size:.8rem;
+  white-space:nowrap;display:flex;align-items:center;gap:6px;
+}
+.sound-btn{
+  width:40px;height:40px;border-radius:12px;border:1px solid #d4e0f0;
+  background:#f0f5fc;cursor:pointer;font-size:1.15rem;
+  display:grid;place-items:center;transition:background .15s;
+}
+.sound-btn:hover{background:#e4ecf7}
+.sound-btn.off{opacity:.55}
+
+.hero{
+  margin:18px 0;border-radius:24px;padding:clamp(24px,5vw,40px);
+  color:#fff;position:relative;overflow:hidden;
+  background:linear-gradient(125deg,#0f1c3a 0%,#1a3a6e 45%,#2a5a9a 100%);
+  box-shadow:0 16px 40px #0a1a3040;
+}
+.hero::before{
+  content:"";position:absolute;right:-5%;top:-20%;width:280px;height:280px;
+  background:radial-gradient(circle,#f5c84c18 0%,transparent 70%);border-radius:50%;
+}
+.hero::after{
+  content:"✦";position:absolute;right:8%;top:8%;font-size:7rem;color:#ffffff0a;
+  transform:rotate(15deg);pointer-events:none;
+}
+.hero .story-tag{
+  display:inline-block;background:#f5c84c22;border:1px solid #f5c84c55;
+  color:#ffe38c;font-weight:800;font-size:.72rem;letter-spacing:.12em;
+  text-transform:uppercase;padding:5px 12px;border-radius:99px;margin-bottom:12px;
+}
+.hero h2{font-size:clamp(1.6rem,4.5vw,2.6rem);line-height:1.1;margin:0 0 12px;max-width:620px}
+.hero p{max-width:580px;color:#c8daf5;line-height:1.65;font-size:1.02rem}
+.hero .guide{
+  display:flex;align-items:center;gap:12px;margin-top:18px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);
+  border-radius:16px;padding:12px 14px;max-width:520px;
+}
+.hero .guide .avatar{
+  width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#f5c84c,#e07a3a);
+  display:grid;place-items:center;font-size:1.5rem;flex-shrink:0;
+}
+.hero .guide span{font-size:.92rem;color:#e0ecff;line-height:1.45}
+.hero .start{margin-top:20px}
+
+.btn{
+  border:0;border-radius:14px;padding:12px 20px;font-weight:800;font-size:.95rem;
+  font-family:inherit;cursor:pointer;transition:transform .15s,filter .15s,box-shadow .15s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+button,input,select,textarea{font-family:inherit}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.05)}
+.btn:active{transform:translateY(0)}
+.btn-primary{background:var(--gold);color:#2a2208;box-shadow:0 5px 0 var(--gold-d)}
+.btn-primary:hover{box-shadow:0 6px 0 var(--gold-d)}
+.btn-blue{background:var(--blue);color:#fff;box-shadow:0 4px 0 #163a6a}
+.btn-light{background:#edf3fb;color:var(--navy);border:1px solid #d0dced}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;filter:none!important}
+
+.grid{display:grid;grid-template-columns:1.3fr .7fr;gap:16px;align-items:start}
+.panel{
+  background:rgba(255,255,255,.97);border:1px solid #d8e4f2;
+  border-radius:20px;padding:20px;box-shadow:0 10px 28px #0a1a3010;
+}
+.panel h3{margin:0 0 6px;color:var(--navy);font-size:1.1rem;display:flex;align-items:center;gap:8px}
+.panel .sub{color:var(--muted);font-size:.88rem;margin-bottom:14px;line-height:1.45}
+
+.map-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.gate{
+  border:1.5px solid #d4e0f0;background:linear-gradient(160deg,#fff,#f4f8fd);
+  border-radius:16px;padding:14px;text-align:left;min-height:128px;
+  position:relative;color:var(--ink);cursor:pointer;
+  transition:transform .18s,border-color .18s,box-shadow .18s;
+  overflow:hidden;
+}
+.gate:not(.locked):not(.done):hover{transform:translateY(-3px);border-color:#6e9edb;box-shadow:0 8px 20px #1e4d8c18}
+.gate .emoji{font-size:1.7rem;display:block;margin-bottom:6px;transition:transform .3s}
+.gate strong{display:block;color:var(--navy);margin-bottom:3px;font-size:.95rem}
+.gate small{color:var(--muted);line-height:1.35;display:block;font-size:.8rem}
+.gate.done{border-color:#7bc9a8;background:linear-gradient(160deg,#f0fbf6,#e6f7ef)}
+.gate.done::after{
+  content:"✓";position:absolute;right:10px;top:10px;
+  background:#1f8a5a;color:#fff;border-radius:50%;width:24px;height:24px;
+  text-align:center;line-height:24px;font-weight:900;font-size:.85rem;
+}
+.gate.locked{opacity:.55;cursor:not-allowed;filter:grayscale(.4)}
+.gate.current{border-color:#f5c84c;box-shadow:0 0 0 3px #f5c84c33}
+.gate .key-slot{position:absolute;bottom:10px;right:10px;font-size:.9rem;opacity:.5}
+.gate.unlocking{
+  animation:gateUnlock 1s ease;
+  border-color:#f5c84c;box-shadow:0 0 24px #f5c84c66,0 0 0 3px #f5c84c44;
+}
+.gate.unlocking .emoji{animation:spinKey 1s ease}
+@keyframes gateUnlock{
+  0%{transform:scale(1)}
+  30%{transform:scale(1.06)}
+  50%{transform:scale(.97)}
+  70%{transform:scale(1.03)}
+  100%{transform:scale(1)}
+}
+@keyframes spinKey{
+  0%{transform:rotate(0) scale(1)}
+  40%{transform:rotate(-20deg) scale(1.3)}
+  70%{transform:rotate(15deg) scale(1.15)}
+  100%{transform:rotate(0) scale(1)}
+}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.stat{background:#f0f5fc;border-radius:12px;padding:10px 6px;text-align:center;transition:transform .2s}
+.stat.bump{animation:statBump .4s ease}
+@keyframes statBump{0%,100%{transform:scale(1)}40%{transform:scale(1.12)}}
+.stat b{display:block;font-size:1.2rem;color:var(--blue)}
+.stat span{font-size:.72rem;color:var(--muted)}
+.progress{height:10px;background:#e4ecf7;border-radius:99px;overflow:hidden;margin:8px 0}
+.progress div{height:100%;width:0;background:linear-gradient(90deg,#f5c84c,#3db88a);transition:width .5s cubic-bezier(.4,0,.2,1);border-radius:99px}
+.tip{font-size:.88rem;color:var(--muted);line-height:1.55}
+.notice{
+  font-size:.85rem;line-height:1.5;background:#fff8e8;border:1px solid #f0dca0;
+  padding:11px 12px;border-radius:12px;color:#6b5510;margin-top:12px;
+}
+.combo-badge{
+  display:none;background:linear-gradient(135deg,#6b4ce0,#3a7bd5);color:#fff;
+  font-weight:800;font-size:.78rem;padding:5px 10px;border-radius:99px;
+  margin-top:8px;text-align:center;animation:pulse 1s ease infinite;
+}
+.combo-badge.show{display:block}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+
+.game{display:none}
+.game.active{display:block}
+.question-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.tag{
+  display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:99px;
+  background:#e8f0ff;color:#1e4d8c;font-weight:800;font-size:.78rem;
+}
+.tag.gold{background:#fff4d0;color:#7a5a00}
+.stage-header{margin:14px 0 6px}
+.stage-header h3{font-size:1.25rem;color:var(--navy)}
+.question{font-size:clamp(1.1rem,2.8vw,1.4rem);line-height:1.5;color:var(--navy);margin:16px 0 14px;font-weight:600}
+.answers{display:grid;gap:10px}
+.answer{
+  border:1.5px solid #d4e0f0;background:#fff;border-radius:14px;
+  text-align:left;padding:13px 15px;color:var(--ink);line-height:1.45;
+  cursor:pointer;transition:border-color .15s,background .15s,transform .12s;
+  font-size:.95rem;
+}
+.answer:hover:not(:disabled){border-color:#5a90d4;background:#f5f9ff;transform:translateX(3px)}
+.answer.selected{border-color:#1e4d8c;background:#eef4ff;box-shadow:0 0 0 2px #1e4d8c22}
+.answer.correct{border-color:#2a9d6a;background:#e8f8f0;animation:correctFlash .5s ease}
+.answer.wrong{border-color:#d45a65;background:#fff0f1;animation:wrongShake .4s ease}
+@keyframes correctFlash{0%{box-shadow:0 0 0 0 #2a9d6a44}50%{box-shadow:0 0 0 8px #2a9d6a22}100%{box-shadow:none}}
+@keyframes wrongShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.answer:disabled{cursor:default}
+.feedback{
+  display:none;border-radius:12px;padding:12px 14px;margin-top:12px;line-height:1.5;font-size:.92rem;
+}
+.feedback.show{display:block;animation:fadeSlide .3s ease}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.feedback.good{background:#e8f8f0;color:#145c3a;border:1px solid #a8e0c4}
+.feedback.bad{background:#fff5e8;color:#7a4a10;border:1px solid #f0d0a0}
+.game-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.hint{margin-top:10px;color:var(--muted);font-size:.88rem;line-height:1.45;min-height:1.3em}
+.hint.has{color:#5a4a10;background:#fff8e8;padding:8px 12px;border-radius:10px;border:1px solid #f0e0b0}
+
+.finish{text-align:center;padding:28px 12px}
+.finish .trophy{font-size:3.8rem;animation:bounceIn .6s ease;display:inline-block}
+@keyframes bounceIn{
+  0%{transform:scale(.3);opacity:0}50%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}
+}
+.finish h2{color:var(--navy);margin:10px 0 8px;font-size:1.5rem}
+.finish p{color:var(--muted);max-width:420px;margin:0 auto 16px;line-height:1.55}
+.key-collect{display:flex;justify-content:center;gap:10px;margin:18px 0}
+.key-collect span{
+  width:42px;height:42px;border-radius:50%;background:#f0f5fc;
+  display:grid;place-items:center;font-size:1.2rem;
+  border:2px solid #d4e0f0;transition:all .4s;position:relative;
+}
+.key-collect span.got{
+  background:linear-gradient(135deg,#fff4d0,#ffe8a0);
+  border-color:#f5c84c;box-shadow:0 0 12px #f5c84c55;
+}
+.key-collect span.just-got{animation:keyPop .7s ease}
+@keyframes keyPop{
+  0%{transform:scale(0) rotate(-180deg);opacity:0}
+  60%{transform:scale(1.25) rotate(10deg);opacity:1}
+  100%{transform:scale(1) rotate(0)}
+}
+
+/* Unlock burst overlay */
+.unlock-burst{
+  position:fixed;inset:0;z-index:150;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .2s;
+}
+.unlock-burst.show{opacity:1}
+.unlock-burst .ring{
+  width:120px;height:120px;border-radius:50%;
+  border:4px solid #f5c84c;position:absolute;
+  animation:ringExpand 1s ease-out forwards;
+}
+.unlock-burst .ring:nth-child(2){animation-delay:.15s;border-color:#6b4ce0}
+.unlock-burst .ring:nth-child(3){animation-delay:.3s;border-color:#3db88a}
+@keyframes ringExpand{
+  0%{transform:scale(.2);opacity:1}
+  100%{transform:scale(3.5);opacity:0}
+}
+.unlock-burst .center-icon{
+  font-size:4rem;animation:centerPop .6s ease;z-index:1;
+  filter:drop-shadow(0 0 20px #f5c84c88);
+}
+@keyframes centerPop{
+  0%{transform:scale(0) rotate(-90deg);opacity:0}
+  50%{transform:scale(1.3) rotate(10deg);opacity:1}
+  100%{transform:scale(1) rotate(0);opacity:1}
+}
+
+#finalPanel .stats{max-width:360px;margin:16px auto}
+.rank-badge{
+  display:inline-block;margin:8px 0 4px;padding:8px 18px;border-radius:99px;
+  font-weight:800;font-size:1rem;
+  background:linear-gradient(135deg,#f5c84c,#e07a3a);color:#2a1a08;
+  animation:bounceIn .7s ease;
+}
+
+.footer{text-align:center;color:#6a7a9a;font-size:.78rem;margin-top:24px;line-height:1.5}
+
+.overlay{
+  position:fixed;inset:0;background:rgba(8,14,30,.82);z-index:100;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.overlay.show{opacity:1;pointer-events:auto}
+.overlay-card{
+  background:#fff;border-radius:22px;padding:28px 24px;max-width:440px;width:100%;
+  text-align:center;box-shadow:0 24px 60px #00000050;
+  transform:translateY(20px);transition:transform .3s;
+}
+.overlay.show .overlay-card{transform:translateY(0)}
+.overlay-card .big{font-size:3rem;margin-bottom:8px}
+.overlay-card h2{color:var(--navy);margin-bottom:8px}
+.overlay-card p{color:var(--muted);line-height:1.55;margin-bottom:18px}
+
+.particles{position:fixed;inset:0;pointer-events:none;z-index:200;overflow:hidden}
+.particle{
+  position:absolute;font-size:1.2rem;animation:fall 2.2s ease-out forwards;opacity:0;
+}
+@keyframes fall{
+  0%{opacity:1;transform:translateY(0) rotate(0deg) scale(1)}
+  100%{opacity:0;transform:translateY(140px) rotate(360deg) scale(.3)}
+}
+
+.score-float{
+  position:fixed;z-index:210;font-weight:900;font-size:1.4rem;
+  color:#f5c84c;pointer-events:none;text-shadow:0 2px 8px #0008;
+  animation:floatUp 1s ease-out forwards;
+}
+@keyframes floatUp{
+  0%{opacity:1;transform:translateY(0) scale(1)}
+  100%{opacity:0;transform:translateY(-60px) scale(1.2)}
+}
+
+.hidden{display:none!important}
+
+@media(max-width:760px){
+  .grid{grid-template-columns:1fr}
+  .header-badge{display:none}
+  .logo-wrap{width:58px;height:58px;font-size:1.8rem}
+  .shell{padding:10px}
+  .panel{padding:16px}
+  .map-grid{gap:9px}
+  .gate{padding:12px;min-height:110px}
+  .hero{margin-top:12px}
+}
+@media(max-width:420px){
+  .map-grid{grid-template-columns:1fr}
+  .gate{min-height:auto}
+  .brand p{font-size:.78rem}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="logo-wrap">📚</div>
+    <div class="brand">
+      <div class="eyebrow">THƯ VIỆN TRƯỜNG VIỆT ANH 2</div>
+      <h1>Hành trình giải cứu thư viện</h1>
+      <p>Phiêu lưu · Giải mã · Khám phá tri thức</p>
+    </div>
+    <div class="header-right">
+      <div class="header-badge">🔑 <span id="headerKeys">0</span>/5 chìa khóa</div>
+      <button class="sound-btn" id="soundBtn" title="Bật/tắt âm thanh" aria-label="Âm thanh">🔊</button>
+    </div>
+  </header>
+
+  <section class="hero" id="intro">
+    <div class="story-tag">Hồ sơ nhiệm vụ VA-05</div>
+    <h2>Nguồn sáng tri thức đã biến mất!</h2>
+    <p>Bóng tối bất ngờ bao phủ thư viện. Năm cánh cổng bị khóa chặt — mỗi cánh cổng chứa một mảnh chìa khóa ánh sáng. Chỉ những người biết giữ gìn và tìm kiếm tri thức mới mở được chúng.</p>
+    <div class="guide">
+      <div class="avatar">🦉</div>
+      <span><b>Cú Mèo Tri Thức:</b> “Xin chào, người học việc! Ta sẽ dẫn đường. Hãy đọc kỹ, suy nghĩ và chọn đúng. Mỗi câu đúng đưa ta gần hơn tới ánh sáng!”</span>
+    </div>
+    <button class="btn btn-primary start" id="startBtn">Bắt đầu hành trình →</button>
+  </section>
+
+  <div class="grid" id="mainGrid">
+    <section class="panel">
+      <h3>🗺️ Bản đồ hành trình</h3>
+      <p class="sub">Mở khóa từng khu vực theo thứ tự. Mỗi khu vực có 3 thử thách ngắn.</p>
+      <div class="map-grid" id="map"></div>
+    </section>
+    <aside class="panel">
+      <h3>🎒 Túi hành trang</h3>
+      <div class="stats">
+        <div class="stat" id="statScore"><b id="score">0</b><span>Điểm số</span></div>
+        <div class="stat" id="statKeys"><b id="keys">0/5</b><span>Chìa khóa</span></div>
+        <div class="stat" id="statCorrect"><b id="correctCount">0</b><span>Câu đúng</span></div>
+      </div>
+      <div class="progress"><div id="progressBar"></div></div>
+      <p class="tip" id="progressText">Bạn chưa bắt đầu nhiệm vụ.</p>
+      <div class="combo-badge" id="comboBadge">🔥 Combo ×2!</div>
+      <div class="notice">💡 <b>Mẹo:</b> Trả lời đúng liên tiếp để nhận combo điểm. Dùng gợi ý sẽ giảm điểm câu đó. Bật 🔊 để nghe hiệu ứng!</div>
+      <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-light" id="resetBtn">🔄 Chơi lại từ đầu</button>
+      </div>
+    </aside>
+  </div>
+
+  <section class="panel game" id="gamePanel">
+    <div class="question-top">
+      <span class="tag" id="stageTag">MÀN 1/5</span>
+      <span class="tag gold" id="questionTag">CÂU 1/3</span>
+    </div>
+    <div class="stage-header">
+      <h3 id="stageTitle">Cánh cổng tri thức</h3>
+      <p class="tip" id="stageDesc"></p>
+    </div>
+    <div id="questionArea">
+      <div class="question" id="questionText"></div>
+      <div class="answers" id="answers"></div>
+      <div class="feedback" id="feedback" aria-live="polite"></div>
+      <div class="hint" id="hintText"></div>
+      <div class="game-actions">
+        <button class="btn btn-light" id="hintBtn">💡 Gợi ý (−5 điểm)</button>
+        <button class="btn btn-blue" id="nextBtn" disabled>Xác nhận</button>
+        <button class="btn btn-light" id="mapBtn">← Bản đồ</button>
+      </div>
+    </div>
+    <div class="finish hidden" id="stageFinish">
+      <div class="trophy" id="stageTrophy">🗝️</div>
+      <h2 id="stageFinishTitle">Đã mở khóa!</h2>
+      <p id="stageFinishText"></p>
+      <div class="key-collect" id="keyCollect"></div>
+      <button class="btn btn-primary" id="continueBtn">Tiếp tục hành trình →</button>
+    </div>
+  </section>
+
+  <section class="panel hidden" id="finalPanel">
+    <div class="finish">
+      <div class="trophy">🏆</div>
+      <span class="tag gold">NHIỆM VỤ HOÀN TẤT</span>
+      <h2>Nguồn sáng tri thức đã trở lại!</h2>
+      <p id="finalMessage"></p>
+      <div class="rank-badge" id="finalRank">—</div>
+      <div class="stats">
+        <div class="stat"><b id="finalScore">0</b><span>Điểm số</span></div>
+        <div class="stat"><b id="finalCorrect">0/15</b><span>Câu đúng</span></div>
+        <div class="stat"><b id="finalCombo">0</b><span>Combo cao nhất</span></div>
+      </div>
+      <p class="tip" style="margin-top:12px">Cảm ơn bạn đã cùng Thư viện Trường Việt Anh 2 bảo vệ kho tàng tri thức.<br>Hẹn gặp lại ở hành trình tiếp theo!</p>
+      <div style="margin-top:16px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary" id="playAgainBtn">Chơi lại</button>
+        <button class="btn btn-light" id="backMapBtn">Xem bản đồ</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">THƯ VIỆN TRƯỜNG VIỆT ANH 2<br>Khám phá một điều mới mỗi ngày.</div>
+</div>
+
+<div class="overlay" id="storyOverlay">
+  <div class="overlay-card">
+    <div class="big" id="storyEmoji">🦉</div>
+    <h2 id="storyTitle">Cú Mèo nói</h2>
+    <p id="storyText"></p>
+    <button class="btn btn-primary" id="storyOk">Tiếp tục</button>
+  </div>
+</div>
+
+<div class="unlock-burst" id="unlockBurst">
+  <div class="ring"></div>
+  <div class="ring"></div>
+  <div class="ring"></div>
+  <div class="center-icon" id="burstIcon">🔑</div>
+</div>
+
+<div class="particles" id="particles"></div>
+
+<script>
+/* ========== SOUND ENGINE (Web Audio – no external files) ========== */
+const SFX = (() => {
+  let ctx = null, muted = false, unlocked = false;
+
+  function ensure() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === "suspended") ctx.resume();
+    unlocked = true;
+  }
+
+  function tone(freq, dur, type = "sine", vol = 0.12, delay = 0) {
+    if (muted || !unlocked) return;
+    ensure();
+    const t0 = ctx.currentTime + delay;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, t0);
+    gain.gain.setValueAtTime(0, t0);
+    gain.gain.linearRampToValueAtTime(vol, t0 + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(t0);
+    osc.stop(t0 + dur + 0.05);
+  }
+
+  function click() {
+    tone(600, 0.06, "square", 0.06);
+  }
+
+  function correct() {
+    tone(523, 0.12, "sine", 0.14);
+    tone(659, 0.14, "sine", 0.12, 0.1);
+    tone(784, 0.2, "sine", 0.1, 0.2);
+  }
+
+  function wrong() {
+    tone(280, 0.15, "triangle", 0.1);
+    tone(200, 0.25, "triangle", 0.08, 0.12);
+  }
+
+  function hint() {
+    tone(440, 0.1, "sine", 0.08);
+    tone(550, 0.12, "sine", 0.07, 0.1);
+  }
+
+  function unlock() {
+    // Rising arpeggio + sparkle
+    const notes = [392, 494, 587, 740, 880];
+    notes.forEach((f, i) => tone(f, 0.25, "sine", 0.11, i * 0.09));
+    // Soft shimmer
+    setTimeout(() => {
+      tone(1175, 0.35, "sine", 0.06);
+      tone(1480, 0.4, "sine", 0.04, 0.05);
+    }, 400);
+  }
+
+  function key() {
+    tone(880, 0.1, "sine", 0.1);
+    tone(1109, 0.15, "sine", 0.09, 0.08);
+    tone(1320, 0.2, "sine", 0.07, 0.16);
+  }
+
+  function victory() {
+    const melody = [
+      [523, 0], [659, 0.12], [784, 0.24], [1047, 0.4],
+      [784, 0.6], [1047, 0.72], [1319, 0.9]
+    ];
+    melody.forEach(([f, d]) => tone(f, 0.28, "sine", 0.12, d));
+  }
+
+  function combo(level) {
+    const base = 500 + level * 80;
+    tone(base, 0.08, "square", 0.07);
+    tone(base * 1.25, 0.1, "square", 0.06, 0.06);
+  }
+
+  function select() {
+    tone(480, 0.05, "sine", 0.05);
+  }
+
+  function toggleMute() {
+    muted = !muted;
+    if (!muted) ensure();
+    return muted;
+  }
+
+  function isMuted() { return muted; }
+
+  function unlockAudio() {
+    ensure();
+  }
+
+  return { click, correct, wrong, hint, unlock, key, victory, combo, select, toggleMute, isMuted, unlockAudio };
+})();
+
+/* ========== GAME DATA ========== */
+const stages = [
+  {
+    title: "Cánh cổng tri thức",
+    icon: "🚪",
+    subtitle: "Mỗi hành trình bắt đầu bằng một lựa chọn đúng.",
+    desc: "Khởi động nhiệm vụ bằng những kiến thức nền tảng về không gian thư viện.",
+    story: "Cánh cổng đầu tiên đang lung lay… Hãy chứng tỏ bạn biết cách cư xử đúng đắn trong thư viện!",
+    qs: [
+      { q: "Sau khi đọc sách tại thư viện, em nên làm gì?", a: ["Để sách ở bất kỳ chiếc bàn nào", "Đặt sách về đúng nơi quy định hoặc theo hướng dẫn của thủ thư", "Mang sách sang lớp mà không hỏi"], c: 1, h: "Hãy nghĩ đến việc để người đọc tiếp theo dễ tìm thấy sách.", e: "Sắp xếp sách đúng hướng dẫn giúp thư viện ngăn nắp và người đọc dễ tìm tài liệu." },
+      { q: "Vì sao cần giữ trật tự trong thư viện?", a: ["Để mọi người có thể tập trung đọc và học", "Để không ai được trao đổi trong mọi trường hợp", "Vì sách sẽ bị hỏng nếu có tiếng nói"], c: 0, h: "Hãy nghĩ xem tiếng ồn ảnh hưởng thế nào đến người đang đọc.", e: "Không gian yên tĩnh giúp mọi người tập trung; khi cần trao đổi, hãy nói nhỏ và đúng nơi." },
+      { q: "Nếu chưa biết tìm một cuốn sách ở đâu, em nên…", a: ["Tự lấy tất cả sách trên kệ xuống", "Bỏ cuộc và đi về", "Hỏi thủ thư hoặc sử dụng công cụ tra cứu được hướng dẫn"], c: 2, h: "Thư viện có người hỗ trợ và cách tra cứu tài liệu.", e: "Thủ thư và công cụ tra cứu giúp xác định vị trí tài liệu nhanh, chính xác." }
+    ]
+  },
+  {
+    title: "Căn phòng mật mã",
+    icon: "🔐",
+    subtitle: "Những ký hiệu nhỏ có thể mở ra cánh cửa lớn.",
+    desc: "Giải những câu đố về thông tin trên sách và cách đọc hiểu.",
+    story: "Trên tường phòng mật mã hiện lên những dòng chữ… Chỉ ai hiểu thông tin trên sách mới giải được!",
+    qs: [
+      { q: "Thông tin nào thường giúp nhận diện một cuốn sách?", a: ["Màu áo của người đọc", "Nhan đề và tên tác giả", "Ngày hôm đó có nắng hay không"], c: 1, h: "Đó là những thông tin thường xuất hiện ở bìa sách.", e: "Nhan đề và tác giả là hai thông tin quan trọng để nhận diện và tra cứu sách." },
+      { q: "Mục lục của một cuốn sách thường giúp người đọc…", a: ["Biết các phần hoặc chương và vị trí của chúng", "Biết chính xác ai đã mượn sách trước đây", "Biết giá giấy ở thời điểm in"], c: 0, h: "Mục lục giống như bản đồ nội dung của cuốn sách.", e: "Mục lục cho biết cấu trúc nội dung và giúp tìm phần cần đọc." },
+      { q: "Khi ghi lại thông tin một cuốn sách để tìm đọc sau này, cách nào hữu ích nhất?", a: ["Chỉ nhớ màu bìa", "Ghi một vài chữ bất kỳ", "Ghi nhan đề, tác giả và thông tin xuất bản nếu cần"], c: 2, h: "Hãy chọn cách giúp em phân biệt sách đó với những cuốn khác.", e: "Ghi đúng nhan đề và tác giả giúp tìm lại tài liệu đáng tin cậy hơn." }
+    ]
+  },
+  {
+    title: "Hành lang dấu vết",
+    icon: "🧭",
+    subtitle: "Quan sát kỹ, kết nối manh mối và tìm đúng đường.",
+    desc: "Vận dụng kỹ năng tìm kiếm, chọn lọc thông tin và suy luận.",
+    story: "Hành lang tối om, chỉ còn vài dấu vết mờ. Dùng kỹ năng tìm kiếm thông tin để soi đường đi!",
+    qs: [
+      { q: "Em cần tìm sách về hệ Mặt Trời. Từ khóa nào phù hợp nhất để bắt đầu tra cứu?", a: ["Hệ Mặt Trời", "Sách hay", "Em thích đọc"], c: 0, h: "Hãy chọn cụm từ gọi đúng chủ đề em đang tìm.", e: "Từ khóa cụ thể, sát chủ đề giúp kết quả tra cứu liên quan hơn." },
+      { q: "Hai tài liệu có tiêu đề gần giống nhau. Em nên làm gì để chọn đúng tài liệu?", a: ["Chọn cuốn có bìa đẹp hơn", "Đối chiếu tác giả, nội dung mô tả và thông tin xuất bản", "Chọn cuốn dày hơn"], c: 1, h: "Đừng chỉ nhìn vào hình thức bên ngoài.", e: "Đối chiếu nhiều trường thông tin giúp xác định tài liệu phù hợp." },
+      { q: "Khi tìm thông tin cho bài học, nguồn nào nên được ưu tiên?", a: ["Một bài đăng không rõ nguồn", "Tin truyền miệng chưa kiểm chứng", "Sách, tài liệu chuyên môn hoặc nguồn đáng tin cậy có thể kiểm tra"], c: 2, h: "Hãy nghĩ đến khả năng kiểm chứng thông tin.", e: "Nên chọn nguồn có tác giả, đơn vị xuất bản hoặc cơ quan chịu trách nhiệm rõ ràng." }
+    ]
+  },
+  {
+    title: "Thử thách người giữ sách",
+    icon: "🛡️",
+    subtitle: "Bảo vệ sách cũng là bảo vệ cơ hội học tập của mọi người.",
+    desc: "Xử lý những tình huống thường gặp khi sử dụng thư viện.",
+    story: "Người giữ sách đang thử thách lòng trách nhiệm của bạn. Hãy chứng minh bạn xứng đáng bảo vệ kho tàng tri thức!",
+    qs: [
+      { q: "Em phát hiện một cuốn sách bị rách trang. Cách xử lý phù hợp là gì?", a: ["Báo thủ thư để được hỗ trợ, không tự ý dùng băng keo tùy tiện", "Xé bỏ trang rách", "Giấu sách lại trên kệ"], c: 0, h: "Hãy chọn cách giúp tài liệu được xử lý đúng cách.", e: "Báo thủ thư giúp sách được sửa chữa phù hợp, tránh hư hỏng nặng hơn." },
+      { q: "Một bạn đang đọc thì làm rơi giấy gói bánh cạnh kệ sách. Em nên làm gì?", a: ["Đá giấy vào gầm kệ", "Nhắc bạn nhẹ nhàng và bỏ rác đúng nơi quy định", "Để nguyên vì không phải rác của mình"], c: 1, h: "Thư viện là không gian dùng chung.", e: "Giữ vệ sinh và nhắc nhau lịch sự góp phần tạo môi trường đọc thân thiện." },
+      { q: "Cách nào giúp sách ít bị hư hỏng hơn?", a: ["Vừa đọc vừa ăn uống trên sách", "Gấp mạnh góc trang để đánh dấu", "Dùng dấu trang và giữ tay sạch, khô khi đọc"], c: 2, h: "Có cách đánh dấu trang mà không làm cong hoặc rách giấy.", e: "Dùng dấu trang và giữ sách sạch sẽ giúp hạn chế hư hỏng." }
+    ]
+  },
+  {
+    title: "Khôi phục nguồn sáng",
+    icon: "✨",
+    subtitle: "Thử thách cuối cùng cần sự tỉnh táo và kiến thức tổng hợp.",
+    desc: "Vượt qua ba câu hỏi cuối để mở kho báu tri thức.",
+    story: "Ánh sáng đang le lói ở cuối đường hầm. Ba câu hỏi cuối cùng sẽ quyết định số phận của thư viện!",
+    qs: [
+      { q: "Đọc một nguồn thông tin có nghĩa là phải tin tất cả nội dung trong đó. Đúng hay sai?", a: ["Đúng, vì đã được viết ra thì luôn chính xác", "Sai, cần xem xét nguồn và kiểm chứng thông tin khi cần"], c: 1, h: "Người đọc chủ động luôn đặt câu hỏi về độ tin cậy.", e: "Đọc có chọn lọc và kiểm chứng là kỹ năng quan trọng trong môi trường nhiều thông tin." },
+      { q: "Khi muốn chia sẻ một ý tưởng trong sách với bạn bè, cách nào phù hợp?", a: ["Nêu ý hiểu của mình và ghi rõ nguồn khi trích dẫn", "Chép nguyên văn toàn bộ sách rồi nhận là của mình", "Chỉ kể lại khi nhớ sai nội dung"], c: 0, h: "Hãy tôn trọng công sức của tác giả.", e: "Chia sẻ bằng lời của mình và ghi nguồn khi sử dụng nội dung của người khác thể hiện sự trung thực." },
+      { q: "Điều nào mô tả đúng nhất vai trò của thư viện?", a: ["Chỉ là nơi lưu giữ sách, không cần người đọc", "Chỉ dành cho người học giỏi", "Là không gian hỗ trợ đọc, học, khám phá và tiếp cận thông tin"], c: 2, h: "Thư viện không chỉ có sách mà còn phục vụ nhu cầu học tập.", e: "Thư viện giúp cộng đồng tiếp cận tri thức, phát triển thói quen đọc và kỹ năng thông tin." }
+    ]
+  }
+];
+
+const ranks = [
+  { min: 13, title: "Huyền thoại tri thức", emoji: "🌟" },
+  { min: 10, title: "Hiệp sĩ thư viện", emoji: "⚔️" },
+  { min: 6, title: "Người tìm kiếm tri thức", emoji: "🔍" },
+  { min: 0, title: "Nhà thám hiểm tập sự", emoji: "🧭" }
+];
+
+let unlocked = 0, completed = [], score = 0, correctCount = 0;
+let stageIndex = 0, qIndex = 0, selected = null, answered = false, hinted = false;
+let combo = 0, maxCombo = 0;
+let pendingStory = null;
+
+const $ = id => document.getElementById(id);
+
+/* ========== VISUAL EFFECTS ========== */
+function spawnParticles(emoji = "✨", count = 12) {
+  const box = $("particles");
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement("span");
+    p.className = "particle";
+    p.textContent = emoji;
+    p.style.left = (15 + Math.random() * 70) + "%";
+    p.style.top = (25 + Math.random() * 35) + "%";
+    p.style.animationDelay = (Math.random() * 0.45) + "s";
+    p.style.fontSize = (0.9 + Math.random() * 0.9) + "rem";
+    box.appendChild(p);
+    setTimeout(() => p.remove(), 2500);
+  }
+}
+
+function floatScore(pts, x, y) {
+  const el = document.createElement("div");
+  el.className = "score-float";
+  el.textContent = "+" + pts;
+  el.style.left = (x || window.innerWidth / 2) + "px";
+  el.style.top = (y || window.innerHeight / 2) + "px";
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1100);
+}
+
+function showUnlockBurst(icon = "🔑") {
+  const burst = $("unlockBurst");
+  $("burstIcon").textContent = icon;
+  // Reset rings by re-cloning
+  burst.querySelectorAll(".ring").forEach(r => {
+    r.style.animation = "none";
+    void r.offsetWidth;
+    r.style.animation = "";
+  });
+  burst.classList.add("show");
+  setTimeout(() => burst.classList.remove("show"), 1100);
+}
+
+function bumpStat(id) {
+  const el = $(id);
+  if (!el) return;
+  el.classList.remove("bump");
+  void el.offsetWidth;
+  el.classList.add("bump");
+}
+
+function showStory(emoji, title, text, onOk) {
+  $("storyEmoji").textContent = emoji;
+  $("storyTitle").textContent = title;
+  $("storyText").textContent = text;
+  $("storyOverlay").classList.add("show");
+  SFX.click();
+  pendingStory = onOk;
+}
+
+$("storyOk").addEventListener("click", () => {
+  SFX.click();
+  $("storyOverlay").classList.remove("show");
+  if (typeof pendingStory === "function") {
+    const fn = pendingStory;
+    pendingStory = null;
+    fn();
+  }
+});
+
+/* ========== RENDER MAP ========== */
+function renderMap(animateUnlockIdx = -1) {
+  $("map").innerHTML = stages.map((s, i) => {
+    const isDone = completed.includes(i);
+    const isLocked = i > unlocked;
+    const isCurrent = i === unlocked && !isDone;
+    let cls = "gate";
+    if (isDone) cls += " done";
+    else if (isLocked) cls += " locked";
+    else if (isCurrent) cls += " current";
+    if (i === animateUnlockIdx) cls += " unlocking";
+    return `<button class="${cls}" data-stage="${i}" ${isLocked ? "disabled" : ""}>
+      <span class="emoji">${isDone ? "🏅" : s.icon}</span>
+      <strong>${i + 1}. ${s.title}</strong>
+      <small>${isDone ? "Đã hoàn thành" : isLocked ? "🔒 Chưa mở khóa" : s.subtitle}</small>
+      ${isDone ? '<span class="key-slot">🔑</span>' : ""}
+    </button>`;
+  }).join("");
+
+  document.querySelectorAll("[data-stage]").forEach(b => {
+    b.addEventListener("click", () => {
+      SFX.click();
+      openStage(Number(b.dataset.stage));
+    });
+  });
+
+  $("score").textContent = score;
+  $("keys").textContent = completed.length + "/5";
+  $("headerKeys").textContent = completed.length;
+  $("correctCount").textContent = correctCount;
+  $("progressBar").style.width = (completed.length / 5 * 100) + "%";
+  $("progressText").textContent = completed.length === 5
+    ? "Bạn đã hoàn thành toàn bộ hành trình! 🎉"
+    : `Đã mở ${completed.length}/5 khu vực. Còn ${5 - completed.length} mảnh chìa khóa đang chờ bạn.`;
+
+  const cb = $("comboBadge");
+  if (combo >= 2) {
+    cb.textContent = combo >= 4 ? `🔥 Siêu combo ×${combo}!` : `🔥 Combo ×${combo}!`;
+    cb.classList.add("show");
+  } else {
+    cb.classList.remove("show");
+  }
+}
+
+function start() {
+  SFX.unlockAudio();
+  SFX.click();
+  $("intro").classList.add("hidden");
+  $("gamePanel").classList.remove("active");
+  $("finalPanel").classList.add("hidden");
+  $("mainGrid").classList.remove("hidden");
+  renderMap();
+  showStory("🦉", "Cú Mèo Tri Thức", "Hãy chọn cánh cổng đầu tiên trên bản đồ. Mỗi lần trả lời đúng liên tiếp sẽ tạo combo điểm thưởng. Sẵn sàng chưa?", () => {
+    openStage(0);
+  });
+}
+
+function openStage(i) {
+  if (i > unlocked || i >= 5) return;
+  stageIndex = i;
+  qIndex = 0;
+  $("gamePanel").classList.add("active");
+  $("finalPanel").classList.add("hidden");
+  $("questionArea").classList.remove("hidden");
+  $("stageFinish").classList.add("hidden");
+  $("mainGrid").classList.add("hidden");
+
+  const s = stages[i];
+  showStory(s.icon, s.title, s.story, () => {
+    renderQuestion();
+    window.scrollTo({ top: $("gamePanel").offsetTop - 12, behavior: "smooth" });
+  });
+}
+
+function renderQuestion() {
+  const s = stages[stageIndex];
+  const q = s.qs[qIndex];
+  selected = null;
+  answered = false;
+  hinted = false;
+
+  $("stageTag").textContent = `MÀN ${stageIndex + 1}/5`;
+  $("questionTag").textContent = `CÂU ${qIndex + 1}/3`;
+  $("stageTitle").textContent = s.icon + " " + s.title;
+  $("stageDesc").textContent = s.desc;
+  $("questionText").textContent = q.q;
+
+  $("answers").innerHTML = q.a.map((a, i) =>
+    `<button class="answer" data-answer="${i}"><b>${String.fromCharCode(65 + i)}.</b> ${a}</button>`
+  ).join("");
+
+  document.querySelectorAll("[data-answer]").forEach(b => {
+    b.addEventListener("click", () => choose(Number(b.dataset.answer)));
+  });
+
+  $("feedback").className = "feedback";
+  $("feedback").textContent = "";
+  $("hintText").className = "hint";
+  $("hintText").textContent = "";
+  $("hintBtn").disabled = false;
+  $("nextBtn").disabled = true;
+  $("nextBtn").textContent = "Xác nhận";
+}
+
+function choose(i) {
+  if (answered) return;
+  selected = i;
+  document.querySelectorAll("[data-answer]").forEach(b => b.classList.remove("selected"));
+  const b = document.querySelector(`[data-answer="${i}"]`);
+  if (b) b.classList.add("selected");
+  $("nextBtn").disabled = false;
+  $("nextBtn").textContent = "Xác nhận lựa chọn";
+  SFX.select();
+}
+
+function checkAnswer() {
+  const q = stages[stageIndex].qs[qIndex];
+  if (!answered) {
+    if (selected === null) return;
+    answered = true;
+    const good = selected === q.c;
+
+    document.querySelectorAll("[data-answer]").forEach((b, i) => {
+      b.disabled = true;
+      if (i === q.c) b.classList.add("correct");
+      else if (i === selected && !good) b.classList.add("wrong");
+    });
+
+    if (good) {
+      combo++;
+      maxCombo = Math.max(maxCombo, combo);
+      let pts = hinted ? 5 : 10;
+      if (combo >= 2) {
+        pts = Math.round(pts * (1 + (combo - 1) * 0.25));
+        SFX.combo(combo);
+      } else {
+        SFX.correct();
+      }
+      score += pts;
+      correctCount++;
+      $("feedback").className = "feedback show good";
+      $("feedback").textContent = `✨ Chính xác! +${pts} điểm` + (combo >= 2 ? ` (combo ×${combo})` : "") + " — " + q.e;
+      spawnParticles(combo >= 3 ? "🔥" : "✨", combo >= 3 ? 16 : 10);
+      floatScore(pts);
+      bumpStat("statScore");
+      bumpStat("statCorrect");
+    } else {
+      combo = 0;
+      SFX.wrong();
+      $("feedback").className = "feedback show bad";
+      $("feedback").textContent = "Chưa đúng rồi! " + q.e;
+    }
+
+    $("nextBtn").textContent = qIndex === 2 ? "Hoàn thành màn" : "Câu tiếp theo →";
+    renderMap();
+  } else {
+    SFX.click();
+    if (qIndex < 2) {
+      qIndex++;
+      renderQuestion();
+    } else {
+      finishStage();
+    }
+  }
+}
+
+function showHint() {
+  if (answered) return;
+  hinted = true;
+  SFX.hint();
+  $("hintText").className = "hint has";
+  $("hintText").textContent = "💡 Gợi ý: " + stages[stageIndex].qs[qIndex].h;
+  $("hintBtn").disabled = true;
+}
+
+function finishStage() {
+  const wasNew = !completed.includes(stageIndex);
+  if (wasNew) {
+    completed.push(stageIndex);
+    unlocked = Math.max(unlocked, Math.min(4, stageIndex + 1));
+  }
+
+  $("questionArea").classList.add("hidden");
+  $("stageFinish").classList.remove("hidden");
+
+  const isLast = stageIndex === 4;
+  $("stageTrophy").textContent = isLast ? "🎉" : "🗝️";
+  $("stageFinishTitle").textContent = isLast ? "Kho báu đã được mở!" : "Đã thu thập mảnh chìa khóa!";
+  $("stageFinishText").textContent = isLast
+    ? "Bạn đã khôi phục nguồn sáng tri thức. Hãy xem kết quả hành trình của mình!"
+    : `Bạn đã vượt qua «${stages[stageIndex].title}». Một mảnh chìa khóa đã được thêm vào hành trang.`;
+
+  // Key collection with animation
+  $("keyCollect").innerHTML = [0, 1, 2, 3, 4].map(i => {
+    const got = completed.includes(i);
+    const just = wasNew && i === stageIndex;
+    return `<span class="${got ? "got" : ""} ${just ? "just-got" : ""}">${got ? "🔑" : "·"}</span>`;
+  }).join("");
+
+  $("continueBtn").textContent = isLast ? "Xem kết quả 🏆" : "Đến khu vực tiếp theo →";
+
+  // Sound + burst effects
+  if (isLast) {
+    SFX.victory();
+    showUnlockBurst("🏆");
+    spawnParticles("🌟", 22);
+  } else {
+    SFX.unlock();
+    setTimeout(() => SFX.key(), 350);
+    showUnlockBurst("🔑");
+    spawnParticles("🔑", 14);
+  }
+
+  bumpStat("statKeys");
+  renderMap(stageIndex);
+}
+
+function showFinal() {
+  SFX.victory();
+  $("gamePanel").classList.remove("active");
+  $("finalPanel").classList.remove("hidden");
+  $("mainGrid").classList.add("hidden");
+
+  const rank = ranks.find(r => correctCount >= r.min) || ranks[ranks.length - 1];
+  $("finalScore").textContent = score;
+  $("finalCorrect").textContent = correctCount + "/15";
+  $("finalCombo").textContent = maxCombo;
+  $("finalRank").textContent = rank.emoji + " " + rank.title;
+  $("finalMessage").textContent =
+    `Bạn đã hoàn thành 5 khu vực với ${correctCount}/15 câu trả lời đúng và combo cao nhất ${maxCombo}. Mỗi câu hỏi là một bước tiến trên hành trình khám phá tri thức!`;
+
+  showUnlockBurst("🏆");
+  spawnParticles("🌟", 24);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function resetGame() {
+  SFX.click();
+  unlocked = 0;
+  completed = [];
+  score = 0;
+  correctCount = 0;
+  stageIndex = 0;
+  qIndex = 0;
+  selected = null;
+  answered = false;
+  hinted = false;
+  combo = 0;
+  maxCombo = 0;
+  $("intro").classList.remove("hidden");
+  $("mainGrid").classList.remove("hidden");
+  $("gamePanel").classList.remove("active");
+  $("finalPanel").classList.add("hidden");
+  $("storyOverlay").classList.remove("show");
+  renderMap();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ========== EVENTS ========== */
+$("startBtn").addEventListener("click", start);
+$("nextBtn").addEventListener("click", checkAnswer);
+$("hintBtn").addEventListener("click", showHint);
+$("mapBtn").addEventListener("click", () => {
+  SFX.click();
+  $("gamePanel").classList.remove("active");
+  $("mainGrid").classList.remove("hidden");
+  renderMap();
+  window.scrollTo({ top: $("mainGrid").offsetTop - 10, behavior: "smooth" });
+});
+$("continueBtn").addEventListener("click", () => {
+  SFX.click();
+  if (stageIndex === 4) {
+    showFinal();
+    return;
+  }
+  $("gamePanel").classList.remove("active");
+  $("mainGrid").classList.remove("hidden");
+  renderMap();
+  if (unlocked <= 4 && !completed.includes(unlocked)) {
+    setTimeout(() => openStage(unlocked), 350);
+  }
+});
+$("resetBtn").addEventListener("click", () => {
+  if (confirm("Bạn muốn bắt đầu lại từ đầu? Toàn bộ điểm số hiện tại sẽ được đặt lại.")) resetGame();
+});
+$("playAgainBtn").addEventListener("click", resetGame);
+$("backMapBtn").addEventListener("click", () => {
+  SFX.click();
+  $("finalPanel").classList.add("hidden");
+  $("mainGrid").classList.remove("hidden");
+  window.scrollTo({ top: $("mainGrid").offsetTop - 10, behavior: "smooth" });
+});
+
+$("soundBtn").addEventListener("click", () => {
+  const muted = SFX.toggleMute();
+  $("soundBtn").textContent = muted ? "🔇" : "🔊";
+  $("soundBtn").classList.toggle("off", muted);
+  if (!muted) SFX.click();
+});
+
+// Unlock audio on first interaction (browser policy)
+document.body.addEventListener("pointerdown", () => SFX.unlockAudio(), { once: true });
+
+renderMap();
+</script>
+</body>
+</html>

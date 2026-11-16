@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thử Tài Ghi Nhớ - Thư viện Việt Anh 2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+*{box-sizing:border-box}body{margin:0;font-family:Nunito,Arial,sans-serif;color:#352d50;background:radial-gradient(circle at 8% 5%,#fbe1ed,transparent 28%),radial-gradient(circle at 94% 10%,#ddf3eb,transparent 27%),#faf8ff}
+main{max-width:1120px;margin:auto;padding:22px 18px 42px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;color:#65528d}.logo{width:44px;height:44px;display:grid;place-items:center;border-radius:15px;background:linear-gradient(135deg,#9279d0,#d69cbe);font-size:24px;color:white;box-shadow:0 7px 16px #7c65b533}.brand small{display:block;font-size:10px;letter-spacing:1px;color:#9a90aa}
+.hero{text-align:center;padding:20px 8px 14px}.tag{display:inline-block;padding:7px 14px;border-radius:99px;background:white;border:1px solid #eee5f4;color:#9278bd;font-size:11px;font-weight:900;letter-spacing:1px}h1{font-size:clamp(34px,6vw,56px);line-height:1;margin:14px 0 8px;letter-spacing:-1.5px}h1 span{color:#a47acb}.hero p{color:#827991;font-weight:700;margin:0}
+.panel{max-width:900px;margin:16px auto;background:#ffffffd9;border:1px solid #eee7f4;border-radius:24px;padding:18px;box-shadow:0 14px 40px #59447712}
+h2{font-size:15px;margin:0 0 12px}.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.level{border:1.5px solid #eee6f3;background:white;border-radius:15px;padding:12px;text-align:left;color:#44395f;cursor:pointer;font:inherit}.level b{display:block}.level small{color:#91879f;font-weight:700}.level.active{border-color:#9c82d8;background:#f7f2ff;box-shadow:0 0 0 3px #9c82d81c}
+button{font:inherit;cursor:pointer}.primary{border:0;border-radius:14px;padding:12px 23px;background:linear-gradient(100deg,#8066c9,#aa82d5);color:white;font-weight:900;box-shadow:0 8px 18px #8066c933}.secondary{border:1px solid #e9e1f0;border-radius:14px;padding:11px 17px;background:white;color:#76658e;font-weight:900}.center{text-align:center;margin-top:15px}
+.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:13px}.stat{background:#faf7ff;border:1px solid #eee7f5;border-radius:14px;padding:9px;text-align:center}.stat small{display:block;color:#91879f;font-size:10px;font-weight:900;letter-spacing:.6px}.stat b{font-size:20px}.progress{height:7px;background:#f0ebf5;border-radius:9px;overflow:hidden;margin-bottom:15px}.progress div{height:100%;width:0;background:linear-gradient(90deg,#9b82d5,#edabc9);transition:.3s}
+.board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:720px;margin:auto}.card{border:0;padding:0;background:transparent;aspect-ratio:3/4;perspective:900px;min-width:0}.inner{position:relative;width:100%;height:100%;transition:transform .48s;transform-style:preserve-3d}.card.flip .inner,.card.done .inner{transform:rotateY(180deg)}.face{position:absolute;inset:0;border-radius:15px;overflow:hidden;backface-visibility:hidden;border:1px solid #e8e0ef;box-shadow:0 6px 13px #51406c18}.back{display:grid;place-items:center;background:linear-gradient(145deg,#9d85d8,#7862bb);color:#fff;font-size:35px}.back:after{content:"THƯ VIỆN";position:absolute;bottom:12px;font-size:9px;letter-spacing:2px;font-weight:900;color:#ffffffb8}.front{transform:rotateY(180deg);background:#fff;display:flex;flex-direction:column}.front img{width:100%;height:76%;object-fit:contain;background:#fff}.front .info{padding:5px 6px 7px;text-align:center;display:flex;flex-direction:column;justify-content:center;flex:1;min-height:0}.front strong{font-size:clamp(8px,1.15vw,11px);line-height:1.15;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.front small{font-size:9px;color:#887c9b;font-weight:800}.card.done .front{background:#effbf6;border:2px solid #9ed8c5}.tip{text-align:center;color:#91879f;font-size:12px;font-weight:800;margin:13px 0 0}.foot{text-align:center;color:#a49bad;font-size:10px;font-weight:800;margin-top:23px}.hidden{display:none!important}.result{text-align:center;padding:26px}.result .emoji{font-size:52px}.result h2{font-size:27px;margin:8px}.result p{color:#827991;font-weight:700}
+@media(max-width:600px){main{padding:14px 10px 28px}.panel{padding:13px;border-radius:19px}.board{gap:7px}.face{border-radius:10px}.hud{gap:5px}.stat{padding:7px 3px}.stat small{font-size:8px}.stat b{font-size:17px}.front small{font-size:7px}.levels{gap:6px}.level{padding:10px 7px}.level b{font-size:13px}.level small{font-size:9px}}
+</style></head>
+<body><main>
+<div class="brand"><div class="logo">📚</div><div>THƯ VIỆN VIỆT ANH 2<small>GÓC TRÒ CHƠI TRI THỨC</small></div></div>
+<header class="hero"><div class="tag">GAME GIẢI TRÍ · RÈN LUYỆN TRÍ NHỚ</div><h1>THỬ TÀI <span>GHI NHỚ</span></h1><p>Lật thẻ tìm hai bìa sách giống nhau. Bạn nhớ được bao nhiêu cuốn?</p></header>
+<section class="panel" id="setup"><h2>🎯 CHỌN CẤP ĐỘ</h2><div class="levels">
+<button class="level active" data-n="6"><b>🌱 Dễ</b><small>12 thẻ · 6 cặp</small></button>
+<button class="level" data-n="10"><b>🌼 Vừa</b><small>20 thẻ · 10 cặp</small></button>
+<button class="level" data-n="15"><b>🔥 Khó</b><small>30 thẻ · 15 cặp</small></button>
+</div><div class="center"><button class="primary" id="start">BẮT ĐẦU CHƠI ✨</button></div></section>
+<section class="panel hidden" id="game"><div class="hud">
+<div class="stat"><small>⏱ THỜI GIAN</small><b id="time">00:00</b></div><div class="stat"><small>🎯 LƯỢT LẬT</small><b id="moves">0</b></div><div class="stat"><small>📚 ĐÃ GHÉP</small><b id="pairs">0/6</b></div><div class="stat"><small>⭐ ĐIỂM</small><b id="score">0</b></div></div>
+<div class="progress"><div id="bar"></div></div><div class="board" id="board"></div><p class="tip">Mẹo nhỏ: Quan sát kỹ bìa sách và ghi nhớ vị trí nhé!</p>
+<div class="center"><button class="secondary" id="restart">↻ Chơi lại</button> <button class="secondary" id="change">Chọn cấp độ</button></div></section>
+<section class="panel result hidden" id="result"><div class="emoji">🏆</div><h2>Hoàn thành thử thách!</h2><p id="summary"></p><button class="primary" id="again">CHƠI LẠI ✨</button> <button class="secondary" id="levels">Chọn cấp độ</button></section>
+<div class="foot">THỬ TÀI GHI NHỚ · THƯ VIỆN TRƯỜNG VIỆT ANH 2<br>Hình bìa tham khảo từ các trang giới thiệu sách và nhà phát hành trực tuyến.</div>
+</main>
+<script>
+const books=[
+{title:"Cho tôi xin một vé đi tuổi thơ",author:"Nguyễn Nhật Ánh",cat:"Văn học thiếu nhi",img:"https://cdn1.fahasa.com/media/catalog/product/i/m/image_180164_1_43_1_57_1_4_1_2_1_210_1_29_1_98_1_25_1_21_1_5_1_3_1_18_1_18_1_45_1_26_1_32_1_14_1_1233.jpg"},
+{title:"Thế giới động vật",author:"Dư Diệu Đông",cat:"Khoa học",img:"https://cdn1.fahasa.com/media/catalog/product/i/m/image_183686.jpg"},
+{title:"Hoa đổi màu",author:"Đồng Tâm",cat:"Khoa học",img:"https://cdn1.fahasa.com/media/catalog/product/i/m/image_196640.jpg"},
+{title:"Thế giới tự nhiên",author:"Nhiều tác giả",cat:"Khoa học",img:"https://cdn1.fahasa.com/media/catalog/product/8/9/8936203362862.jpg"},
+{title:"55 cách để tự tin",author:"XACT",cat:"Kỹ năng sống",img:"https://cdn1.fahasa.com/media/catalog/product/8/9/8936067594317.jpg"},
+{title:"Có gì trong những khe hở?",author:"Tôn Hiểu Linh",cat:"Kỹ năng sống",img:"https://cdn1.fahasa.com/media/catalog/product/e/m/em_hoc_cach_giu_an_toan_cho_ban_than___co_gi_trong_khe_ho_5_2023_06_12_16_55_50.jpg"},
+{title:"Thường thức cuộc sống",author:"Dư Diệu Đông",cat:"Khoa học",img:"https://cdn1.fahasa.com/media/catalog/product/i/m/image_74608.jpg"},
+{title:"Thiên nhiên kì thú",author:"Dư Diệu Đông",cat:"Khoa học",img:"https://bookbuy.vn/Res/Images/Product/muoi-van-cau-hoi-vi-sao-thien-nhien-ki-thu_13264_11393.jpg"},
+{title:"55 cách để kích hoạt tư duy",author:"XACT",cat:"Kỹ năng sống",img:"https://cdn1.fahasa.com/media/catalog/product/8/9/8936067594232.jpg"},
+{title:"Chúng ta sống để lắng nghe",author:"Nguyễn Phong Việt",cat:"Văn học",img:"https://cdn1.fahasa.com/media/catalog/product/8/9/8934974199403.jpg"},
+{title:"Không nói không chịu được",author:"Laura Ellen Anderson",cat:"Văn học thiếu nhi",img:"https://cdn1.fahasa.com/media/catalog/product/9/7/9786040318435.jpg"},
+{title:"Bé vệ sinh răng miệng",author:"Tôn Dục",cat:"Kỹ năng sống",img:"https://cdn1.fahasa.com/media/catalog/product/i/m/image_230137.jpg"},
+{title:"Những bài học đầu tiên của bé",author:"Chu Gia Hùng",cat:"Kỹ năng sống",img:"https://cdn1.fahasa.com/media/catalog/product/i/m/image_241025.jpg"},
+{title:"Tóc xù mì có sao!",author:"Laura Ellen Anderson",cat:"Văn học thiếu nhi",img:"https://bizweb.dktcdn.net/100/616/377/products/hay-biet-yeu-ban-than-900x900-02-273a215e-f48d-4413-a6d0-b08edd357c32.jpg?v=1790656472717"}
+];
+let count=6,deck=[],one=null,two=null,busy=false,moves=0,found=0,secs=0,tick=null,hasStarted=false;
+const el=id=>document.getElementById(id);
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function clock(){return String(Math.floor(secs/60)).padStart(2,'0')+':'+String(secs%60).padStart(2,'0')}
+function stop(){clearInterval(tick);tick=null}
+function update(){el('time').textContent=clock();el('moves').textContent=moves;el('pairs').textContent=found+'/'+count;el('score').textContent=Math.max(0,found*100-moves*5);el('bar').style.width=(found/count*100)+'%'}
+function begin(){stop();secs=0;moves=0;found=0;one=two=null;busy=false;hasStarted=false;
+let chosen=shuffle([...books]).slice(0,count);deck=shuffle(chosen.flatMap((b,i)=>[{...b,id:i},{...b,id:i}]));
+el('setup').classList.add('hidden');el('result').classList.add('hidden');el('game').classList.remove('hidden');el('board').innerHTML='';
+el('board').style.gridTemplateColumns=count===15?'repeat(5,minmax(0,1fr))':'repeat(4,minmax(0,1fr))';
+deck.forEach((b,i)=>{let btn=document.createElement('button');btn.className='card';btn.setAttribute('aria-label','Thẻ sách úp');btn.innerHTML=`<div class="inner"><div class="face back">✦</div><div class="face front"><img src="${b.img}" alt="Bìa sách ${b.title}" loading="lazy"><div class="info"><strong>${b.title}</strong><small>${b.cat}</small></div></div></div>`;btn.addEventListener('click',()=>flip(btn,b));el('board').appendChild(btn)});
+update()}
+function flip(btn,b){if(busy||btn.classList.contains('flip')||btn.classList.contains('done'))return;if(!hasStarted){hasStarted=true;tick=setInterval(()=>{secs++;el('time').textContent=clock()},1000)}btn.classList.add('flip');if(!one){one={btn,b};return}two={btn,b};moves++;update();
+if(one.b.id===two.b.id){one.btn.classList.add('done');two.btn.classList.add('done');one.btn.disabled=two.btn.disabled=true;found++;one=two=null;update();if(found===count)setTimeout(finish,550)}
+else{busy=true;setTimeout(()=>{one.btn.classList.remove('flip');two.btn.classList.remove('flip');one=two=null;busy=false},950)}}
+function finish(){stop();el('game').classList.add('hidden');el('result').classList.remove('hidden');el('summary').textContent=`Bạn đã tìm đủ ${count} cặp sách trong ${clock()}, với ${moves} lượt lật và đạt ${Math.max(0,found*100-moves*5)} điểm.`}
+function setup(){stop();el('game').classList.add('hidden');el('result').classList.add('hidden');el('setup').classList.remove('hidden')}
+document.querySelectorAll('.level').forEach(x=>x.onclick=()=>{document.querySelectorAll('.level').forEach(y=>y.classList.remove('active'));x.classList.add('active');count=+x.dataset.n});
+el('start').onclick=begin;el('restart').onclick=begin;el('again').onclick=begin;el('change').onclick=setup;el('levels').onclick=setup;
+</script></body></html>
